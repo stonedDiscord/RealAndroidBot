@@ -4,49 +4,6 @@
 
 ## Changelog
 
-### RAB 1.11.0
-
-Note: There is no patch file for this version. You are required to download the full version.
-
-- PGSharp: Fix “RAB will attempt to walk...” when in Auto Route (GPX) mode
-- Added device id to Discord notification
-- Clear Pokemon inventory flag once clear Pokemon action is done
-- Improves detection for Shinx
-- Added dim screen as an option 
-- Fix unable to connect to Telegram issue
-- If using HAL and keep Pokemon, quick catch is enabled, and a Pokemon is eligible to be kept, volume down will be triggered to disable HAL’s auto transfer for current Pokemon
-
-### RAB 1.9.0
-
-**BREAKING CHANGE**
-From v1.7.1 onwards, PGSharp users using sniper or nearby feed, **Joystick MUST be removed** (from PGSharp option)
-
-Note for Polygon# Enhancer users: Every enhancer feature can be now used with a free enhancer key with effect from Polygon# Version 0.8.4 
-
-You can follow the paid instructions for Polygon# if you want backend data support.
-
-- RAB now save a file that contain locations of device. This will help RAB to do debugging when necessary 
-- Turtwig, Pidgey added to maintain throwing height list
-- Minor text fix
-- Location query for Google Pixel 4, android 11, fixed
-- Fix `name 'lat' is not defined` error
-- Will no longer check for encounter position for PGSharp Paid users
-- RPC update: Fix polygon paid data issue
-- Fix Mod/HAL shiny detection. RAB wrongly detect Shiny for Mod/HAL users
-- Added Chase after Pokemon (Polygon Paid Only)
-- Fix: Quit unknown battle
-- Fix: Clear item on start when item_management is disabled
-- Added Duskull detection
-- Pumpkaboo and Gourgeist form and value fix
-
-**Known Issue**
-
-**Samsung phones is confirmed not working for the features listed below**
-
-1. Enchanced PGSharp Mode
-2. PGSharp 100IV Shiny Hunting Mode 
-3. Fast identification of Pokemon caught status during encounter (Caught, Missed, Escaped, etc) 
-
 [Changelog History](https://github.com/stonedDiscord/RealAndroidBot/blob/master/Changelog.md)
 
 ## Features
@@ -84,6 +41,12 @@ Requires telegram account and donor status
 
 ## System Requirements
 64 bit system is required to run RAB (Windows 10 - 64bit)
+
+## Known Issues
+These features don't work on certain Samsung phones:
+1. Enchanced PGSharp Mode
+2. PGSharp 100IV Shiny Hunting Mode 
+3. Fast identification of Pokemon caught status during encounter (Caught, Missed, Escaped, etc) 
 
 ## Release Download
 
