@@ -22,13 +22,6 @@
 - Non rooted support with PGSharp Free or Paid version (**NO NOT USE IT ON MAIN ACCOUNT**)
 - Wifi Mode
 
-### Enhanced Features (Donors Features)
-Requires telegram account and donor status
-
-- (Rooted Only) Integration with Telegram feed to allow 100IV Snipe 
-- (Rooted Only) Integration with Telegram feed to allow Shiny Checking 
-- (PGSharp Free/Paid) 100IV Shiny Pokemon tapping with Sniper feed 
-
 ## Phone Requirements
 1. Rooted or PGSharp (non-rooted solution)
 2. For rooted phones, you are strongly advise to use [Smali Patcher](https://forum.xda-developers.com/t/module-smali-patcher-7-3.3680053/) to take advantage of all the features of RAB 
