@@ -296,4 +296,7 @@ RAB only works with 64bit system. You can't run RAB if you run a 32bit system.
 ©2016 Niantic, Inc. ©2016 Pokémon. ©1995–2016 Nintendo / Creatures Inc. / GAME FREAK inc. © 2016 Pokémon/Nintendo Pokémon and Pokémon character names are trademarks of Nintendo. Other trademarks are the property of their respective owners.
 [Privacy Policy](http://www.pokemon.com/us/privacy-policy/)
 
-[RealAndroidBot](https://github.com/stonedDiscord/RealAndroidBot) is intended for academic purposes and should not be used to play the game *PokemonGo* as it is unfair to the community. Use the bot **at your own risk**.
+[RealAndroidBot](https://github.com/stonedDiscord/RealAndroidBot) is intended for educational purposes.
+Use the bot **at your own risk**.
+
+Original work on the bot done by [MerlionRock](https://github.com/MerlionRock/RealAndroidBot)
