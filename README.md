@@ -2,6 +2,13 @@
 
 [![RAB Video Demo](https://img.youtube.com/vi/wtpJ9_av-qc/0.jpg)](https://www.youtube.com/watch?v=wtpJ9_av-qc)
 
+## Notes
+This is a deobfuscated version of the original RealAndroidBot.
+The original was packed with SOURCEDEFENDER.
+I used [x64dbg](https://x64dbg.com/) to put breakpoints into python310.dll 
+and grabbed the cleartext source from the stack.
+It runs faster than the original and you are able to modify it easily.
+
 ## Changelog
 
 [Changelog History](https://github.com/stonedDiscord/RealAndroidBot/blob/master/Changelog.md)
