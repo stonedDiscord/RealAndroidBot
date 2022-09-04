@@ -47,18 +47,7 @@ You can follow the paid instructions for Polygon# if you want backend data suppo
 2. PGSharp 100IV Shiny Hunting Mode 
 3. Fast identification of Pokemon caught status during encounter (Caught, Missed, Escaped, etc) 
 
-[Changelog History](https://github.com/MerlionRock/RealAndroidBot/blob/master/Changelog.md)
-
-## Discord
-Join our [Discord Channel](https://discord.gg/Xw2DKBhRJu)
-
-## Donation
-If you simply want to bless the team, feel free to donate through
-
-- BTC: 1Bs6sueNBYBusYYA3FKuxmyoQTV15QEM3G
-- ETH: 0x3ef0faf691a78ff09622e8f06f9f88acf85a80a3
-
-Note: The above donation is purely to bless us in our work. There will be no added benefit by donating through the above method
+[Changelog History](https://github.com/stonedDiscord/RealAndroidBot/blob/master/Changelog.md)
 
 ## Features
 - Auto Catch
@@ -98,7 +87,6 @@ Requires telegram account and donor status
 
 ## Release Download
 
-- Window users can download RAB from [here](https://github.com/MerlionRock/RealAndroidBot/releases) 
 - Please read the sections below on how to setup your phone to run RAB
 - There are no release version for Mac and Linux version yet. Please read on for the instructions on how to setup RAB on your system.
 
@@ -283,7 +271,6 @@ sudo apt-get install adb
 
 
 ## Installing all dependencies via choclatey (Windows User Only)
-- Windows user are encouraged to use the [release version](https://github.com/MerlionRock/RealAndroidBot/releases). **If you are using the release version, you do not need to follow the steps below anymore**.
 - For those who don't know what choclatey is, it's just like apt-get in ubuntu/Debian if u know what it is. If u want to know more about it before you use it please visit this [link](https://chocolatey.org/) 
 ### Installing Choclatey
 1. Open the PowerShell as administrator
@@ -299,7 +286,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.We
 2. Use the command ```choco install git -y``` to install git. (Type "y" and enter if it prompts to).
 3. Restart your PowerShell or use the command `refreshenv`(Restarting is recommended).  
 4. Enter the C drive directory by using ```cd C:\```
-5. Clone this repo by using the command ```git clone --recursive https://github.com/MerlionRock/RealAndroidBot.git```
+5. Clone this repo by using the command ```git clone --recursive https://github.com/stonedDiscord/RealAndroidBot.git```
 You will find the RealAndroidBot folder present in the C drive directory after executing this command 
 
 ## Setting up the project
@@ -354,10 +341,8 @@ Additional Steps to if it still doesn't help:
 
 RAB only works with 64bit system. You can't run RAB if you run a 32bit system.
 
-Lastly, for Windows users, when all options failed, just use the .exe version found [here](https://github.com/MerlionRock/RealAndroidBot/releases) 
-
 ## Disclaimer
 ©2016 Niantic, Inc. ©2016 Pokémon. ©1995–2016 Nintendo / Creatures Inc. / GAME FREAK inc. © 2016 Pokémon/Nintendo Pokémon and Pokémon character names are trademarks of Nintendo. Other trademarks are the property of their respective owners.
 [Privacy Policy](http://www.pokemon.com/us/privacy-policy/)
 
-[RealAndroidBot](https://github.com/MerlionRock/RealAndroidBot) is intended for academic purposes and should not be used to play the game *PokemonGo* as it is unfair to the community. Use the bot **at your own risk**.
+[RealAndroidBot](https://github.com/stonedDiscord/RealAndroidBot) is intended for academic purposes and should not be used to play the game *PokemonGo* as it is unfair to the community. Use the bot **at your own risk**.
