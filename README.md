@@ -41,11 +41,6 @@ These features don't work on certain Samsung phones:
 2. PGSharp 100IV Shiny Hunting Mode 
 3. Fast identification of Pokemon caught status during encounter (Caught, Missed, Escaped, etc) 
 
-## Release Download
-
-- Please read the sections below on how to setup your phone to run RAB
-- There are no release version for Mac and Linux version yet. Please read on for the instructions on how to setup RAB on your system.
-
 ## Setting up USB Debugging mode option
 1. Launch the Settings application on your phone.
 2. Tap the About Phone option generally near the bottom of the list.
