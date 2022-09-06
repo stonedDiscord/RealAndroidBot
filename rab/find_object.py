@@ -5,6 +5,7 @@ from utils import get_average_color
 
 logger = logging.getLogger(__name__)
 
+
 def walk_towards_pokestops(im_rgb, min_x=90, max_x=980, x_steps=8, min_y=200, max_y=750, y_steps=8):
     # To be added in future
     location_found = False
@@ -34,14 +35,14 @@ def walk_towards_pokestops(im_rgb, min_x=90, max_x=980, x_steps=8, min_y=200, ma
         elif x_steps < 0 and y_steps >= 0:
             x = x + 25
             y = y - 25
-        
-    
-    return location_found, x , y
-            
-def find_pokestop(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag_full = False, find_team_rocket = False):
+
+    return location_found, x, y
+
+
+def find_pokestop(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag_full=False, find_team_rocket=False):
 
     pokestop_found, x, y, r, g, b = False, 0, 0, 0, 0, 0
-    
+
     if not bag_full:
         for s in range(min_x, max_x, int(x_steps/2)):
             if pokestop_found:
@@ -50,7 +51,7 @@ def find_pokestop(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag_full
                 # let exclude char position
                 if not ((520 <= s <= 570) and (1160 <= t <= 1240)):
                     r, g, b = get_average_color(s, t, abs(x_steps), im_rgb)
-                    
+
                     if ((30 <= r <= 90) and (200 <= g <= 255) and (
                             250 <= b <= 255)):  # pokestop
                         pokestop_found = True
@@ -66,14 +67,14 @@ def find_pokestop(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag_full
                         pokestop_found = True
                         x = int(s + (x_steps/2))
                         y = int(t + (y_steps/2))
-                    
+
                     if pokestop_found:
                         break
-        
-        
-    return pokestop_found, x, y, r, g, b                   
-                    
-def find_object_to_tap(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag_full=False, missedcolors = [], skip_pokestop=False):
+
+    return pokestop_found, x, y, r, g, b
+
+
+def find_object_to_tap(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag_full=False, missedcolors=[], skip_pokestop=False):
     x = random.randrange(460, 630)
     y = random.randrange(1000, 1300)
     r, g, b = None, None, None
@@ -97,41 +98,41 @@ def find_object_to_tap(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag
                 # comment out first, see how well the AI will perform
                 if (110 <= r <= 115) and (90 <= g <= 100) and (125 <= b <= 130):
                     continue
-                
+
                 if (100 <= r <= 110) and (80 <= g <= 90) and (110 <= b <= 120):
                     continue
-                
+
                 if (250 <= r <= 255) and (250 <= g <= 255) and (130 <= b <= 135):
                     continue
-                
+
                 if (210 <= r <= 230) and (230 <= g <= 255) and (225 <= b <= 250):
                     continue
-                
+
                 if (80 <= r <= 90) and (220 <= g <= 230) and (250 <= b <= 255):
                     continue
-                    
+
                 if (40 <= r <= 65) and (200 <= g <= 215) and (250 <= b <= 255):
                     continue
-                
+
                 if (235 <= r <= 255) and (250 <= g <= 255) and (230 <= b <= 240):
                     continue
-                
+
                 if (235 <= r <= 255) and (250 <= g <= 255) and (130 <= b <= 145):
                     continue
-                
+
                 if (70 <= r <= 90) and (230 <= g <= 254) and (250 <= b <= 254):
                     continue
-                
+
                 if (240 <= r <= 253) and (225 <= g <= 250) and (230 <= b <= 250):
                     continue
-                    
+
                 if (200 <= r <= 215) and (150 <= g <= 155) and (225 <= b <= 245):
                     continue
-                
+
                 # Gyms Color
-                if (190 <= r <= 210) and (190 <= g <= 210) and (200 <= b <= 220): # grey
+                if (190 <= r <= 210) and (190 <= g <= 210) and (200 <= b <= 220):  # grey
                     continue
-                if (240 <= r <= 255) and (0 <= g <= 60) and (0 <= b <= 60): 
+                if (240 <= r <= 255) and (0 <= g <= 60) and (0 <= b <= 60):
                     continue
                 if (0 <= r <= 60) and (0 <= g <= 50) and (245 <= b <= 255):
                     continue
@@ -139,7 +140,7 @@ def find_object_to_tap(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag
                     continue
                 if (240 <= r <= 255) and (220 <= g <= 255) and (0 <= b <= 5):
                     continue
-                
+
                 # Set of colors considered as vaild
                 if (210 <= r <= 220) and (110 <= g <= 120) and (5 <= b <= 15):
                     pokefound = True
@@ -149,7 +150,7 @@ def find_object_to_tap(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag
                     pokefound = True
                     x = int(s + (x_steps/2))
                     y = int(t + (y_steps/2))
-                
+
                 elif (60 <= r <= 65) and (175 <= g <= 185) and (254 <= b <= 255):  # Marine pokemon, Marill
                     pokefound = True
                     x = int(s + (x_steps/2))
@@ -218,7 +219,7 @@ def find_object_to_tap(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag
                     pokefound = True
                     x = int(s + (x_steps/2))
                     y = int(t + (y_steps/2))
-                #elif ((230 <= r <= 255) and (230 <= g <= 255) and (
+                # elif ((230 <= r <= 255) and (230 <= g <= 255) and (
                 #        (130 <= b <= 140) or (170 <= b <= 210))):  # light yellow pokemon
                 #    pokefound = True
                 #    x = int(s + (x_steps/2))
@@ -297,7 +298,7 @@ def find_object_to_tap(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag
                     pokefound = True
                     x = int(s + (x_steps/2))
                     y = int(t + (y_steps/2))
-                #elif (240 <= r <= 255) and (240 <= g <= 255) and (70 <= b <= 100):  # yellow pokemon
+                # elif (240 <= r <= 255) and (240 <= g <= 255) and (70 <= b <= 100):  # yellow pokemon
                 #    pokefound = True
                 #    x = int(s + (x_steps/2))
                 #    y = int(t + (y_steps/2))
@@ -309,7 +310,7 @@ def find_object_to_tap(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag
                     pokefound = True
                     x = int(s + (x_steps/2))
                     y = int(t + (y_steps/2))
-                    
+
                 if pokefound:
                     break
 

@@ -1,3 +1,5 @@
+import pytesseract
+from pathlib import Path
 import logging
 import re
 import sys
@@ -9,8 +11,6 @@ from utils import Unknown, get_level_to_cpm, get_base_stats
 
 logger = logging.getLogger(__name__)
 
-from pathlib import Path
-import pytesseract
 if sys.platform == 'win32':
     if Path('Tesseract-OCR/tesseract.exe').is_file():
         pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\tesseract.exe'
@@ -33,11 +33,14 @@ y_sta = 0
 x_start_position = 0
 x_step = 0
 
+
 def cp_from_level(dex, level, poke_atk, poke_def, poke_sta):
     cp_index = ((level * 2) - 2)
     base_stats = get_base_stats(dex)
-    cp = int(((base_stats.get('attack') + poke_atk) * (base_stats.get('defense') + poke_def)**0.5 * (base_stats.get('stamina') + poke_sta)**0.5 * level_to_cpm[cp_index]**2) / 10)
+    cp = int(((base_stats.get('attack') + poke_atk) * (base_stats.get('defense') + poke_def) **
+             0.5 * (base_stats.get('stamina') + poke_sta)**0.5 * level_to_cpm[cp_index]**2) / 10)
     return cp
+
 
 def level_from_cp(dex, cp, poke_atk, poke_def, poke_sta):
     base_stats = get_base_stats(dex)
@@ -59,15 +62,17 @@ def level_from_cp(dex, cp, poke_atk, poke_def, poke_sta):
         return False
     return False
 
+
 def level_from_cpm(cp_multiplier):
     return min(range(len(level_to_cpm)), key=lambda i: abs(level_to_cpm[i] - cp_multiplier)) * 0.5 + 1
+
 
 def get_pokemon_name_from_text(s):
     s = s.lower()
     m = re.search(r'\bparas\b', s)
     if m:
         return 'Paras'
-    
+
     m = re.search(r'\bexegecute\b', s)
     if m:
         return 'Exeggcute'
@@ -169,7 +174,7 @@ def check_pm_iv_comb(s):
         def_iv = dfs if 0 <= dfs <= 15 else Unknown.TINY
         sta_iv = sta if 0 <= sta <= 15 else Unknown.TINY
         return atk_iv, def_iv, sta_iv
-    
+
     m = re.search(r'\batk\s*(\d+)\s+def\s*(\d+)\s+hp\s*(\d+)\b', s.lower())
     if m:
         atk = int(m.group(1))
@@ -189,7 +194,7 @@ def check_pm_iv_comb(s):
         def_iv = dfs if 0 <= dfs <= 15 else Unknown.TINY
         sta_iv = sta if 0 <= sta <= 15 else Unknown.TINY
         return atk_iv, def_iv, sta_iv
-    
+
     return Unknown.TINY, Unknown.TINY, Unknown.TINY
 
 
@@ -205,7 +210,7 @@ def check_pm_gender(s):
     if 'male' in s.lower() or '♂' in s:
         return 'Male'
 
-    if 'genderless' in s.lower() or 'neutral' in s.lower() or u'\u26b2' or u'\u26A4'  or u'\u26A5' in s.lower():
+    if 'genderless' in s.lower() or 'neutral' in s.lower() or u'\u26b2' or u'\u26A4' or u'\u26A5' in s.lower():
         return 'Genderless'
 
     return Unknown.TINY
@@ -219,28 +224,30 @@ def check_pm_level(s):
 def get_stats_from_polygon(data):
     # {'encounterId': '5426974339150050516', 'lastModifiedMs': '1610155683687', 'latitude': 1.2892464083114312, 'longitude': 103.84848207392109, 'spawnPointId': '31da19a09cd', 'pokemon': {'pokemonId': 'SHELLOS', 'cp': 199, 'stamina': 65, 'maxStamina': 65, 'move1': 'MUD_SLAP_FAST', 'move2': 'MUD_BOMB', 'heightM': 0.29722938, 'weightKg': 7.305354, 'individualAttack': 6, 'individualDefense': 15, 'individualStamina': 4, 'cpMultiplier': 0.34921268, 'pokemonDisplay': {'gender': 'MALE', 'form': 'SHELLOS_EAST_SEA', 'weatherBoostedCondition': 'RAINY', 'displayId': '5426974339150050516'}, 'originDetail': {}}}
     pokemon = dict()
-    
+
     poke_cp_bm = data['pokemon'].get('cpMultiplier')
     # Changeable part of the CP multiplier, increasing at power up
     poke_cp_am = data['pokemon'].get('additionalCpMultiplier', .0)
     # Resulting CP multiplier
     poke_cp_m = poke_cp_bm + poke_cp_am
-    
-    pokemon['name'] = data['pokemon'].get('pokemonId').replace('_',' ').title()
-    if data['pokemon']['pokemonDisplay'].get('form',''):
-        pokemon['form'] = data['pokemon']['pokemonDisplay'].get('form').replace(data['pokemon'].get('pokemonId'),'').replace('_',' ').title().strip()
-    pokemon['cp'] = data['pokemon'].get('cp',0)
+
+    pokemon['name'] = data['pokemon'].get('pokemonId').replace('_', ' ').title()
+    if data['pokemon']['pokemonDisplay'].get('form', ''):
+        pokemon['form'] = data['pokemon']['pokemonDisplay'].get('form').replace(
+            data['pokemon'].get('pokemonId'), '').replace('_', ' ').title().strip()
+    pokemon['cp'] = data['pokemon'].get('cp', 0)
     pokemon['level'] = level_from_cpm(poke_cp_m)
-    pokemon['atk_iv'] = data['pokemon'].get('individualAttack',0)
-    pokemon['def_iv'] = data['pokemon'].get('individualDefense',0)
-    pokemon['sta_iv'] = data['pokemon'].get('individualStamina',0)
+    pokemon['atk_iv'] = data['pokemon'].get('individualAttack', 0)
+    pokemon['def_iv'] = data['pokemon'].get('individualDefense', 0)
+    pokemon['sta_iv'] = data['pokemon'].get('individualStamina', 0)
     pokemon['gender'] = data['pokemon']['pokemonDisplay'].get('gender').title()
     if 'shiny' in data['pokemon']['pokemonDisplay']:
         pokemon['shiny'] = True
         logger.info("Pokemon is shiny.")
-    
+
     logger.debug(pokemon)
     return pokemon
+
 
 def get_stats_from_pokemod(im):
     pokemon = dict()
@@ -258,37 +265,39 @@ def get_stats_from_pokemod(im):
     pokemon['iv'] = check_pm_iv(text)
     pokemon['gender'] = check_pm_gender(text)
 
-    #if '+f' in text or '+4' in text:
+    # if '+f' in text or '+4' in text:
     #    pokemon['shiny'] = True
     #    logger.info("Pokemon is shiny (from toast).")
     if is_shiny_pokemon(im):
         pokemon['shiny'] = True
         logger.info("Pokemon is shiny (from icon).")
-    
+
     logger.debug(pokemon)
     return pokemon
 
+
 def get_stats_from_text(text):
     pokemon = dict()
-    
+
     if '✨' in text:
         pokemon['shiny'] = True
-    
+
     pokemon['level'] = check_pm_level(text)
-    
+
     # get iv combination
     pokemon['atk_iv'], pokemon['def_iv'], pokemon['sta_iv'] = check_pm_iv_comb(text)
-    
+
     pokemon['gender'] = check_pm_gender(text)
-    
+
     pokemon['iv'] = check_pm_iv(text)
-    
+
     pokemon['name'] = get_pokemon_name_from_text(text)
-    
+
     pokemon['cp'] = check_pm_cp(text)
-    
+
     logger.debug(pokemon)
     return pokemon
+
 
 def get_stats_from_mon(im):
     logger.debug('Checking pokemon stats from pokemon details.')
@@ -299,24 +308,24 @@ def get_stats_from_mon(im):
     im_cropped = crop_horizontal_piece(im, 3, 2)
     text = extract_text_from_image(im_cropped).replace("\n", " ")
     pokemon['name'] = get_pokemon_name_from_text(text)
-    
+
     pokemon['level'] = check_pm_level(text)
-    if not pokemon.get('level',False):
+    if not pokemon.get('level', False):
         im_cropped = crop_horizontal_piece(im, 3, 1)
 
         s2 = extract_text_from_image(im_cropped, binary=True, threshold=250, reverse=True)
-    
+
         text = re.sub('[^a-zA-Z0-9]+', ' ', s2)
         logger.debug('Debug Text: {}'.format(text))
         num_list = [int(s) for s in re.findall(r"[-+]?[.]?[\d]+(?:,\d\d\d)*[\.]?\d*(?:[eE][-+]?\d+)?", text)]
-        
+
         if len(num_list) >= 1:
             pokemon['cp'] = int(num_list[0])
-    
+
     # get iv combination
     pokemon['atk_iv'], pokemon['def_iv'], pokemon['sta_iv'] = check_pm_iv_comb(text)
     return pokemon
-    
+
 
 def get_stats_from_catch_screen(im):
     # crop the image with Pokemon name, CP and shiny icon
@@ -336,21 +345,21 @@ def get_stats_from_catch_screen(im):
 
     # get cp value
     pokemon['cp'] = check_pm_cp(text)
-    
+
     pokemon['level'] = check_pm_level(text)
 
     # get iv combination
     pokemon['atk_iv'], pokemon['def_iv'], pokemon['sta_iv'] = check_pm_iv_comb(text)
-    
+
     if Unknown.is_(pokemon['cp']):
         im_cropped = crop_horizontal_piece(im, 3, 1)
 
         s2 = extract_text_from_image(im_cropped, binary=True, threshold=250, reverse=True)
-    
+
         text = re.sub('[^a-zA-Z0-9]+', ' ', s2)
         logger.debug('Debug Text: {}'.format(text))
         num_list = [int(s) for s in re.findall(r"[-+]?[.]?[\d]+(?:,\d\d\d)*[\.]?\d*(?:[eE][-+]?\d+)?", text)]
-        
+
         if len(num_list) >= 1:
             pokemon['cp'] = int(num_list[0])
 
@@ -360,7 +369,7 @@ def get_stats_from_catch_screen(im):
 
     logger.debug(pokemon)
     return pokemon
-    
+
 
 def get_stats_from_mon_details(im, offset_x=0):
     global y_atk
@@ -368,7 +377,7 @@ def get_stats_from_mon_details(im, offset_x=0):
     global y_sta
     global x_start_position
     global x_step
-    
+
     logger.debug('Checking pokemon stats from pokemon details.')
     # Search for individual IV
     # defaulted to 1, if not detected will transfer
@@ -382,7 +391,7 @@ def get_stats_from_mon_details(im, offset_x=0):
     while True:
         tries += 1
         atk_found, def_found, sta_found = False, False, False
-        
+
         if y_atk == 0:
             # code something here to look for the starting of x and y
             # find y first
@@ -391,28 +400,28 @@ def get_stats_from_mon_details(im, offset_x=0):
             y_atk = 1385
             y_def = 1490
             y_sta = 1590
-    
+
             x_start_position = 140
             x_end_position = 491
-    
+
             for i in range(starting_y, 1635):
                 r, g, b = im.getpixel((320 + offset_x, i))
                 if ((220 <= r <= 230) and (120 <= g <= 130) and (115 <= b <= 125)) or ((220 <= r <= 245) and (140 <= g <= 150) and (15 <= b <= 30)) or ((220 <= r <= 235) and (220 <= g <= 235) and (220 <= b <= 235)):
                     y_atk = i + 8
                     break
-        
+
             for i in range(y_atk+60, 1635):
                 r, g, b = im.getpixel((320 + offset_x, i))
                 if ((220 <= r <= 230) and (120 <= g <= 130) and (115 <= b <= 125)) or ((220 <= r <= 245) and (140 <= g <= 150) and (15 <= b <= 30)) or ((220 <= r <= 235) and (220 <= g <= 235) and (220 <= b <= 235)):
                     y_def = i + 8
                     break
-        
+
             for i in range(y_def+60, 1635):
                 r, g, b = im.getpixel((320 + offset_x, i))
                 if ((220 <= r <= 230) and (120 <= g <= 130) and (115 <= b <= 125)) or ((220 <= r <= 245) and (140 <= g <= 150) and (15 <= b <= 30)) or ((220 <= r <= 235) and (220 <= g <= 235) and (220 <= b <= 235)):
                     y_sta = i + 8
                     break
-    
+
             starting_x = 105
             for i in range(starting_x, 180):
                 r, g, b = im.getpixel((i, y_atk))
@@ -425,7 +434,7 @@ def get_stats_from_mon_details(im, offset_x=0):
                 if ((220 <= r <= 240) and (120 <= g <= 140) and (115 <= b <= 140)) or ((220 <= r <= 245) and (140 <= g <= 160) and (15 <= b <= 50)) or ((220 <= r <= 240) and (220 <= g <= 240) and (220 <= b <= 240)):
                     x_end_position = i
                     break
-    
+
             x_step = (x_end_position - x_start_position)/15
 
         for i in range(1, 16):
@@ -463,7 +472,7 @@ def get_stats_from_mon_details(im, offset_x=0):
             y_atk = 0
         else:
             break
-        
+
         if tries >= 3:
             break
     return pokemon

@@ -41,7 +41,7 @@ def save_screenshot(im, main_dir=screenshot_dir, sub_dir=None, save=False, filen
     if save:
         dir_ = main_dir + '/' + sub_dir if sub_dir else main_dir
         if '//' in dir_:
-            dir_ = dir_.replace('//','/')
+            dir_ = dir_.replace('//', '/')
         if not os.path.isdir(dir_):
             os.makedirs(dir_)
         if not filename:
@@ -97,11 +97,13 @@ def crop_horizontal_piece(im, n=2, i=1):
     h0 = h // n
     return im.crop((0, h0 * (i - 1), w, h0 * i))
 
+
 def crop_top_by_percent(im, percent=70):
     # crop top image by percentage
     w, h = im.size
     new_height = percent/100*h
-    return im.crop((0,0,w,new_height))
+    return im.crop((0, 0, w, new_height))
+
 
 def create_range_color_set(r, g, b, difference=20):
     final_set = []
@@ -130,15 +132,17 @@ def create_range_color_set(r, g, b, difference=20):
         final_set.append(newset)
     return final_set
 
+
 def compare_image(img1, img2):
     if img1.size != img2.size or img1.getbands() != img2.getbands():
-            return -1
+        return -1
     s = 0
     for band_index, band in enumerate(img1.getbands()):
         m1 = np.array([p[band_index] for p in img1.getdata()]).reshape(*img1.size)
         m2 = np.array([p[band_index] for p in img2.getdata()]).reshape(*img2.size)
         s += np.sum(np.abs(m1-m2))
     return s
+
 
 def match_template(template_path, im, threshold=20000000, resize_template=False):
     # load the image image, convert it to grayscale, and detect edges

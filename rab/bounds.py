@@ -3,6 +3,7 @@ import sys
 import sanitized as conf
 from utils import get_distance
 
+
 class Bounds:
     def __init__(self):
         self.north = max(conf.MAP_START[0], conf.MAP_END[0])

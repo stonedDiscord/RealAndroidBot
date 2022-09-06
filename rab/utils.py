@@ -138,12 +138,14 @@ def get_cp_multipliers():
             get_cp_multipliers.info = json.load(f)
     return get_cp_multipliers.info
 
+
 def get_level_to_cpm():
     with open('data/level_to_cpm.json') as json_data:
         level_to_cpm = json.load(json_data)
     json_data.close()
-    
+
     return level_to_cpm
+
 
 def get_id_from_names(search_name):
     for poke_id, poke_name in POKEMON.items():

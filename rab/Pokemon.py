@@ -2,8 +2,8 @@ import logging
 import sys
 
 from PokemonUtils import get_stats_from_pokemod, get_stats_from_catch_screen, get_stats_from_mon_details, \
-                         get_stats_from_polygon, get_stats_from_text, check_pm_gender, level_from_cp, \
-                         cp_from_level, get_stats_from_mon
+    get_stats_from_polygon, get_stats_from_text, check_pm_gender, level_from_cp, \
+    cp_from_level, get_stats_from_mon
 from PvpUtils import get_pvp_info
 from names import POKEMON
 from utils import get_id_from_names, Unknown
@@ -239,12 +239,16 @@ class Pokemon(object):
             else:
                 if detail:
                     if d(resourceId='me.underworld.helaplugin:id/hl_ec_pvp_name', packageName='com.nianticlabs.pokemongo').exists:
-                        self.name = d(resourceId='me.underworld.helaplugin:id/hl_ec_pvp_name', packageName='com.nianticlabs.pokemongo').child(packageName='com.nianticlabs.pokemongo')[0].info.get('text','')
+                        self.name = d(resourceId='me.underworld.helaplugin:id/hl_ec_pvp_name', packageName='com.nianticlabs.pokemongo').child(
+                            packageName='com.nianticlabs.pokemongo')[0].info.get('text', '')
                         self.dex = get_id_from_names(self.name)
-            self.level = int(d(resourceId='me.underworld.helaplugin:id/hl_ec_sum_lvv', packageName='com.nianticlabs.pokemongo').info.get('text','0'))
-            raw_iv = d(resourceId='me.underworld.helaplugin:id/hl_ec_sum_ads', packageName='com.nianticlabs.pokemongo').info.get('text','0/0/0')
+            self.level = int(d(resourceId='me.underworld.helaplugin:id/hl_ec_sum_lvv',
+                             packageName='com.nianticlabs.pokemongo').info.get('text', '0'))
+            raw_iv = d(resourceId='me.underworld.helaplugin:id/hl_ec_sum_ads',
+                       packageName='com.nianticlabs.pokemongo').info.get('text', '0/0/0')
             raw_iv_list = raw_iv.split('/')
-            self.iv = int(d(resourceId='me.underworld.helaplugin:id/hl_ec_sum_ivv', packageName='com.nianticlabs.pokemongo').info.get('text','0'))
+            self.iv = int(d(resourceId='me.underworld.helaplugin:id/hl_ec_sum_ivv',
+                          packageName='com.nianticlabs.pokemongo').info.get('text', '0'))
             self.atk_iv = int(raw_iv_list[0])
             self.def_iv = int(raw_iv_list[1])
             self.sta_iv = int(raw_iv_list[2])
@@ -252,8 +256,9 @@ class Pokemon(object):
                 self.shiny = True
             if detail:
                 if d(resourceId='me.underworld.helaplugin:id/hl_ec_detail_gender', packageName='com.nianticlabs.pokemongo').exists:
-                    gender = d(resourceId='me.underworld.helaplugin:id/hl_ec_detail_gender', packageName='com.nianticlabs.pokemongo').info.get('text','').strip()
-                    self.gender = check_pm_gender(gender)  
+                    gender = d(resourceId='me.underworld.helaplugin:id/hl_ec_detail_gender',
+                               packageName='com.nianticlabs.pokemongo').info.get('text', '').strip()
+                    self.gender = check_pm_gender(gender)
                 d(resourceId='me.underworld.helaplugin:id/hl_ec', packageName='com.nianticlabs.pokemongo').click()
             if Unknown.is_not(self.atk_iv) and Unknown.is_not(self.def_iv) and Unknown.is_not(self.sta_iv):
                 if Unknown.is_not(self.dex):
@@ -346,7 +351,8 @@ class Pokemon(object):
     def update_stats_from_mad(self, p, d):
         try:
             if d(resourceId='com.mad.pogoenhancer:id/custom_toast_message', packageName='com.mad.pogoenhancer').exists:
-                raw_info = d(resourceId='com.mad.pogoenhancer:id/custom_toast_message', packageName='com.mad.pogoenhancer').info.get('text',{})
+                raw_info = d(resourceId='com.mad.pogoenhancer:id/custom_toast_message',
+                             packageName='com.mad.pogoenhancer').info.get('text', {})
                 poke_stats = get_stats_from_text(raw_info)
                 if Unknown.is_not(poke_stats.get('atk_iv', Unknown.TINY)):
                     self.atk_iv = poke_stats.get('atk_iv', Unknown.TINY)

@@ -37,6 +37,7 @@ class PhoneNotConnectedError(Exception):
     # logger.error('Your phone does not appear to be connected. Try \'adb devices\' and see if it is listed there :)')
     pass
 
+
 class LogcatNotRunningError(Exception):
     # logger.error('For some reason, I can\'t run the logcat on your phone! :(
     # Try to run \'adb logcat\' and see if something happens. Message the developers as well!')
@@ -44,15 +45,14 @@ class LogcatNotRunningError(Exception):
 
 
 class PokemonGo(object):
-    def __init__(self, wifi_ip = None):
+    def __init__(self, wifi_ip=None):
         self.device_id = None
         self.wifi_ip = wifi_ip
         self.calcy_pid = None
         self.use_fallback_screenshots = False
         self.android_version = None
 
-
-    async def connect_wifi(self, wifi_ip = None, port = '5555'):
+    async def connect_wifi(self, wifi_ip=None, port='5555'):
         self.wifi_ip = wifi_ip
         args = [
             "adb",
@@ -61,22 +61,22 @@ class PokemonGo(object):
             port
         ]
         await self.run(args)
-        
+
         args = [
             "adb",
             "connect",
             self.wifi_ip + ':' + port
         ]
         await self.run(args)
-    
-    async def disconnect_wifi(self, port = '5555'):    
+
+    async def disconnect_wifi(self, port='5555'):
         args = [
             "adb",
             "disconnect",
             self.wifi_ip + ':' + str(port)
         ]
         await self.run(args)
-    
+
     async def get_location(self, save_file=False):
         lat = 0
         lng = 0
@@ -93,21 +93,21 @@ class PokemonGo(object):
             "location"
         ]
         returncode, stdout, stderr = await self.run(args)
-        
+
         if stdout:
             str_stdout = str(stdout, encoding='utf-8').strip()
             sys_lists = str_stdout.splitlines()
 
         if sys_lists:
-            #with open("Output.txt", "w") as text_file:
+            # with open("Output.txt", "w") as text_file:
             #    print(f"{sys_lists}", file=text_file)
             if save_file:
-                f= open(deviceid + "_debug.txt","w+")
+                f = open(deviceid + "_debug.txt", "w+")
                 for line in sys_lists:
                     if 'location' in line.lower():
                         f.write(line+'\r\n')
                 f.close
-            
+
             for line in sys_lists:
                 if 'fused: location' in line.lower() or 'passive: location' in line.lower() or 'last location=location[fused' in line.lower() or 'last mock location=location[gps' in line.lower():
                     m = re.search(r'[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)', line)
@@ -126,7 +126,7 @@ class PokemonGo(object):
                         lng = float(coord_list[1])
                         break
 
-        return (lat,lng)
+        return (lat, lng)
 
     async def screencap(self):
         if not self.use_fallback_screenshots:
@@ -297,7 +297,7 @@ class PokemonGo(object):
             return True
         else:
             return False
-    
+
     async def goto_location(self, x, y, delay=0):
         # logger.info("Going to {}, {} in {} secs".format(x, y, delay))
         await asyncio.sleep(delay)
@@ -336,14 +336,13 @@ class PokemonGo(object):
                 "lng",
                 y
             ]
-            
+
         returncode, stdout, stderr = await self.run(args)
         cmdstr = str(stdout, encoding='utf-8').strip().lower()
         if 'no service started' in cmdstr:
             logger.info('Your GPS Joystick is not supported. Please download and use the version from http://gpsjoystick.theappninjas.com/faq/ instead of the playstore version.')
             return False
         return True
-            
 
     async def start_route(self, route_name, delay=0):
         logger.info("Starting {} Route in {} secs".format(route_name, delay))
@@ -425,10 +424,9 @@ class PokemonGo(object):
                 "overscan",
                 "0,"+str(top)+",0,"+str(y)
             ]
-        
-        
+
         await self.run(args)
-    
+
     async def set_android_version(self):
         args = [
             "adb",
@@ -445,8 +443,7 @@ class PokemonGo(object):
             output = spilt_out[0]
         self.android_version = int(output)
         return self.android_version
-        
-    
+
     async def get_screen_resolution(self):
         args = [
             "adb",
@@ -464,8 +461,8 @@ class PokemonGo(object):
         num_list = [int(s) for s in re.findall(r"[-+]?[.]?[\d]+(?:,\d\d\d)*[\.]?\d*(?:[eE][-+]?\d+)?", output)]
         if len(num_list) == 2:
             return num_list
-        return [0,0]
-    
+        return [0, 0]
+
     async def get_screen_dpi(self):
         args = [
             "adb",
@@ -484,8 +481,8 @@ class PokemonGo(object):
         if len(num_list) == 1:
             return num_list[0]
         return False
-    
-    async def change_screen_resolution(self, x=1080,y=1920, dpi=None):
+
+    async def change_screen_resolution(self, x=1080, y=1920, dpi=None):
         if dpi:
             args = [
                 "adb",

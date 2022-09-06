@@ -116,4 +116,4 @@ def get_pvp_info(monster_id, atk, de, sta, lvl):
 
     return (float("{0:.2f}".format(great_rating)), great_id, great_cp,
             great_level, float("{0:.2f}".format(ultra_rating)), ultra_id,
-            ultra_cp, ultra_level) 
+            ultra_cp, ultra_level)
