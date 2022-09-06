@@ -19,7 +19,7 @@ DB_POOL_RECYCLE = 60
 # DO NOT CHANGE THE VALUES unless instructed to do so
 # Or if you are debuging
 # THESE NEED TO REDO
-SCREENSHOT_POSITIONS: {
+SCREENSHOT_POSITIONS = {
     "rename": [539, 936],
     "next": [980, 280],
     "keyboard_ok": [933,1085],
