@@ -15,7 +15,7 @@ set_sequence_range = (tuple, list, range, set, frozenset)
 #worker_count = config.GRID[0] * config.GRID[1]
 monocle_dir = Path(__file__).resolve().parents[1]
 
-_valid_types = {
+global _valid_types = {
     'BETA_CLIENT': bool,
     'DB_ENGINE': str,
     'DB_ENGINE2': str,
@@ -41,7 +41,7 @@ _valid_types = {
     'UL_TO_KEEP': sequence
 }
 
-_defaults = {
+global _defaults = {
     'BETA_CLIENT': False,
     'DB_POOL_RECYCLE': 299,
     'DB_POOL_SIZE': 5,
