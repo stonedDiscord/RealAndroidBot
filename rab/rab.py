@@ -367,9 +367,8 @@ class Main:
             logger.exception("RAB is unable to detect any phone attached to your system.")
             sys.exit(0)
         except Exception as e:
-            # Change exception to error for depolyment (so client wont see chuck of erros during exit)
+            # Change exception to error for deployment (so client wont see chunks of errors during exit)
             logger.exception("An error occured while trying to get your device(s): {}".format(e))
-            #logger.warning("An error occured while trying to get your devices. Please check that you have adb installed.")
             sys.exit(0)
 
         if not self.device_id:
@@ -419,9 +418,6 @@ class Main:
                 logger.info("If you are using emulator, try set your emulator to phone mode instead of tablet and try again...")
                 logger.info("Exiting...")
                 return False
-                #answer = input('Do you want to go ahead and try? (y/n)')
-                # if answer.lower() != 'y':
-                #    return 'Not supported'
 
             elif (orginal_x < 1080 and orginal_y < 1920) or overwrite_y < 1920:
                 if orginal_x < 720 and orginal_y < 1280:
@@ -429,16 +425,13 @@ class Main:
                     answer = input('Do you want to go ahead and try? (y/n)')
                     if answer.lower() != 'y':
                         return False
-                        #raise ValueError("We do not support phones with less than 1080x1920 display resolution")
                 if orginal_x >= 720 and orginal_y >= 1280:
                     overwrite_x = 720
                     overwrite_y = 1280
                 resize = True
 
-            #self.rabwindow = RABGui(config,self.p,config_path)
-            # self.rabwindow.start_win()
             orginal_dpi = int(await self.p.get_screen_dpi())
-            dip = orginal_dpi
+            dpi = orginal_dpi
             if self.config['client'].get('lower_resolution', False):
                 logger.info(f"Your orginal screen dpi is {orginal_dpi}")
                 if self.config['client'].get('dpi', 0) > 0:
@@ -461,9 +454,9 @@ class Main:
 
             # Resize screen resolution
             if not self.config['client'].get('manual_set_resolution', False):
-                if resize and dip == orginal_dpi:
+                if resize and dpi == orginal_dpi:
                     await self.p.change_screen_resolution(overwrite_x, overwrite_y)
-                if resize and dip != orginal_dpi:
+                if resize and dpi != orginal_dpi:
                     await self.p.change_screen_resolution(overwrite_x, overwrite_y, dpi)
                 else:
                     await self.p.change_screen_resolution()
@@ -513,7 +506,7 @@ class Main:
                     self.config['client']['navigation_offset'] = oversize_bottom - 1
 
             if self.config['client'].get('navigation_offset', 0) == 0 and self.config['client'].get('auto_offset', True) and oversize_bottom == 0:
-                # For Sumsung and other phones with grey bottom
+                # For Samsung and other phones with grey bottom
                 oversize_bottom = 0
                 for y in range(1919, 1670, -1):
                     r, g, b, a = im_rgb.getpixel((10, y))
@@ -531,7 +524,7 @@ class Main:
                     self.config['client']['navigation_offset'] = oversize_bottom - 1
 
             if oversize_bottom > 5 and config['client'].get('screenshot_shift', 0) == 0:
-                #logger.info('Navigation buttons Found, please set your navigation_offset value to {} in config'.format(self.config['client'].get('navigation_offset',0)))
+                logger.info('Navigation buttons Found, please set your navigation_offset value to {} in config'.format(self.config['client'].get('navigation_offset',0)))
                 await asyncio.sleep(1.0)  # Let's wait for a while
                 await self.p.navigation_offset(self.config['client'].get('navigation_offset', 0), oversize_top)
                 await asyncio.sleep(2.0)
@@ -553,10 +546,10 @@ class Main:
             if self.p.android_version:
                 logger.info("Detected Android Version: {}".format(self.p.android_version))
             else:
-                logger.info('RAB is unable to get your device Android version')
+                logger.info('RAB is unable to get your devices Android version')
                 while True:
                     try:
-                        userInput = int(input('Please enter your device Android version to continue: '))
+                        userInput = int(input('Please enter your devices Android version to continue: '))
                     except ValueError:
                         logger.info("Entry is not a number! Try again.")
                         continue
@@ -577,11 +570,11 @@ class Main:
             if client:
                 try:
                     with session_scope() as session:
-                        is_vaild = donation_status(session, telegram_id, self.d.serial)
-                    if not is_vaild:
-                        if is_vaild > 0:
+                        is_valid = donation_status(session, telegram_id, self.d.serial)
+                    if not is_valid:
+                        if is_valid > 0:
                             logger.info(
-                                f'You have use {is_vaild}/3 devices. Device list will reset when donation status is renewed.')
+                                f'You have {is_valid}/3 devices in use. Device list will reset when donation status is renewed.')
                         else:
                             logger.info('Your device is not in our system')
                         feed_dict.clear()
@@ -650,7 +643,7 @@ class Main:
                         self.config['client']['screen_offset'] = y
                         break
                 if offset_found:
-                    #logger.info('Offset Value Found, please set your screen_offset value to {} and disable auto_offset in your config'.format(self.config['client'].get('screen_offset',0)))
+                    logger.info('Offset Value Found, it is ' + format(self.config['client'].get('screen_offset',0)))
                     await self.p.tap(x1, y1)
                     await asyncio.sleep(2)
                 else:
@@ -670,7 +663,6 @@ class Main:
                 first_login, last_login = device_checkin(session, full_device_info.get(
                     'serial', self.d.serial), self.config['client'].get('client', 'None'))
 
-            #print('Last Login: {}'.format(last_login))
             if int(time.time() - first_login) < 259200:
                 self.limited_time_feature = first_login + 259200
 
@@ -891,7 +883,7 @@ class Main:
                     return 'no_pokestop'
             return 'no_pokestop'
         elif not self.pgsharpv2:
-            # This make the program to flip direction of search so that it won't always search one direction
+            # This makes the program flip direction of search so that it won't always search in one direction
             # This is to try to avoid keep tapping the same thing over and over again (Example pokestop/gyms)
 
             im_rgb = await screen_cap(self.d)
@@ -929,7 +921,7 @@ class Main:
 
             await tap_screen(self.p, x, y, delay_time)
         else:
-            # PGSHarp v2
+            # PGSharp v2
             current_count = await pgsharp_client.get_nearby_count(self.p, self.d)
             if current_count != pgsharp_client.nearby_count:
                 pgsharp_client.nearby_count = current_count
