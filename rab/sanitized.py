@@ -5,7 +5,7 @@ from pathlib import Path
 from datetime import datetime
 from logging import getLogger
 
-import config
+import config as oldconfig
 
 sequence = (tuple, list)
 path = (str, Path)
@@ -15,7 +15,7 @@ set_sequence_range = (tuple, list, range, set, frozenset)
 #worker_count = config.GRID[0] * config.GRID[1]
 monocle_dir = Path(__file__).resolve().parents[1]
 
-global _valid_types = {
+_valid_types = {
     'BETA_CLIENT': bool,
     'DB_ENGINE': str,
     'DB_ENGINE2': str,
@@ -41,7 +41,7 @@ global _valid_types = {
     'UL_TO_KEEP': sequence
 }
 
-global _defaults = {
+_defaults = {
     'BETA_CLIENT': False,
     'DB_POOL_RECYCLE': 299,
     'DB_POOL_SIZE': 5,
@@ -100,7 +100,7 @@ class Config:
 
     def __init__(self):
         self.log = getLogger('sanitizer')
-        for key, value in (x for x in vars(config).items() if x[0].isupper()):
+        for key, value in (x for x in vars(oldconfig).items() if x[0].isupper()):
             try:
                 if isinstance(value, _valid_types[key]):
                     setattr(self, key, value)
@@ -137,5 +137,3 @@ class Config:
             raise AttributeError(err)
 
 sys.modules[__name__] = Config()
-
-del _valid_types, config
