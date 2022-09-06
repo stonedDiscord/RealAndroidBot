@@ -1,29 +1,22 @@
 import logging
 import sys
 
-from PokemonUtils import get_stats_from_pokemod, get_stats_from_catch_screen, get_stats_from_mon_details, get_stats_from_polygon, get_stats_from_text, check_pm_gender, level_from_cp, \
-                        cp_from_level, get_stats_from_mon
+from PokemonUtils import get_stats_from_pokemod, get_stats_from_catch_screen, get_stats_from_mon_details, \
+                         get_stats_from_polygon, get_stats_from_text, check_pm_gender, level_from_cp, \
+                         cp_from_level, get_stats_from_mon
 from PvpUtils import get_pvp_info
 from names import POKEMON
 from utils import get_id_from_names, Unknown
 
-logger = logging.getLogger(__name__)
-
 from pathlib import Path
 import pytesseract
-if sys.platform == 'win32':
-    if Path('Tesseract-OCR/tesseract.exe').is_file():
-        pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\tesseract.exe'
-        tool = pytesseract
-    else:
-        #tools = pyocr.get_available_tools()
-        tool = pytesseract
-        #tool = tools[0]
-else:
-    #import pyocr
-    #tools = pyocr.get_available_tools()
-    tool = pytesseract
-    #tool = tools[0]
+
+logger = logging.getLogger(__name__)
+
+if (sys.platform == 'win32' and Path('Tesseract-OCR/tesseract.exe').is_file()):
+    pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\tesseract.exe'
+tool = pytesseract
+
 
 class Pokemon(object):
     def __init__(self):
@@ -121,7 +114,6 @@ class Pokemon(object):
         else:
             logger.debug('No extra info was extracted.')
 
-    
     def update_stats_from_pokemod(self, im):
         try:
             poke_stats = get_stats_from_pokemod(im)
@@ -163,8 +155,7 @@ class Pokemon(object):
                             'level': ultra_level
                         }
                     }
-            
-            
+
             if Unknown.is_not(self.dex) and Unknown.is_not(self.cp) and Unknown.is_not(self.atk_iv) and Unknown.is_not(self.def_iv) and Unknown.is_not(self.sta_iv) and Unknown.is_(self.level):
                 logger.info('Unknown Level. Attempt to retrieve it from known values...')
                 poke_level = level_from_cp(self.dex, self.cp, self.atk_iv, self.def_iv, self.sta_iv)
@@ -224,13 +215,13 @@ class Pokemon(object):
                             'level': ultra_level
                         }
                     }
-            
+
             if Unknown.is_not(self.dex) and Unknown.is_not(self.cp) and Unknown.is_not(self.atk_iv) and Unknown.is_not(self.def_iv) and Unknown.is_not(self.sta_iv) and Unknown.is_(self.level):
                 logger.info('Unknown Level. Attempt to retrieve it from known values...')
                 poke_level = level_from_cp(self.dex, self.cp, self.atk_iv, self.def_iv, self.sta_iv)
                 if poke_level:
                     self.level = poke_level
-            
+
             if self.__dict__() != dict_old:
                 logger.info(self.__dict__())
             else:
@@ -239,7 +230,7 @@ class Pokemon(object):
             logger.exception("Encounter unexpected error: {}".format(e))
 
     def get_stats_from_pgsharp(self, p, d, detail=True):
-        #only weorks when nearby is enabled
+        # only works when nearby is enabled
         try:
             if detail:
                 d(resourceId='me.underworld.helaplugin:id/hl_ec', packageName='com.nianticlabs.pokemongo').click()
@@ -257,7 +248,6 @@ class Pokemon(object):
             self.atk_iv = int(raw_iv_list[0])
             self.def_iv = int(raw_iv_list[1])
             self.sta_iv = int(raw_iv_list[2])
-            #me.underworld.helaplugin:id/hl_ec_sum_shiny
             if d(resourceId='me.underworld.helaplugin:id/hl_ec_sum_shiny', packageName='com.nianticlabs.pokemongo').exists:
                 self.shiny = True
             if detail:
@@ -285,7 +275,7 @@ class Pokemon(object):
                             'cp': ultra_cp,
                             'level': ultra_level
                         }
-                    }    
+                    }
             if Unknown.is_not(self.atk_iv) and Unknown.is_not(self.def_iv) and Unknown.is_not(self.sta_iv) and Unknown.is_not(self.level) and Unknown.is_(self.cp) and Unknown.is_not(self.dex):
                 logger.info('CP is caculated value, might not be accurate')
                 self.cp = cp_from_level(self.dex, self.level, self.atk_iv, self.def_iv, self.sta_iv)
@@ -294,14 +284,13 @@ class Pokemon(object):
         except Exception as e:
             logger.exception("PGSharp get stats error: {}".format(e))
             pass
-        
-    
+
     def update_stats_from_pokemod_toast(self, p, d):
         try:
             raw_info = d.toast.get_message(2.0, 5.0, "")
             poke_stats = get_stats_from_text(raw_info)
-            #logger.info(f'{raw_info}')
-            #logger.info(f'{poke_stats}')
+            logger.debug(f'{raw_info}')
+            logger.debug(f'{poke_stats}')
             dict_old = self.__dict__()
             if Unknown.is_not(poke_stats.get('name', Unknown.SMALL)):
                 self.name = poke_stats.get('name', Unknown.SMALL)
@@ -346,20 +335,19 @@ class Pokemon(object):
                     }
             if Unknown.is_not(self.atk_iv) and Unknown.is_not(self.def_iv) and Unknown.is_not(self.sta_iv) and Unknown.is_not(self.level):
                 logger.info(self.__dict__())
-            #if self.__dict__() != dict_old:
-            #    logger.info(self.__dict__())
-            #else:
-            #    logger.debug('No extra info was extracted.')
+            if self.__dict__() != dict_old:
+                logger.debug(self.__dict__())
+            else:
+                logger.debug('No extra info was extracted.')
         except Exception as e:
             logger.exception("Encounter unexpected error: {}".format(e))
             pass
-    
+
     def update_stats_from_mad(self, p, d):
         try:
             if d(resourceId='com.mad.pogoenhancer:id/custom_toast_message', packageName='com.mad.pogoenhancer').exists:
                 raw_info = d(resourceId='com.mad.pogoenhancer:id/custom_toast_message', packageName='com.mad.pogoenhancer').info.get('text',{})
                 poke_stats = get_stats_from_text(raw_info)
-                dict_old = self.__dict__()
                 if Unknown.is_not(poke_stats.get('atk_iv', Unknown.TINY)):
                     self.atk_iv = poke_stats.get('atk_iv', Unknown.TINY)
                 if Unknown.is_not(poke_stats.get('def_iv', Unknown.TINY)):
@@ -375,15 +363,10 @@ class Pokemon(object):
                 return True
             else:
                 return False
-            #if self.__dict__() != dict_old:
-            #    logger.info(self.__dict__())
-            #else:
-            #    logger.debug('No extra info was extracted.')
         except Exception as e:
             logger.exception("Encounter unexpected error: {}".format(e))
             return False
- 
-    
+
     def update_stats_from_mon_page(self, im):
         try:
             poke_stats = get_stats_from_mon(im)
@@ -421,14 +404,14 @@ class Pokemon(object):
                             'level': ultra_level
                         }
                     }
-            
+
             if Unknown.is_not(self.atk_iv) and Unknown.is_not(self.def_iv) and Unknown.is_not(self.sta_iv) and Unknown.is_not(self.level) and Unknown.is_(self.cp) and Unknown.is_not(self.dex):
                 logger.info('CP is caculated value, might not be accurate')
                 self.cp = cp_from_level(self.dex, self.level, self.atk_iv, self.def_iv, self.sta_iv)
-            
+
             if Unknown.is_not(poke_stats.get('cp', Unknown.TINY)):
                 self.cp = poke_stats.get('cp', Unknown.TINY)
-            
+
             if self.__dict__() != dict_old:
                 logger.info(self.__dict__())
             else:
@@ -436,7 +419,7 @@ class Pokemon(object):
         except Exception as e:
             logger.exception("Encounter unexpected error: {}".format(e))
             pass
-    
+
     def update_stats_from_mon_details(self, im, offset=None):
         try:
             poke_stats = get_stats_from_mon_details(im, offset)
@@ -474,13 +457,13 @@ class Pokemon(object):
                             'level': ultra_level
                         }
                     }
-            
+
             if Unknown.is_not(self.dex) and Unknown.is_not(self.cp) and Unknown.is_not(self.atk_iv) and Unknown.is_not(self.def_iv) and Unknown.is_not(self.sta_iv) and Unknown.is_(self.level):
                 logger.info('Unknown Level. Attempt to retrieve it from known values...')
                 poke_level = level_from_cp(self.dex, self.cp, self.atk_iv, self.def_iv, self.sta_iv)
                 if poke_level:
                     self.level = poke_level
-            
+
             if self.__dict__() != dict_old:
                 logger.info(self.__dict__())
             else:

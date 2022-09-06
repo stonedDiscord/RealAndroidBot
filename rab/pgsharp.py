@@ -1,21 +1,18 @@
 import asyncio
 import logging
-import time
-import datetime
-import sys
 
-from utils import get_id_from_names, Unknown
-
-logging.basicConfig(format='%(asctime)s.%(msecs)03d %(levelname)-7s | %(message)s', level='INFO', datefmt='%H:%M:%S')
+logging.basicConfig(
+    format='%(asctime)s.%(msecs)03d %(levelname)-7s | %(message)s',
+    level='INFO', datefmt='%H:%M:%S')
 logger = logging.getLogger(__name__)
 logger.setLevel('INFO')
 
+
 class MapUIError(Exception):
     pass
-    
+
 
 class PGSharp:
-    
     def __init__(self):
         self.nearby_count = 0
         self.current_index = 0
@@ -30,17 +27,20 @@ class PGSharp:
         self.menu_position = None
 
     async def get_nearby_count(self, p, d):
-        if d(resourceId='me.underworld.helaplugin:id/hl_sri_icon', packageName='com.nianticlabs.pokemongo').exists:
-            return d(resourceId='me.underworld.helaplugin:id/hl_sri_icon', packageName='com.nianticlabs.pokemongo').count
+        if d(resourceId='me.underworld.helaplugin:id/hl_sri_icon',
+                            packageName='com.nianticlabs.pokemongo').exists:
+            return d(resourceId='me.underworld.helaplugin:id/hl_sri_icon',
+                            packageName='com.nianticlabs.pokemongo').count
         else:
             return 0
-    
+
     async def reposition(self, p, d):
         info0 = None
         info1 = None
         info2 = None
-        info3 = None # this is for timer
-        pokemon_info = d(resourceId='com.nianticlabs.pokemongo:id/unitySurfaceView', packageName='com.nianticlabs.pokemongo').info
+        info3 = None  # this is for timer
+        pokemon_info = d(resourceId='com.nianticlabs.pokemongo:id/unitySurfaceView',
+                        packageName='com.nianticlabs.pokemongo').info
         cd_timer = False
         
         height = 1920
@@ -60,63 +60,47 @@ class PGSharp:
             # Assuming it's just feed and main
             if d(resourceId='me.underworld.helaplugin:id/hl_cd_text', packageName='com.nianticlabs.pokemongo').exists:
                 cd_timer = True
-            info0 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[0].info #menu
-            info2 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[1].info #Feed
+            info0 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[0].info # menu
+            info2 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[1].info # Feed
              
         elif floating_icon_count == 3:
             if d(resourceId='me.underworld.helaplugin:id/hl_cd_text', packageName='com.nianticlabs.pokemongo').exists:
                 cd_timer = True
             
             if not cd_timer:
-                info0 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[0].info #menu
-                info1 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[1].info #joystick
-                info2 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[2].info #Feed
+                info0 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[0].info # menu
+                info1 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[1].info # joystick
+                info2 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[2].info # Feed
             else:
-                info0 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[0].info #menu
-                info2 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[1].info #Feed
-                info3 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[2].info #Timer
-                
-            
-            
-            
-            #await asyncio.sleep(4.0)
-            #x,y = await self.get_location(p, d)
-            #if x>0:
-            #    self.start_location = [x,y]
-            #    logger.info('RAB is able to retrieve location from PGSharp...')
-            #else:
-            #    logger.info('RAB is unable to retrieve location from PGSharp...')
-            
+                info0 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[0].info # menu
+                info2 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[1].info # Feed
+                info3 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[2].info # Timer
         else:
             return False
         
-        #Move Feed First
+        # Move Feed First
         feed_sx, feed_sy = await self.get_item_position(info2)
         feed_ex, feed_ey = 0.94 * width, 0.90 * height
         d.drag(feed_sx, feed_sy, feed_ex, feed_ey, 1)
-        await p.tap(feed_ex+25, feed_ey) # This will prevent icons from moving
-        #await asyncio.sleep(4.0)
+        await p.tap(feed_ex+25, feed_ey)  # This will prevent icons from moving
 
-        #Move joystick
+        # Move joystick
         if info1 and floating_icon_count == 3:
-            info1 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[1].info #joystick
+            info1 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[1].info  # joystick
             feed_sx, feed_sy = await self.get_item_position(info1)
             feed_ex, feed_ey = 0, 0.98 * height
             d.drag(feed_sx, feed_sy, feed_ex, feed_ey, 1)
-            await p.tap(feed_ex+25, feed_ey) # This will prevent icons from moving
+            await p.tap(feed_ex+25, feed_ey)  # This will prevent icons from moving
         
-        #Move timer
+        # Move timer
         if info1 and floating_icon_count == 3:
-            info3 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[2].info #Timer
+            info3 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[2].info  # Timer
             feed_sx, feed_sy = await self.get_item_position(info3)
             feed_ex, feed_ey = 0.5 * width, 0
             d.drag(feed_sx, feed_sy, feed_ex, feed_ey, 1)
-            #await p.tap(feed_ex+25, feed_ey) # This will prevent icons from moving
         
-        #await asyncio.sleep(4.0)
-        
-        #Move menu icon
-        info0 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[0].info #menu
+        # Move menu icon
+        info0 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[0].info  # menu
         feed_sx, feed_sy = await self.get_item_position(info0)
         feed_ex, feed_ey = 0.92 * width, 0.36 * height
         d.drag(feed_sx, feed_sy, feed_ex, feed_ey,1)
@@ -127,15 +111,15 @@ class PGSharp:
         #await asyncio.sleep(4.0)
         
         if floating_icon_count == 3 and cd_timer:
-            info2 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[1].info #Feed
+            info2 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[1].info  # Feed
         elif floating_icon_count == 3 and not cd_timer:
-            info2 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[2].info #Feed
+            info2 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[2].info  # Feed
         else:
-            info2 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[1].info #Feed
+            info2 = d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True)[1].info  # Feed
         feed_sx, feed_sy = await self.get_item_position(info2)
         feed_ex, feed_ey = 0, 0.15 * height
         d.drag(feed_sx, feed_sy, feed_ex, feed_ey, 1)
-        await p.tap(feed_ex+25, feed_ey) # This will prevent icons from moving
+        await p.tap(feed_ex+25, feed_ey)  # This will prevent icons from moving
 
     # old method
     async def reposition2(self, p, d):
@@ -301,18 +285,6 @@ class PGSharp:
                 logger.info('RAB is unable to retrieve location from PGSharp...')
         else:
             return False
-        
-            
-    #async def check_if_joystick(self, info):
-    #    ya = info['bounds'].get('top')
-    #    xs = info['bounds'].get('left')
-    #    ya1 = info['bounds'].get('bottom')
-    #    xs1 = info['bounds'].get('right')
-        
-    #    y_diff = ya1 - ya
-    #    x_diff = xs1 - xs
-        
-    #    logger.info(f'x diff: {x_diff}, y diff: {y_diff}')
     
     async def get_item_position(self, info, resized=False):
         ya = info['bounds'].get('top')
@@ -342,7 +314,7 @@ class PGSharp:
     async def teleport(self, p, d, x, y, resized=False):
         iconx = 0
         icony = 0
-        
+
         # class="android.widget.EditText" package="com.nianticlabs.pokemongo"
         # resource-id="me.underworld.helaplugin:id/hl_floatmenu_tp"
         #if d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',clickable=True).exists:
@@ -372,7 +344,7 @@ class PGSharp:
         try:
             d.set_fastinput_ime(True) 
             d.send_keys(text)
-            #d.clear_text() 
+            # d.clear_text() 
             d.set_fastinput_ime(False)
         except:
             d(focused=True).set_text(text)

@@ -2,7 +2,6 @@ import sys
 
 from numbers import Number
 from pathlib import Path
-from datetime import datetime
 from logging import getLogger
 
 import config as oldconfig
@@ -62,7 +61,7 @@ _defaults = {
     'SCREENSHOT_POSITIONS': {
         "rename": [539, 936],
         "next": [980, 280],
-        "keyboard_ok": [933,1085],
+        "keyboard_ok": [933, 1085],
         "rename_ok": [540, 1050],
         "close_calcy_dialog": [966, 1092],
         "edit_box": [90, 1090],
@@ -81,12 +80,12 @@ _defaults = {
         "claim_reward_box": [320, 1230, 750, 1310],
         "exit_encounter": [90, 150],
         "im_a_passenger_button_box": [320, 1425, 760, 1490],
-        "exit_other": [550,830],
+        "exit_other": [550, 830],
         "oh_hatching_box": [430, 430, 700, 640],
-        "shop_button_text_box": [470,1130,615,1200],
+        "shop_button_text_box": [470, 1130, 615, 1200],
         "bottom_pokestop_bar": [240, 1958, 300, 1985],
-        "char_box": [500,1160,590,1260],
-        "char": [550,1220]
+        "char_box": [500, 1160, 590, 1260],
+        "char": [550, 1220]
     },
     'UL_CP': 2350,
     'UL_RATING': 100.0,
@@ -135,5 +134,6 @@ class Config:
             err = '{} not in config, and no default has been set.'.format(name)
             self.log.error(err)
             raise AttributeError(err)
+
 
 sys.modules[__name__] = Config()
