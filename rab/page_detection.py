@@ -868,7 +868,7 @@ def is_team_selection_vaild(im):
 def is_nearby_page(im):
     logger.debug("Checking: nearby page?")
     im_cropped = crop_top_half(im)
-    matched = match_key_word_wrapper(im_cropped, ['nearby'])
+    matched = match_key_word_wrapper(im_cropped, ['nearby', 'radar'])
     if len(matched) > 0:
         logger.debug('YES: found key word: {}'.format(matched))
         return matched
@@ -976,8 +976,8 @@ def is_mysterious_pokemon(im):
 def is_warning_page(im):
     logger.debug('Checking: warning page?')
     im_cropped = crop_bottom_half(im)
-    matched = match_key_word_wrapper(im_cropped, ['do not', 'while', 'dangerous',
-                                     'areas', 'driving', 'pokémon go', 'pokemon go'])
+    matched = match_key_word_wrapper(im_cropped, ['do not', 'while', 'dangerous', 'surroundings', 'communities',
+                                     'areas', 'real-world', 'driving', 'pokémon go', 'pokemon go'])
     if len(matched) > 0:
         logger.debug('YES: found key word: {}'.format(matched))
         return matched
