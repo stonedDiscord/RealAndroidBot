@@ -900,7 +900,7 @@ class Main:
                     self.trivial_page_count = 0
                     await asyncio.sleep(2.0)
                     logger.info('Egg Hatched!')
-                    await tap_screen(self.p, original_x/2, 1190, 0.5)
+                    await tap_screen(self.p, 540, 1190, 0.5)
                     if self.config['client'].get('client', '').lower() in ['none', 'pgsharp', 'pgsharp paid', 'mad']:
                         await asyncio.sleep(5.0)
                     im_rgb = await screen_cap(self.d)
@@ -944,7 +944,7 @@ class Main:
             # test new method
             logger.info("Tapping...")
             for y in range(1260, 1180, -10):
-                await tap_screen(self.p, original_x/2, y, 0.25)
+                await tap_screen(self.p, 540, y, 0.25)
 
                 im_rgb = await screen_cap(self.d)
                 if not is_home_page(im_rgb):
@@ -1427,7 +1427,7 @@ class Main:
             self.trivial_page_count = 0
             await asyncio.sleep(2.0)
             logger.info('Egg Hatched!')
-            await tap_screen(self.p, original_x/2, 1190, 0.5)
+            await tap_screen(self.p, 540, 1190, 0.5)
             if self.config['client'].get('client', '').lower() in ['none', 'pgsharp', 'pgsharp paid', 'mad']:
                 await asyncio.sleep(5.0)
             im_rgb = await screen_cap(self.d)
@@ -1596,7 +1596,7 @@ class Main:
                 return 'on_team_rocket'
 
         if is_grunt_defeated_page(im_rgb):
-            await tap_screen(self.p, original_x/2, 1700, 1.0)
+            await tap_screen(self.p, 540, 1700, 1.0)
             self.pokemon.type = 'shadow'
             im_rgb = await screen_cap(self.d)
             self.pokemon.update_stats_from_pokemod(im_rgb)
@@ -1862,17 +1862,17 @@ class Main:
         if team_go_rocket:
             self.trivial_page_count = 0
             if team_go_rocket == 'rocket_collect':
-                await tap_screen(self.p, original_x/2, 1715, 1.0)
+                await tap_screen(self.p, 540, 1715, 1.0)
                 return 'on_team_rocket'
             if team_go_rocket == 'rocket_equip':
-                await tap_screen(self.p, original_x/2, 1540, 3.0)
+                await tap_screen(self.p, 540, 1540, 3.0)
                 return 'on_team_rocket'
             if team_go_rocket == 'rocket_???':
                 # tap a few more time to ensure it's at the real battle page
-                await tap_screen(self.p, original_x/2, 1000, 0.5)
-                await tap_screen(self.p, original_x/2, 1000, 0.5)
-                await tap_screen(self.p, original_x/2, 1000, 0.5)
-                await tap_screen(self.p, original_x/2, 1000, 0.5)
+                await tap_screen(self.p, 540, 1000, 0.5)
+                await tap_screen(self.p, 540, 1000, 0.5)
+                await tap_screen(self.p, 540, 1000, 0.5)
+                await tap_screen(self.p, 540, 1000, 0.5)
 
             if not self.config['client'].get('team_rocket_blastoff'):
                 while True:
@@ -2013,9 +2013,9 @@ class Main:
                 self.pokemon = pokemon_tapped
             else:
                 await asyncio.sleep(1.0)
-                await tap_screen(self.p, original_x/2, 1230, 1.0)
+                await tap_screen(self.p, 540, 1230, 1.0)
                 await asyncio.sleep(1.0)
-                await tap_screen(self.p, original_x/2, 1240, 1.0)
+                await tap_screen(self.p, 540, 1240, 1.0)
                 im_rgb = await screen_cap(self.d)
                 self.pokemon.update_stats_from_pokemod(im_rgb)
 
@@ -2315,9 +2315,9 @@ class Main:
                 self.no_spawn_count += 1
                 return 'not_shiny'
                 # await asyncio.sleep(1.0)
-                # await tap_screen(self.p, original_x/2, 1230, 1.0)
+                # await tap_screen(self.p, 540, 1230, 1.0)
                 # await asyncio.sleep(1.0)
-                # await tap_screen(self.p, original_x/2, 1240, 1.0)
+                # await tap_screen(self.p, 540, 1240, 1.0)
                 # im_rgb = await screen_cap(self.d)
                 # self.pokemon.update_stats_from_pokemod(im_rgb)
 
@@ -2556,7 +2556,7 @@ class Main:
                 self.trivial_page_count = 0
                 await asyncio.sleep(2.0)
                 logger.info('Egg Hatched!')
-                await tap_screen(self.p, original_x/2, 1190, 0.5)
+                await tap_screen(self.p, 540, 1190, 0.5)
                 if self.config['client'].get('client', '').lower() in ['none', 'pgsharp', 'pgsharp paid', 'mad']:
                     await asyncio.sleep(5.0)
                 im_rgb = await screen_cap(self.d)
@@ -2683,7 +2683,7 @@ class Main:
                 self.trivial_page_count = 0
                 await asyncio.sleep(2.0)
                 logger.info('Egg Hatched!')
-                await tap_screen(self.p, original_x/2, 1190, 0.5)
+                await tap_screen(self.p, 540, 1190, 0.5)
                 if self.config['client'].get('client', '').lower() in ['none', 'pgsharp', 'pgsharp paid', 'mad']:
                     await asyncio.sleep(5.0)
                 im_rgb = await screen_cap(self.d)
@@ -2712,13 +2712,13 @@ class Main:
             # await tap_screen(self.p, 980, 1875, 1)
             # await tap_screen(self.p, 940, 1555, 1) # Sort by CP
             # await tap_screen(self.p, 235, 175 + offset, 1.0) # Tag
-            # await tap_screen(self.p, original_x/2, 540 + offset, 1.0) # Fav Tag
+            # await tap_screen(self.p, 540, 540 + offset, 1.0) # Fav Tag
             poke_location = [{'x': 190, 'y': 650 + offset}, {'x': 540, 'y': 650 + offset}, {'x': 880, 'y': 650 + offset},
                              {'x': 190, 'y': 1040 + offset}, {'x': 540, 'y': 1040 + offset}, {'x': 880, 'y': 1040 + offset},
                              {'x': 190, 'y': 1435 + offset}, {'x': 540, 'y': 1435 + offset}, {'x': 880, 'y': 1435 + offset}, ]
             # First Pokemon in list position
             await tap_screen(self.p, poke_location[self.poke_in_gym].get('x'), poke_location[self.poke_in_gym].get('y'), 2)
-            # await tap_screen(self.p, original_x/2, 980, 1.5) #okay
+            # await tap_screen(self.p, 540, 980, 1.5) #okay
             im_rgb = await screen_cap(self.d)
             await tap_caught_ok_btn(self.p, im_rgb=im_rgb)
             # await tap_screen(self.p, 940, 600, 1) # Sort by recent
@@ -2927,22 +2927,22 @@ class Main:
                     self.trivial_page_count += 1
                     return
 
-                # await tap_screen(self.p, original_x/2, 1240, 0.25)
+                # await tap_screen(self.p, 540, 1240, 0.25)
                 # im_rgb = await screen_cap(self.d)
                 # if is_home_page(im_rgb):
-                #    await tap_screen(self.p, original_x/2, 1240, 0.25)
+                #    await tap_screen(self.p, 540, 1240, 0.25)
                 #    im_rgb = await screen_cap(self.d)
                 #    if is_home_page(im_rgb):
-                #        await tap_screen(self.p, original_x/2, 1210, 0.25)
+                #        await tap_screen(self.p, 540, 1210, 0.25)
                 #        im_rgb = await screen_cap(self.d)
                 #        if is_home_page(im_rgb):
-                #            await tap_screen(self.p, original_x/2, 1210, 0.25)
+                #            await tap_screen(self.p, 540, 1210, 0.25)
                 #            im_rgb = await screen_cap(self.d)
                 #            if is_home_page(im_rgb):
-                #                await tap_screen(self.p, original_x/2, 1170, 0.25)
+                #                await tap_screen(self.p, 540, 1170, 0.25)
                 #                im_rgb = await screen_cap(self.d)
                 #                if is_home_page(im_rgb):
-                #                    await tap_screen(self.p, original_x/2, 1170, 0.25)
+                #                    await tap_screen(self.p, 540, 1170, 0.25)
 
                 point_count = 0
                 # test new method
@@ -3015,11 +3015,11 @@ class Main:
                             localnetwork.pokestop_spin_result[:] = []
                         point_count += 1
 
-                # await tap_screen(self.p, original_x/2, 1240, 0.25)
-                    # await tap_screen(self.p, original_x/2, 1225, 0.2)
-                # await tap_screen(self.p, original_x/2, 1210, 0.25)
-                # await tap_screen(self.p, original_x/2, 1190, 0.25)
-                # await tap_screen(self.p, original_x/2, 1170, 0.25) # super high poke
+                # await tap_screen(self.p, 540, 1240, 0.25)
+                    # await tap_screen(self.p, 540, 1225, 0.2)
+                # await tap_screen(self.p, 540, 1210, 0.25)
+                # await tap_screen(self.p, 540, 1190, 0.25)
+                # await tap_screen(self.p, 540, 1170, 0.25) # super high poke
                     #failed = False
 
                 if len(localnetwork.incense_pokemon_encounter) > 0:
@@ -3147,10 +3147,10 @@ class Main:
                         await asyncio.sleep(4.0)
                         self.trivial_page_count = 0
                         if team_go_rocket == 'rocket_collect':
-                            await tap_screen(self.p, original_x/2, 1715, 1.0)
+                            await tap_screen(self.p, 540, 1715, 1.0)
                             return 'on_team_rocket'
                         if team_go_rocket == 'rocket_equip':
-                            await tap_screen(self.p, original_x/2, 1540, 3.0)
+                            await tap_screen(self.p, 540, 1540, 3.0)
                             return 'on_team_rocket'
 
                         result = await fight_team_rocket(self.p, self.d, team_go_rocket)
@@ -3275,7 +3275,7 @@ class Main:
                     self.trivial_page_count = 0
                     await asyncio.sleep(2.0)
                     logger.info('Egg Hatched!')
-                    await tap_screen(self.p, original_x/2, 1190, 0.5)
+                    await tap_screen(self.p, 540, 1190, 0.5)
                     if self.config['client'].get('client', '').lower() in ['none', 'pgsharp', 'pgsharp paid', 'mad']:
                         await asyncio.sleep(5.0)
                     im_rgb = await screen_cap(self.d)
@@ -3352,10 +3352,10 @@ class Main:
                 if team_go_rocket:
                     self.trivial_page_count = 0
                     if team_go_rocket == 'rocket_collect':
-                        await tap_screen(self.p, original_x/2, 1715, 1.0)
+                        await tap_screen(self.p, 540, 1715, 1.0)
                         return 'on_team_rocket'
                     if team_go_rocket == 'rocket_equip':
-                        await tap_screen(self.p, original_x/2, 1540, 3.0)
+                        await tap_screen(self.p, 540, 1540, 3.0)
                         return 'on_team_rocket'
 
                     result = await fight_team_rocket(self.p, self.d, team_go_rocket)
@@ -3457,25 +3457,25 @@ class Main:
                     localnetwork.encounter[:] = []  # Let's clear encounter right before tapping
                     logger.info('>>>>> Start tapping spawns >>>>>')
 
-                    # await tap_screen(self.p, original_x/2, 1240, 0.25)
+                    # await tap_screen(self.p, 540, 1240, 0.25)
                     # im_rgb = await screen_cap(self.d)
                     # if is_home_page(im_rgb):
-                    #    await tap_screen(self.p, original_x/2, 1240, 0.25)
+                    #    await tap_screen(self.p, 540, 1240, 0.25)
                     #    im_rgb = await screen_cap(self.d)
                     #    if is_home_page(im_rgb):
-                    #        await tap_screen(self.p, original_x/2, 1210, 0.25)
+                    #        await tap_screen(self.p, 540, 1210, 0.25)
                     #        im_rgb = await screen_cap(self.d)
                     #        if is_home_page(im_rgb):
-                    #            await tap_screen(self.p, original_x/2, 1210, 0.25)
+                    #            await tap_screen(self.p, 540, 1210, 0.25)
                     #            im_rgb = await screen_cap(self.d)
                     #            if is_home_page(im_rgb):
-                    #                await tap_screen(self.p, original_x/2, 1170, 0.25)
+                    #                await tap_screen(self.p, 540, 1170, 0.25)
                     #                im_rgb = await screen_cap(self.d)
                     #                if is_home_page(im_rgb):
-                    #                    await tap_screen(self.p, original_x/2, 1170, 0.25)
+                    #                    await tap_screen(self.p, 540, 1170, 0.25)
                     # test new method
                     for y in range(1260, 1170, -10):
-                        await tap_screen(self.p, original_x/2, y, 0.2)
+                        await tap_screen(self.p, 540, y, 0.2)
                         if len(localnetwork.encounter) > 0:
                             break
                         if len(localnetwork.incident) > 0:
@@ -3488,11 +3488,11 @@ class Main:
                             self.d(packageName='com.nianticlabs.pokemongo').swipe("left", steps=50)
                             await asyncio.sleep(1)  # To prevent zoomin
 
-                    # await tap_screen(self.p, original_x/2, 1240, 0.25)
-                    # await tap_screen(self.p, original_x/2, 1225, 0.25) # try tap once only
-                    # await tap_screen(self.p, original_x/2, 1210, 0.25)
-                    # await tap_screen(self.p, original_x/2, 1190, 0.25)
-                    # await tap_screen(self.p, original_x/2, 1170, 0.25) # super high poke
+                    # await tap_screen(self.p, 540, 1240, 0.25)
+                    # await tap_screen(self.p, 540, 1225, 0.25) # try tap once only
+                    # await tap_screen(self.p, 540, 1210, 0.25)
+                    # await tap_screen(self.p, 540, 1190, 0.25)
+                    # await tap_screen(self.p, 540, 1170, 0.25) # super high poke
                     last_active_location['latitude'] = wildPoke.get('latitude')
                     last_active_location['longitude'] = wildPoke.get('longitude')
                 else:
@@ -3551,10 +3551,10 @@ class Main:
                     await asyncio.sleep(4.0)
                     self.trivial_page_count = 0
                     if team_go_rocket == 'rocket_collect':
-                        await tap_screen(self.p, original_x/2, 1715, 1.0)
+                        await tap_screen(self.p, 540, 1715, 1.0)
                         return 'on_team_rocket'
                     if team_go_rocket == 'rocket_equip':
-                        await tap_screen(self.p, original_x/2, 1540, 3.0)
+                        await tap_screen(self.p, 540, 1540, 3.0)
                         return 'on_team_rocket'
 
                     result = await fight_team_rocket(self.p, self.d, team_go_rocket)
@@ -3710,7 +3710,7 @@ class Main:
                 self.trivial_page_count = 0
                 await asyncio.sleep(2.0)
                 logger.info('Egg Hatched!')
-                await tap_screen(self.p, original_x/2, 1190, 0.5)
+                await tap_screen(self.p, 540, 1190, 0.5)
                 if self.config['client'].get('client', '').lower() in ['none', 'pgsharp', 'pgsharp paid', 'mad']:
                     await asyncio.sleep(5.0)
                 im_rgb = await screen_cap(self.d)
@@ -3737,10 +3737,10 @@ class Main:
             if team_go_rocket:
                 self.trivial_page_count = 0
                 if team_go_rocket == 'rocket_collect':
-                    await tap_screen(self.p, original_x/2, 1715, 1.0)
+                    await tap_screen(self.p, 540, 1715, 1.0)
                     return 'on_team_rocket'
                 if team_go_rocket == 'rocket_equip':
-                    await tap_screen(self.p, original_x/2, 1540, 3.0)
+                    await tap_screen(self.p, 540, 1540, 3.0)
                     return 'on_team_rocket'
 
                 result = await fight_team_rocket(self.p, self.d, team_go_rocket)
@@ -3832,7 +3832,7 @@ class Main:
                         if await load_spawns(self.p, self.d, target):
                             await asyncio.sleep(3)  # wait for it to go back before tapping
                             # success, let's tap
-                            await tap_screen(self.p, original_x/2, original_y*0.6, 5)
+                            await tap_screen(self.p, 540, 1160, 5)
                             if len(localnetwork.gym) > 0:
                                 gym_details = localnetwork.gym.pop()
                                 network_lat = gym_details['gymStatusAndDefenders']['pokemonFortProto'].get('latitude', 0)
@@ -3908,7 +3908,7 @@ class Main:
                         if await load_spawns(self.p, self.d, target):
                             # success, let's tap
                             await asyncio.sleep(3)  # wait for it to go back before tapping
-                            await tap_screen(self.p, original_x/2, original_y*0.6, 5)
+                            await tap_screen(self.p, 540, 1160, 5)
                             if len(localnetwork.fort) > 0:
                                 pokestop_details = localnetwork.fort.pop()
                                 # logger.info(f"{pokestop_details}")
@@ -4297,7 +4297,7 @@ class Main:
                         await asyncio.sleep(0.5)
             logger.info("Checking and clearing quest....")
             await tap_screen(self.p, 986, 1592, 3.0)
-            await tap_screen(self.p, original_x/2, 390 + offset, 3.0)
+            await tap_screen(self.p, 540, 390 + offset, 3.0)
             await clear_quest(self.d, self.p, pokemon)
             await tap_close_btn(self.p)
             await asyncio.sleep(1)
@@ -4412,7 +4412,7 @@ class Main:
                             self.trivial_page_count = 0
                             await asyncio.sleep(2.0)
                             logger.info('Egg Hatched!')
-                            await tap_screen(self.p, original_x/2, original_y*0.6, 0.5)
+                            await tap_screen(self.p, 540, 1190, 0.5)
                             if self.config['client'].get('client', '').lower() in ['none', 'pgsharp', 'pgsharp paid', 'mad']:
                                 await asyncio.sleep(5.0)
                             im_rgb = await screen_cap(self.d)
@@ -4470,7 +4470,7 @@ class Main:
                                 await asyncio.sleep(0.5)
                     logger.info("Checking and clearing quest....")
                     await tap_screen(self.p, 986, 1592, 3.0)
-                    await tap_screen(self.p, original_x/2, 390 + offset, 3.0)
+                    await tap_screen(self.p, 540, 390 + offset, 3.0)
                     await clear_quest(self.d, self.p, pokemon)
                     await tap_close_btn(self.p)
                     self.track_quest_time = int(time.time())
@@ -4485,7 +4485,7 @@ class Main:
                             self.bag_full = False
                         except Exception as e:
                             # Error occurs, tap x and exit
-                            await tap_screen(self.p, original_x/2, 1780, 2)  # Close Item Page
+                            await tap_screen(self.p, 540, 1780, 2)  # Close Item Page
 
                 if not self.config['client'].get('client', '').lower() in ['polygon farmer', 'polygonfarmer']:
                     logger.info('')
@@ -4576,7 +4576,7 @@ class Main:
                             self.trivial_page_count = 0
                             await asyncio.sleep(2.0)
                             logger.info('Egg Hatched!')
-                            await tap_screen(self.p, original_x/2, 1190, 0.5)
+                            await tap_screen(self.p, 540, 1190, 0.5)
                             if self.config['client'].get('client', '').lower() in ['none', 'pgsharp', 'pgsharp paid', 'mad']:
                                 await asyncio.sleep(5.0)
                             im_rgb = await screen_cap(self.d)
@@ -4659,7 +4659,7 @@ class Main:
                             self.trivial_page_count = 0
                             await asyncio.sleep(2.0)
                             logger.info('Egg Hatched!')
-                            await tap_screen(self.p, original_x/2, 1190, 0.5)
+                            await tap_screen(self.p, 540, 1190, 0.5)
                             await after_pokemon_caught(self.p, self.d, self.pokemon, self.config)
                             # put on a new egg
                             im_rgb = await screen_cap(self.d)
