@@ -14,7 +14,7 @@ import json
 from utils import Loader
 from tkinter import ttk, tix, PhotoImage, StringVar, IntVar, DoubleVar, messagebox
 from PIL import Image, ImageTk
-from telethon import TelegramClient, events
+from telethon import TelegramClient, events, errors
 from db import session_scope, vaild_subscription
 from datetime import datetime
 
