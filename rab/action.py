@@ -107,8 +107,8 @@ async def screen_cap_native(p, border_width=100):
 
 async def tap_screen(p, x, y, duration=0.5):
     if config.get('resize', False):
-        x = int(x/1080*720)
-        y = int(y/1920*1280)
+        x = int((x*720)/1080)
+        y = int((y*1280)/1920)
     await p.tap(x, y)
     # p.click(x, y)
     await asyncio.sleep(duration)
