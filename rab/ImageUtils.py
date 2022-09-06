@@ -107,7 +107,7 @@ def create_range_color_set(r, g, b, difference=20):
     final_set = []
     x = range(-difference, difference + 1)
     for n in x:
-        rset = r + n
+        reset = r + n
         if reset < 0:
             reset = 255 + reset
         if reset > 255:
