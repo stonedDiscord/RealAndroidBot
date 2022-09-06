@@ -112,21 +112,21 @@ def create_range_color_set(r, g, b, difference=20):
             reset = 255 + reset
         if reset > 255:
             reset = reset - 255
-        newset = (rset, g, b)
+        newset = (reset, g, b)
         final_set.append(newset)
-        rset = g + n
+        reset = g + n
         if reset < 0:
             reset = 255 + reset
         if reset > 255:
             reset = reset - 255
-        newset = (r, rset, b)
+        newset = (r, reset, b)
         final_set.append(newset)
-        rset = b + n
+        reset = b + n
         if reset < 0:
             reset = 255 + reset
         if reset > 255:
             reset = reset - 255
-        newset = (r, g, rset)
+        newset = (r, g, reset)
         final_set.append(newset)
     return final_set
 
