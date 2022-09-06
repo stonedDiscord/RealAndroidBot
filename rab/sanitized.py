@@ -5,10 +5,7 @@ from pathlib import Path
 from datetime import datetime
 from logging import getLogger
 
-try:
-    import config
-except ImportError as e:
-    raise ImportError('Main Config Error') from e
+import config
 
 sequence = (tuple, list)
 path = (str, Path)
