@@ -69,7 +69,7 @@ class PokemonGo(object):
         ]
         await self.run(args)
     
-    async def disconnect_wifi(self):    
+    async def disconnect_wifi(self, port = '5555'):    
         args = [
             "adb",
             "disconnect",
