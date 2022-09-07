@@ -42,7 +42,7 @@ else:
     #tool = tools[0]
 
 logger = logging.getLogger(__name__)
-logger.setLevel('DEBUG')
+logger.setLevel('INFO')
 
 #path = "config.yaml"
 # with open(path, "r") as f:
