@@ -481,7 +481,7 @@ class Main:
                 if r > 0 and g > 0 and b > 0:
                     oversize_top = y
                     if resize:
-                        oversize_top = int((oversize_top)/1920*1280)
+                        oversize_top = int((oversize_top)*1280/1920)
                     break
             if oversize_top == 1:
                 oversize_top = 0
@@ -502,7 +502,7 @@ class Main:
                     oversize_bottom = 0
                 if oversize_bottom > 0:
                     if resize:
-                        oversize_bottom = int((oversize_bottom)/1920*1280)
+                        oversize_bottom = int((oversize_bottom)*1280/1920)
                     self.config['client']['navigation_offset'] = oversize_bottom - 1
 
             if self.config['client'].get('navigation_offset', 0) == 0 and self.config['client'].get('auto_offset', True) and oversize_bottom == 0:
@@ -520,11 +520,11 @@ class Main:
                     oversize_bottom = 0
                 if oversize_bottom > 0:
                     if resize:
-                        oversize_bottom = int((oversize_bottom)/1920*1280)
+                        oversize_bottom = int((oversize_bottom)*1280/1920)
                     self.config['client']['navigation_offset'] = oversize_bottom - 1
 
             if oversize_bottom > 5 and config['client'].get('screenshot_shift', 0) == 0:
-                logger.info('Navigation buttons Found, please set your navigation_offset value to {} in config'.format(self.config['client'].get('navigation_offset',0)))
+                logger.info('Navigation buttons Found, please set your navigation_offset value to {} in config'.format(self.config['client'].get('navigation_offset', 0)))
                 await asyncio.sleep(1.0)  # Let's wait for a while
                 await self.p.navigation_offset(self.config['client'].get('navigation_offset', 0), oversize_top)
                 await asyncio.sleep(2.0)
@@ -616,10 +616,10 @@ class Main:
 
                 # Assume we are at map
                 if resize:
-                    x1 = int(540/1080*720)
-                    y1 = int(1780/1920*1280)
-                    x2 = int(840/1080*720)
-                    y2 = int(1600/1920*1280)
+                    x1 = int(540*720/1080)
+                    y1 = int(1780*1280/1920)
+                    x2 = int(840*720/1080
+                    y2 = int(1600*1280/1920)
                 else:
                     x1 = 540
                     y1 = 1780
@@ -4863,10 +4863,10 @@ class Main:
 
                                 if not pokefound:
                                     if self.config.get('resize', False):
-                                        x1 = int(1040/1080*720)
-                                        y1 = int(860/1920*1280)
-                                        x2 = int(1040/1080*720)
-                                        y2 = int(1060/1920*1280)
+                                        x1 = int(1040*720/1080)
+                                        y1 = int(860*1280/1920)
+                                        x2 = int(1040*720/1080)
+                                        y2 = int(1060*1280/1920)
                                     else:
                                         x1 = 1040
                                         y1 = 860
