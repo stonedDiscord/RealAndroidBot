@@ -973,9 +973,9 @@ class Main:
 
                             if pokemon_caught == 'No Ball':
                                 self.no_ball = True
-                                if pgsharp_client.start_location:
-                                    logger.info("Attempt to teleport to starting location...")
-                                    await self.pgsharp_teleport_home()
+                                # if pgsharp_client.start_location:
+                                #    logger.info("Attempt to teleport to starting location...")
+                                #    await self.pgsharp_teleport_home()
                             elif self.player_level >= 30 and pgsharp_client:
                                 await self.check_and_send(self.pokemon, pgsharp_client)
                             self.no_action_count = 0
