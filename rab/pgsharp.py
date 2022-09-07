@@ -320,9 +320,11 @@ class PGSharp:
         x = xs + int(((xs1 - xs)/2))
         y = ya + int(((ya1 - ya)/2))
 
+        # uiautomator2 gives real screen positions
+        # so we have to calculate against tap_screen
         if resized:
-            x = x * 2
-            y = y * 2
+            x = x * 1080 / 720
+            y = y * 1920 / 1280
 
         return (x, y)
 
