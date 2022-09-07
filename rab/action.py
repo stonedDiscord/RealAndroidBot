@@ -42,6 +42,7 @@ else:
     #tool = tools[0]
 
 logger = logging.getLogger(__name__)
+logger.setLevel('DEBUG')
 
 #path = "config.yaml"
 # with open(path, "r") as f:
@@ -106,6 +107,7 @@ async def screen_cap_native(p, border_width=100):
 
 
 async def tap_screen(p, x, y, duration=0.5):
+    logger.debug('Tapping at '+str(x)+','+str(y))
     if config.get('resize', False):
         x = int((x*720)/1080)   # Yes, this would make more sense as x / 1080 and then * 720
         y = int((y*1280)/1920)  # But this way it is more accurate because bigger numbers are easier for computers
@@ -217,7 +219,7 @@ async def tap_incubate_btn(p, duration=1.0):
 
 
 async def tap_warning_ok_btn(p, duration=1.0):
-    await tap_screen(p, 540, 1400, duration=duration)
+    await tap_screen(p, 540, 1440, duration=duration)
 
 
 async def tap_free_incubator(p, duration=1.0):
