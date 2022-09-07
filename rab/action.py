@@ -107,11 +107,12 @@ async def screen_cap_native(p, border_width=100):
 
 
 async def tap_screen(p, x, y, duration=0.5):
-    logger.debug('Tapping at '+str(x)+','+str(y))
+    logger.debug('Tap requested at '+str(x)+','+str(y))
     if config.get('resize', False):
         x = int((x*720)/1080)   # Yes, this would make more sense as x / 1080 and then * 720
         y = int((y*1280)/1920)  # But this way it is more accurate because bigger numbers are easier for computers
     await p.tap(x, y)           # than numbers below 1
+    logger.debug('Tapped '+str(x)+','+str(y))
     # p.click(x, y)
     await asyncio.sleep(duration)
 
