@@ -917,7 +917,7 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
     # defining the 9 locations
     poke_location = [{'x': 190, 'y': 650 + offset}, {'x': 540, 'y': 650 + offset}, {'x': 880, 'y': 650 + offset},
                      {'x': 190, 'y': 1040 + offset}, {'x': 540, 'y': 1040 + offset}, {'x': 880, 'y': 1040 + offset},
-                     {'x': 190, 'y': 1460 + offset}, {'x': 540, 'y': 1460 + pffset}, {'x': 880, 'y': 1460 + offset}]
+                     {'x': 190, 'y': 1460 + offset}, {'x': 540, 'y': 1460 + offset}, {'x': 880, 'y': 1460 + offset}]
 
     logger.info('Action: Clearing Pokemon Inventory')
     await asyncio.sleep(1.5)
