@@ -247,6 +247,10 @@ async def tap_fav_icon(p, offset, duration=1):
     await tap_screen(p, 974, 188 + offset, duration=duration)
 
 
+async def tap_gym_btn(p, offset, duration=1):
+    await tap_screen(p, 945, 1560 + offset, duration=duration)
+
+
 def check_if_requires_highthrow(pokemon):
     if pokemon.name in config['catch'].get('high_far_pokemon', []):
         return True

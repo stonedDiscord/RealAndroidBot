@@ -20,10 +20,10 @@ import yaml
 from ImageUtils import save_screenshot, extract_text_from_image
 from Pokemon import Pokemon
 from PokemonUtils import get_pokemon_name_from_text
-from action import tap_screen, screen_cap, spin_pokestop, tap_close_btn, catch_pokemon, tap_exit_trainer, \
+from action import select_vaild_pokemon, tap_screen, screen_cap, spin_pokestop, tap_close_btn, catch_pokemon, tap_exit_trainer, \
     close_team_rocket, fight_team_rocket, after_pokemon_caught, tap_incubate, tap_caught_ok_btn, tap_warning_ok_btn, \
     select_egg, tap_exit_btn, tap_remove_quest_ok_btn, clear_quest, set_config, check_quest, clear_pokemon_inventory, \
-    tap_pokeball_btn, tap_open_pokemon_btn, tap_collect_component, tap_equip_radar, fav_last_caught, check_player_level
+    tap_pokeball_btn, tap_open_pokemon_btn, tap_collect_component, tap_equip_radar, tap_gym_btn, fav_last_caught, check_player_level
 from check_shiny import load_tap_pokemon, load_spawns
 from find_object import find_object_to_tap, walk_towards_pokestops, find_pokestop
 from item import check_item
@@ -643,7 +643,7 @@ class Main:
                         self.config['client']['screen_offset'] = y
                         break
                 if offset_found:
-                    logger.info('Offset Value Found, it is ' + format(self.config['client'].get('screen_offset',0)))
+                    logger.info('Offset Value Found, it is ' + format(self.config['client'].get('screen_offset', 0)))
                     await self.p.tap(x1, y1)
                     await asyncio.sleep(2)
                 else:
@@ -761,6 +761,7 @@ class Main:
             find_team_rocket = True
 
         self.pokemon = Pokemon()
+        offset = self.config['client'].get('screen_offset', 0)
 
         if self.flip_switch == 0:
             min_x = 370
@@ -1236,7 +1237,11 @@ class Main:
                     if self.count_gym_count >= 10:
                         # reset to zero
                         self.count_gym_count = 0
-                    i = 0
+                    if is_gym_page(im_rgb) == 'gym_deployable':
+                        logger.info("Deploying to gym")
+                        await tap_gym_btn(self.p, offset)
+                        await tap_screen(self.p, 190, 1040 + offset)
+                        await tap_remove_quest_ok_btn(self.p)
                     self.d.press("back")
                     # while True:
                     #    im_rgb = await screen_cap(self.d)
@@ -1391,19 +1396,12 @@ class Main:
             if self.count_gym_count >= 10:
                 # reset to zero
                 self.count_gym_count = 0
-            i = 0
+            if is_gym_page(im_rgb) == 'gym_deployable':
+                logger.info("Deploying to gym")
+                await tap_gym_btn(self.p, offset)
+                await tap_screen(self.p, 190, 1040 + offset)
+                await tap_remove_quest_ok_btn(self.p)
             self.d.press("back")
-            # while True:
-            #    im_rgb = await screen_cap(self.d)
-            #    if is_home_page(im_rgb) or i == 4:
-            #        self.trivial_page_count = 0
-            #        break
-            #    else:
-            # send the magic button
-            #        self.d.press("back") # Back button more effective, let's deal with unable to detect home page later
-            # await tap_close_btn(self.p)
-            #        i += 1
-            #        await asyncio.sleep(1)
             self.no_action_count = 0
             if self.pgsharpv2:
                 self.d(packageName='com.nianticlabs.pokemongo').swipe("left", steps=50)
@@ -1656,19 +1654,12 @@ class Main:
             if self.count_gym_count >= 10:
                 # reset to zero
                 self.count_gym_count = 0
-            i = 0
+            if is_gym_page(im_rgb) == 'gym_deployable':
+                logger.info("Deploying to gym")
+                await tap_gym_btn(self.p, offset)
+                await tap_screen(self.p, 190, 1040 + offset)
+                await tap_remove_quest_ok_btn(self.p)
             self.d.press("back")
-            # while True:
-            #    im_rgb = await screen_cap(self.d)
-            #    if is_home_page(im_rgb) or i == 4:
-            #        self.trivial_page_count = 0
-            #        break
-            #    else:
-            #        # send the magic button
-            #        self.d.press("back") # Back button more effective, let's deal with unable to detect home page later
-            #        #await tap_close_btn(self.p)
-            #        i += 1
-            #        await asyncio.sleep(1)
             if self.pgsharpv2:
                 self.d(packageName='com.nianticlabs.pokemongo').swipe("left", steps=50)
             return 'on_gym'
@@ -3694,8 +3685,6 @@ class Main:
                     self.trivial_page_count = 0
                     await asyncio.sleep(4)
                     self.d.press("back")
-                    # await tap_close_btn(self.p)
-                    # return 'on_gym'
 
                 if len(localnetwork.gym) > 0:
                     localnetwork.gym.pop(0)

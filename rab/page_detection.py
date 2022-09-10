@@ -322,12 +322,12 @@ def is_gym_page(im):
     logger.debug("Checking: gym page?")
     im_cropped = crop_bottom_half(im)
 
-    #th_btn_deploy_pokemon = 40000000
-    #template_path = 'assets/btn_deploy_pokemon.png'
-    #has_deploy_pokemon_btn = match_template_wrapper(template_path, im_cropped, threshold=th_btn_deploy_pokemon)
-    # if has_deploy_pokemon_btn:
-    #    logger.debug('YES: found {}'.format(os.path.basename(template_path)))
-    #    return 'gym_deployable'
+    th_btn_deploy_pokemon = 40000000
+    template_path = 'assets/btn_deploy_pokemon.png'
+    has_deploy_pokemon_btn = match_template_wrapper(template_path, im_cropped, threshold=th_btn_deploy_pokemon)
+    if has_deploy_pokemon_btn:
+        logger.debug('YES: found {}'.format(os.path.basename(template_path)))
+        return 'gym_deployable'
 
     #th_btn_pokestop = 40000000
     #template_path = 'assets/btn_pokestop.png'
