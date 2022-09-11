@@ -230,7 +230,7 @@ def has_completed_quest_on_map(im):
 
 
 def is_quest_color(r, g, b):
-    if ((233 <= r <= 236) and (160 <= g <= 162) and ( 70 <= b <=  73)):
+    if ((233 <= r <= 236) and (139 <= g <= 178) and ( 49 <= b <=  92)):
         return 'orange'
     if ((148 <= r <= 151) and (210 <= g <= 218) and (145 <= b <= 148)):
         return 'green'
@@ -257,7 +257,7 @@ def completed_quest_position(im):
             # return (i + 25)
             #r2, g2, b2 = im.getpixel((x, i + 25))
             r2, g2, b2 = get_average_color(x, i + 25, 10, im)
-            if (is_quest_color(r, g, b)):
+            if (is_quest_color(r2, g2, b2)):
                 return (i + 25)
     return False
 
