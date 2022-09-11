@@ -352,8 +352,8 @@ class PGSharp:
         text = str(x) + ', ' + str(y)
         try:
             d.set_fastinput_ime(True)
-            d.send_keys(text)
-            # d.clear_text()
+            d.clear_text()
+            d.send_keys(text)            
             d.set_fastinput_ime(False)
         except:
             d(focused=True).set_text(text)
