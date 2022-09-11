@@ -11,6 +11,7 @@ from utils import get_average_color, Unknown
 from names import POKEMON
 
 logger = logging.getLogger(__name__)
+logger.setLevel('INFO')
 
 if sys.platform == 'win32':
     if Path('Tesseract-OCR/tesseract.exe').is_file():
@@ -228,6 +229,23 @@ def has_completed_quest_on_map(im):
         return True
 
 
+def is_quest_color(r, g, b):
+    if ((233 <= r <= 236) and (160 <= g <= 162) and ( 70 <= b <=  73)):
+        return 'orange'
+    if ((148 <= r <= 151) and (210 <= g <= 218) and (145 <= b <= 148)):
+        return 'green'
+    if ((253 <= r <= 255) and (170 <= g <= 176) and ( 75 <= b <=  81)):
+        return 'light orange'
+    if (( 83 <= r <=  89) and (170 <= g <= 176) and (253 <= b <= 255)):
+        return 'ar mapping'
+    if ((180 <= r <= 185) and (120 <= g <= 126) and (200 <= b <= 210)):
+        return 'sponsored'
+    if ((210 <= r <= 215) and (165 <= g <= 170) and ( 26 <= b <=  33)):
+        return 'event'
+
+    return False
+
+
 def completed_quest_position(im):
     # Find position of quest completed color, add 25 and return y value of of it
     x = 400
@@ -235,11 +253,11 @@ def completed_quest_position(im):
     for i in range(600, 1900, 10):
         #r, g, b = im.getpixel((x, 1675))
         r, g, b = get_average_color(x, i, 10, im)
-        if ((233 <= r <= 236) and (160 <= g <= 162) and (70 <= b <= 73) or (148 <= r <= 151) and (210 <= g <= 218) and (145 <= b <= 148) or (253 <= r <= 255) and (170 <= g <= 176) and (75 <= b <= 81) or (83 <= r <= 89) and (170 <= g <= 176) and (253 <= b <= 255)):
+        if (is_quest_color(r, g, b)):
             # return (i + 25)
             #r2, g2, b2 = im.getpixel((x, i + 25))
             r2, g2, b2 = get_average_color(x, i + 25, 10, im)
-            if ((233 <= r2 <= 236) and (160 <= g2 <= 162) and (70 <= b2 <= 73) or (148 <= r2 <= 151) and (210 <= g2 <= 218) and (145 <= b2 <= 148) or (253 <= r2 <= 255) and (170 <= g2 <= 176) and (75 <= b2 <= 81) or (83 <= r2 <= 89) and (170 <= g2 <= 176) and (253 <= b2 <= 255)):
+            if (is_quest_color(r, g, b)):
                 return (i + 25)
     return False
 
