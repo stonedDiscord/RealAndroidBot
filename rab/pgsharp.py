@@ -364,6 +364,9 @@ class PGSharp:
 
         await asyncio.sleep(0.5)
 
+        if d(resourceId="me.underworld.helaplugin:id/hl_shortcut_menu_item_txt", text="Teleport").exists:
+            d.xpath('//*[@resource-id="android:id/content"]/android.widget.FrameLayout[3]').click()
+
     async def get_location(self, p, d, method2=False):
         x_location, y_location = 0.0, 0.0
 
