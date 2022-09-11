@@ -619,10 +619,10 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
             logger.debug('YES: found key word: {}'.format(matched))
             await tap_screen(p, 540, 1185, 4)
         if config.get('resize', False):
-            x1 = int(800/1080*720)
-            y1 = int(1825/1920*1280)
-            x2 = int(800/1080*720)
-            y2 = int(300/1920*1280)
+            x1 = int(800*720/1080)
+            y1 = int(1825*1280/1920)
+            x2 = int(800*720/1080)
+            y2 = int(300*1280/1920)
         else:
             x1 = 800
             y1 = 1825
@@ -640,10 +640,10 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
     #    await tap_screen(p, 540, 220 + offset, 1.5)
 
     if config.get('resize', False):
-        x1 = int(540/1080*720)
-        y1 = int(740/1920*1280)
-        x2 = int(540/1080*720)
-        y2 = int(940/1920*1280)
+        x1 = int(540*720/1080)
+        y1 = int(740*1280/1920)
+        x2 = int(540*720/1080)
+        y2 = int(940*1280/1920)
     else:
         x1 = 540
         y1 = 740
@@ -766,10 +766,10 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
                         return 'on_pokemon'
             else:
                 if config.get('resize', False):
-                    x1 = int(800/1080*720)
-                    y1 = int(1825/1920*1280)
-                    x2 = int(800/1080*720)
-                    y2 = int(300/1920*1280)
+                    x1 = int(800*720/1080)
+                    y1 = int(1825*1280/1920)
+                    x2 = int(800*720/1080)
+                    y2 = int(300*1280/1920)
                 else:
                     x1 = 800
                     y1 = 1825
@@ -778,10 +778,10 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
                 d.drag(x1, y1, x2, y2 + offset, 4)
                 break
             if config.get('resize', False):
-                x1 = int(800/1080*720)
-                y1 = int(1825/1920*1280)
-                x2 = int(800/1080*720)
-                y2 = int(300/1920*1280)
+                x1 = int(800*720/1080)
+                y1 = int(1825*1280/1920)
+                x2 = int(800*720/1080)
+                y2 = int(300*1280/1920)
             else:
                 x1 = 800
                 y1 = 1825
@@ -1059,10 +1059,10 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
             y2 = 650 + offset
 
             if config.get('resize', False):
-                x1 = int(x1/1080*720)
-                y1 = int(y1/1920*1280)
-                x2 = int(x2/1080*720)
-                y2 = int(y2/1920*1280)
+                x1 = int(x1*720/1080)
+                y1 = int(y1*1280/1920)
+                x2 = int(x2*720/1080)
+                y2 = int(y2*1280/1920)
 
             if pokemon.status:
                 current_kept += 1
@@ -1078,10 +1078,10 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
                     y2 = 650 + offset
 
                     if config.get('resize', False):
-                        x1 = int(x1/1080*720)
-                        y1 = int(y1/1920*1280)
-                        x2 = int(x2/1080*720)
-                        y2 = int(y2/1920*1280)
+                        x1 = int(x1*720/1080)
+                        y1 = int(y1*1280/1920)
+                        x2 = int(x2*720/1080)
+                        y2 = int(y2*1280/1920)
                     d.drag(x1, y1, x2, y2, 1)
                     await asyncio.sleep(2)
                     # First Pokemon in list position
@@ -1123,10 +1123,10 @@ async def feed_berry(p, d, pokemon):
 
     if len(berries) == 0:
         if config.get('resize', False):
-            x1 = int(300/1080*720)
-            y1 = int(1880/1920*1280)
-            x2 = int(50/1080*720)
-            y2 = int(1880/1920*1280)
+            x1 = int(300*720/1080)
+            y1 = int(1880*1280/1920)
+            x2 = int(50*720/1080)
+            y2 = int(1880*1280/1920)
         else:
             x1 = 300
             y1 = 1880
@@ -1178,10 +1178,10 @@ async def feed_berry(p, d, pokemon):
                 break
 
     if config.get('resize', False):
-        sx = int(350/1080*720)
-        sy = int(1880/1920*1280)
-        ex = int(50/1080*720)
-        ey = int(1880/1920*1280)
+        sx = int(350*720/1080)
+        sy = int(1880*1280/1920)
+        ex = int(50*720/1080)
+        ey = int(1880*1280/1920)
     else:
         sx = 350
         sy = 1880
@@ -1220,10 +1220,10 @@ async def select_ball(p, d, pokemon):
 
     if len(poke_balls) == 0:
         if config.get('resize', False):
-            x1 = int(780/1080*720)
-            y1 = int(1880/1920*1280)
-            x2 = int(1030/1080*720)
-            y2 = int(1880/1920*1280)
+            x1 = int(780*720/1080)
+            y1 = int(1880*1280/1920)
+            x2 = int(1030*720/1080)
+            y2 = int(1880*1280/1920)
         else:
             x1 = 780
             y1 = 1880
@@ -1289,10 +1289,10 @@ async def throw_ball(p, pokemon, trial=1, track_x=None, track_y=None):
 
     if track_x:
         if config.get('resize', False):
-            x1 = int(540/1080*720)
-            y1 = int(1780/1920*1280)
-            x2 = int(track_x/1080*720)
-            y2 = int(y_end/1920*1280)
+            x1 = int(540*720/1080)
+            y1 = int(1780*1280/1920)
+            x2 = int(track_x*720/1080)
+            y2 = int(y_end*1280/1920)
         else:
             x1 = 540
             y1 = 1650
@@ -1301,10 +1301,10 @@ async def throw_ball(p, pokemon, trial=1, track_x=None, track_y=None):
         await p.swipe(x1, y1, x2, y2, 150)
     else:
         if config.get('resize', False):
-            x1 = int(540/1080*720)
-            y1 = int(1780/1920*1280)
-            x2 = int(540/1080*720)
-            y2 = int(y_end/1920*1280)
+            x1 = int(540*720/1080)
+            y1 = int(1780*1280/1920)
+            x2 = int(540*720/1080)
+            y2 = int(y_end*1280/1920)
         else:
             x1 = 540
             y1 = 1780
@@ -2204,10 +2204,10 @@ async def find_cp(p, d):
 async def spin_pokestop(p):
     logger.info('Action: spin pokestop')
     if config.get('resize', False):
-        x1 = int(240/1080*720)
-        y1 = int(1020/1920*1280)
-        x2 = int(930/1080*720)
-        y2 = int(1020/1920*1280)
+        x1 = int(240*720/1080)
+        y1 = int(1020*1280/1920)
+        x2 = int(930*720/1080)
+        y2 = int(1020*1280/1920)
     else:
         x1 = 240
         y1 = 1020
@@ -2251,10 +2251,10 @@ async def fight_team_rocket(p, d, rocket_type='rocket_grunt'):
 
     await asyncio.sleep(1)
     if config.get('resize', False):
-        x1 = int(970/1080*720)
-        y1 = int(1220/1920*1280)
-        x2 = int(120/1080*720)
-        y2 = int(1220/1920*1280)
+        x1 = int(970*720/1080)
+        y1 = int(1220*1280/1920)
+        x2 = int(120*720/1080)
+        y2 = int(1220*1280/1920)
     else:
         x1 = 970
         y1 = 1220
