@@ -232,7 +232,7 @@ def has_completed_quest_on_map(im):
 def is_quest_color(r, g, b):
     if ((233 <= r <= 236) and (139 <= g <= 178) and ( 49 <= b <=  92)):
         return 'orange'
-    if ((148 <= r <= 151) and (210 <= g <= 218) and (145 <= b <= 150)):
+    if ((148 <= r <= 151) and (210 <= g <= 218) and (140 <= b <= 150)):
         return 'bonus'
     if ((253 <= r <= 255) and (170 <= g <= 176) and ( 75 <= b <=  81)):
         return 'light orange'
