@@ -240,7 +240,7 @@ def is_quest_color(r, g, b):
         return 'ar mapping'
     if ((180 <= r <= 185) and (120 <= g <= 126) and (200 <= b <= 210)):
         return 'sponsored'
-    if ((210 <= r <= 215) and (165 <= g <= 170) and ( 26 <= b <=  33)):
+    if ((205 <= r <= 215) and (165 <= g <= 170) and ( 26 <= b <=  33)):
         return 'event'
 
     return False
