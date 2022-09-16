@@ -243,7 +243,7 @@ class Pokemon(object):
                             packageName='com.nianticlabs.pokemongo')[0].info.get('text', '')
                         self.dex = get_id_from_names(self.name)
             self.level = int(d(resourceId='me.underworld.helaplugin:id/hl_ec_sum_lvv',
-                             packageName='com.nianticlabs.pokemongo').info.get('text', '0'))
+                             packageName='com.nianticlabs.pokemongo').info.get('text', '0').replace('½', '.5'))
             raw_iv = d(resourceId='me.underworld.helaplugin:id/hl_ec_sum_ads',
                        packageName='com.nianticlabs.pokemongo').info.get('text', '0/0/0')
             raw_iv_list = raw_iv.split('/')
