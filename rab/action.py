@@ -141,8 +141,12 @@ async def tap_select_ball_btn(p, duration=0.5):
     await tap_screen(p, 950, 1700, duration=duration)
 
 
-# async def tap_caught_ok_btn(p, duration=1.0):
-#     await tap_screen(p, 540, 1350, duration=duration)
+def is_ok_btn_color(r, g, b):
+    if (30 <= r <= 170) and (200 <= g <= 220) and (145 <= b <= 170):
+        return True
+    else:
+        return False
+
 
 async def tap_caught_ok_btn(p, duration=1.0, im_rgb=None):
     x, y = 540, 1350
@@ -151,7 +155,7 @@ async def tap_caught_ok_btn(p, duration=1.0, im_rgb=None):
         # search ok button
         for i in range(860, 1690):
             r, g, b = im_rgb.getpixel((x, i))
-            if (110 <= r <= 120) and (210 <= g <= 220) and (150 <= b <= 160):
+            if is_ok_btn_color(r, g, b):
                 y = i + 15
                 break
     logger.debug('Tap Ok button: {},{}'.format(x, y))
