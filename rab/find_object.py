@@ -39,6 +39,34 @@ def walk_towards_pokestops(im_rgb, min_x=90, max_x=980, x_steps=8, min_y=200, ma
     return location_found, x, y
 
 
+def is_pokestop_color(r, g, b):
+    if ((28 <= r <= 110) and (233 <= g <= 255) and (250 <= b <= 255)):
+        return 'bright'
+    if ((28 <= r <= 40) and (100 <= g <= 110) and (215 <= b <= 225)):
+        return 'dark'
+    return False
+
+
+def is_rocketstop_color(r, g, b):
+    if ((95 <= r <= 105) and (95 <= g <= 105) and (95 <= b <= 105)):
+        return 'bright'
+    if ((60 <= r <= 70) and (60 <= g <= 70) and (60 <= b <= 70)):
+        return 'dark'
+    return False
+
+
+def is_gym_color(r, g, b):
+    if (0 <= r <= 60) and (0 <= g <= 50) and (245 <= b <= 255):
+        return 'blue'
+    if (240 <= r <= 255) and (0 <= g <= 60) and (0 <= b <= 60):
+        return 'red'
+    if (240 <= r <= 255) and (220 <= g <= 255) and (0 <= b <= 5):
+        return 'yellow'
+    if (190 <= r <= 210) and (190 <= g <= 210) and (200 <= b <= 220):
+        return 'grey'
+    return False
+
+
 def find_pokestop(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag_full=False, find_team_rocket=False):
 
     pokestop_found, x, y, r, g, b = False, 0, 0, 0, 0, 0
@@ -52,18 +80,11 @@ def find_pokestop(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag_full
                 if not ((520 <= s <= 570) and (1160 <= t <= 1240)):
                     r, g, b = get_average_color(s, t, abs(x_steps), im_rgb)
 
-                    if ((28 <= r <= 90) and (195 <= g <= 255) and (
-                            250 <= b <= 255)):  # pokestop bright side
+                    if (find_team_rocket and is_rocketstop_color(r, g, b)):
                         pokestop_found = True
                         x = int(s + (x_steps/2))
                         y = int(t + (y_steps/2))
-                    elif ((25 <= r <= 40) and (95 <= g <= 110) and (
-                            195 <= b <= 210)):  # pokestop dark side
-                        pokestop_found = True
-                        x = int(s + (x_steps/2))
-                        y = int(t + (y_steps/2))
-                    elif ((80 <= r <= 90) and (80 <= g <= 90) and (
-                            80 <= b <= 90) and find_team_rocket):  # rocket stop
+                    elif (is_pokestop_color(r, g, b)):
                         pokestop_found = True
                         x = int(s + (x_steps/2))
                         y = int(t + (y_steps/2))
@@ -72,18 +93,6 @@ def find_pokestop(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag_full
                         break
 
     return pokestop_found, x, y, r, g, b
-
-
-def is_gym_color(r, g, b):
-    if (0 <= r <= 60) and (0 <= g <= 50) and (245 <= b <= 255):
-        return 'blue'
-    if (240 <= r <= 255) and (0 <= g <= 60) and (0 <= b <= 60):
-        return 'red'
-    if (240 <= r <= 255) and (220 <= g <= 255) and (0 <= b <= 5):
-        return 'yellow'
-    if (190 <= r <= 210) and (190 <= g <= 210) and (200 <= b <= 220):
-        return 'grey'
-    return False
 
 
 def find_object_to_tap(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag_full=False, missedcolors=[], skip_pokestop=False):
