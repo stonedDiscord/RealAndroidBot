@@ -52,18 +52,18 @@ def find_pokestop(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag_full
                 if not ((520 <= s <= 570) and (1160 <= t <= 1240)):
                     r, g, b = get_average_color(s, t, abs(x_steps), im_rgb)
 
-                    if ((30 <= r <= 90) and (200 <= g <= 255) and (
+                    if ((29 <= r <= 90) and (195 <= g <= 255) and (
                             250 <= b <= 255)):  # pokestop
                         pokestop_found = True
                         x = int(s + (x_steps/2))
                         y = int(t + (y_steps/2))
-                    elif ((30 <= r <= 50) and (100 <= g <= 120) and (
+                    elif ((29 <= r <= 50) and (100 <= g <= 120) and (
                             220 <= b <= 255)):  # pokestop
                         pokestop_found = True
                         x = int(s + (x_steps/2))
                         y = int(t + (y_steps/2))
                     elif ((80 <= r <= 90) and (80 <= g <= 90) and (
-                            80 <= b <= 90) and find_team_rocket):  # pokestop
+                            80 <= b <= 90) and find_team_rocket):  # rocket stop
                         pokestop_found = True
                         x = int(s + (x_steps/2))
                         y = int(t + (y_steps/2))
