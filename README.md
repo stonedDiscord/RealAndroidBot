@@ -13,6 +13,9 @@ It runs faster than the original and you are able to modify it easily.
 
 [Changelog History](https://github.com/stonedDiscord/RealAndroidBot/blob/master/Changelog.md)
 
+## Discord
+Join our [Discord Channel](https://discord.gg/4g4sc635dp)
+
 ## Features
 - Auto Catch
 - Auto Keep or Transfer base on IV (100 or PvP)
