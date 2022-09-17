@@ -34,10 +34,15 @@ class PGSharp:
             return 0
 
     async def reposition(self, p, d):
+        # 0 = menu
+        # 1 = joystick
+        # 2 = feed
+        # 3 = timer
         info0 = None
         info1 = None
         info2 = None
-        info3 = None  # this is for timer
+        info3 = None
+
         pokemon_info = d(resourceId='com.nianticlabs.pokemongo:id/unitySurfaceView',
                          packageName='com.nianticlabs.pokemongo').info
         cd_timer = False
@@ -50,9 +55,6 @@ class PGSharp:
             height = 1280
             width = 720
 
-        # 0 = menu
-        # 1 = joystick
-        # 2 = feed
         # total handle count
         floating_icon_count = d(className='android.widget.FrameLayout',
                                 packageName='com.nianticlabs.pokemongo', clickable=True).count
@@ -61,9 +63,9 @@ class PGSharp:
             if d(resourceId='me.underworld.helaplugin:id/hl_cd_text', packageName='com.nianticlabs.pokemongo').exists:
                 cd_timer = True
             info0 = d(className='android.widget.FrameLayout',
-                      packageName='com.nianticlabs.pokemongo', clickable=True)[0].info  # menu
+                      packageName='com.nianticlabs.pokemongo', clickable=True)[1].info  # menu
             info2 = d(className='android.widget.FrameLayout',
-                      packageName='com.nianticlabs.pokemongo', clickable=True)[1].info  # Feed
+                      packageName='com.nianticlabs.pokemongo', clickable=True)[0].info  # feed
 
         elif floating_icon_count == 3:
             if d(resourceId='me.underworld.helaplugin:id/hl_cd_text', packageName='com.nianticlabs.pokemongo').exists:
@@ -86,231 +88,35 @@ class PGSharp:
         else:
             return False
 
-        # Move Feed First
-        feed_sx, feed_sy = await self.get_item_position(info2)
-        feed_ex, feed_ey = 0.94 * width, 0.90 * height
-        d.drag(feed_sx, feed_sy, feed_ex, feed_ey, 1)
-        await tap_screen(p, feed_ex+25, feed_ey)  # This will prevent icons from moving
+        # Move menu
+        menu_sx, menu_sy = await self.get_item_position(info0)
+        menu_ex, menu_ey = 0.05, 0.1 * height
+        if (menu_sx != menu_ex and menu_sy != menu_ey):
+            d.drag(menu_sx, menu_sy, menu_ex, menu_ey, 1)
 
         # Move joystick
         if info1 and floating_icon_count == 3:
             info1 = d(className='android.widget.FrameLayout',
                       packageName='com.nianticlabs.pokemongo', clickable=True)[1].info  # joystick
-            feed_sx, feed_sy = await self.get_item_position(info1)
-            feed_ex, feed_ey = 0, 0.98 * height
-            d.drag(feed_sx, feed_sy, feed_ex, feed_ey, 1)
-            await tap_screen(p, feed_ex+25, feed_ey)  # This will prevent icons from moving
+            joy_sx, joy_sy = await self.get_item_position(info1)
+            joy_ex, joy_ey = 0, 0.98 * height
+            d.drag(joy_sx, joy_sy, joy_ex, joy_ey, 1)
+            await tap_screen(p, joy_ex+25, joy_ey)  # This will prevent icons from moving
 
         # Move timer
         if info1 and floating_icon_count == 3:
             info3 = d(className='android.widget.FrameLayout',
                       packageName='com.nianticlabs.pokemongo', clickable=True)[2].info  # Timer
-            feed_sx, feed_sy = await self.get_item_position(info3)
-            feed_ex, feed_ey = 0.5 * width, 0
+            time_sx, time_sy = await self.get_item_position(info3)
+            time_ex, time_ey = 0.5 * width, 0
+            d.drag(time_sx, time_sy, time_ex, time_ey, 1)
+
+        # Move feed
+        feed_sx, feed_sy = await self.get_item_position(info2)
+        feed_ex, feed_ey = 0.98 * width, 0.4 * height
+        if (feed_sx != feed_ex and feed_sy != feed_ey):
             d.drag(feed_sx, feed_sy, feed_ex, feed_ey, 1)
 
-        # Move menu icon
-        info0 = d(className='android.widget.FrameLayout',
-                  packageName='com.nianticlabs.pokemongo', clickable=True)[0].info  # menu
-        feed_sx, feed_sy = await self.get_item_position(info0)
-        feed_ex, feed_ey = 0.92 * width, 0.36 * height
-        d.drag(feed_sx, feed_sy, feed_ex, feed_ey, 1)
-        await tap_screen(p, feed_ex, feed_ey)  # This will prevent icons from moving
-        if d(resourceId='me.underworld.helaplugin:id/hl_floatmenu_map', packageName='com.nianticlabs.pokemongo').exists:
-            # tap one more time to close it
-            await tap_screen(p, feed_ex, feed_ey)
-        # await asyncio.sleep(4.0)
-
-        if floating_icon_count == 3 and cd_timer:
-            info2 = d(className='android.widget.FrameLayout',
-                      packageName='com.nianticlabs.pokemongo', clickable=True)[1].info  # Feed
-        elif floating_icon_count == 3 and not cd_timer:
-            info2 = d(className='android.widget.FrameLayout',
-                      packageName='com.nianticlabs.pokemongo', clickable=True)[2].info  # Feed
-        else:
-            info2 = d(className='android.widget.FrameLayout',
-                      packageName='com.nianticlabs.pokemongo', clickable=True)[1].info  # Feed
-        feed_sx, feed_sy = await self.get_item_position(info2)
-        feed_ex, feed_ey = 0, 0.15 * height
-        d.drag(feed_sx, feed_sy, feed_ex, feed_ey, 1)
-        await tap_screen(p, feed_ex+25, feed_ey)  # This will prevent icons from moving
-
-    # old method
-    async def reposition2(self, p, d):
-        # 0 - icon
-        # 1 - joystick
-        # 2 - feed
-        this_feed_index = None
-        this_joystick_index = None
-        this_icon_index = None
-
-        floating_icon_count = d(resourceId='me.underworld.helaplugin:id/hl_floating_icon',
-                                packageName='com.nianticlabs.pokemongo').count
-        pokemon_info = d(resourceId='com.nianticlabs.pokemongo:id/unitySurfaceView',
-                         packageName='com.nianticlabs.pokemongo').info
-
-        height = 1920
-        if pokemon_info['bounds'].get('bottom') > 1280:
-            height = 1920
-        else:
-            height = 1280
-
-        if floating_icon_count == 3:
-            # verify who is feed
-            for x in range(3):
-                try:
-                    info = d(resourceId='me.underworld.helaplugin:id/hl_floating_icon',
-                             packageName='com.nianticlabs.pokemongo')[x].info
-                    test1_top = info['bounds'].get('top')
-                    test1_left = info['bounds'].get('left')
-                    count = d(className='android.widget.LinearLayout', packageName='com.nianticlabs.pokemongo').count
-                    for i in range(0, count):
-                        info2 = d(className='android.widget.LinearLayout', packageName='com.nianticlabs.pokemongo')[i].info
-                        test2_top = info2['bounds'].get('top')
-                        test2_left = info2['bounds'].get('left')
-                        if test1_top == test2_top and test1_left == test2_left:
-                            this_feed_index = x
-                            break
-                    if this_feed_index:
-                        break
-                except:
-                    pass
-
-            # verify who is icon
-            rem_diff = 0
-            rem_this_icon_index = 0
-            for x in range(3):
-                # skip the index that is confirm feed
-                try:
-                    if this_feed_index == x:
-                        continue
-                    info = d(resourceId='me.underworld.helaplugin:id/hl_floating_icon',
-                             packageName='com.nianticlabs.pokemongo')[x].info
-                    test_top = info['bounds'].get('top')
-                    test_bottom = info['bounds'].get('bottom')
-                    test_diff = test_bottom - test_top
-                    if test_diff > rem_diff:
-                        rem_diff = test_diff
-                        rem_this_icon_index = x
-                except:
-                    pass
-
-            this_icon_index = rem_this_icon_index
-
-            # verify who is joystick
-            for x in range(3):
-                if this_feed_index == x:
-                    continue
-                if this_icon_index == x:
-                    continue
-                this_joystick_index = x
-
-            logger.info(
-                f'Feed Index: {this_feed_index} | Icon Index: {this_icon_index} | Joystick Index: {this_joystick_index}')
-
-            feed_info = d(resourceId='me.underworld.helaplugin:id/hl_floating_icon',
-                          packageName='com.nianticlabs.pokemongo')[this_feed_index].info
-            joystick_info = d(resourceId='me.underworld.helaplugin:id/hl_floating_icon',
-                              packageName='com.nianticlabs.pokemongo')[this_joystick_index].info
-            icon_info = d(resourceId='me.underworld.helaplugin:id/hl_floating_icon',
-                          packageName='com.nianticlabs.pokemongo')[this_icon_index].info
-
-            feed_shifted = False
-
-            feed_sx, feed_sy = await self.get_item_position(feed_info)
-            if (feed_info['bounds'].get('top') == joystick_info['bounds'].get('top') and feed_info['bounds'].get('left') == joystick_info['bounds'].get('left')) or (feed_info['bounds'].get('top') == icon_info['bounds'].get('top') and feed_info['bounds'].get('left') == icon_info['bounds'].get('left')):
-                feed_ex, feed_ey = 0, 0.5 * height
-                feed_shifted = True
-            else:
-                feed_ex, feed_ey = 0, 0.2 * height
-            d.drag(feed_sx, feed_sy, feed_ex, feed_ey, 0.5)
-
-            # Move joystick
-            joystick_sx, joystick_sy = await self.get_item_position(joystick_info)
-            joystick_ex, joystick_ey = 0, 0.99 * height
-            d.drag(joystick_sx, joystick_sy, joystick_ex, joystick_ey, 0.5)
-
-            # Move icon
-            icon_sx, icon_sy = await self.get_item_position(icon_info)
-            icon_ex, icon_ey = 0.92 * pokemon_info['bounds'].get('right'), 0.35 * height
-            d.drag(icon_sx, icon_sy, icon_ex, icon_ey)
-
-            this_feed_index = None
-            this_joystick_index = None
-            this_icon_index = None
-            # verify who is feed
-            for x in range(3):
-                try:
-                    info = d(resourceId='me.underworld.helaplugin:id/hl_floating_icon',
-                             packageName='com.nianticlabs.pokemongo')[x].info
-                    test1_top = info['bounds'].get('top')
-                    test1_left = info['bounds'].get('left')
-                    count = d(className='android.widget.LinearLayout', packageName='com.nianticlabs.pokemongo').count
-                    for i in range(0, count):
-                        info2 = d(className='android.widget.LinearLayout', packageName='com.nianticlabs.pokemongo')[i].info
-                        test2_top = info2['bounds'].get('top')
-                        test2_left = info2['bounds'].get('left')
-                        if test1_top == test2_top and test1_left == test2_left:
-                            this_feed_index = x
-                            break
-                    if this_feed_index:
-                        break
-                except:
-                    pass
-
-            # verify who is icon
-            rem_diff = 0
-            rem_this_icon_index = 0
-            for x in range(3):
-                try:
-                    # skip the index that is confirm feed
-                    if this_feed_index == x:
-                        continue
-                    info = d(resourceId='me.underworld.helaplugin:id/hl_floating_icon',
-                             packageName='com.nianticlabs.pokemongo')[x].info
-                    test_top = info['bounds'].get('top')
-                    test_bottom = info['bounds'].get('bottom')
-                    test_diff = test_bottom - test_top
-                    if test_diff > rem_diff:
-                        rem_diff = test_diff
-                        rem_this_icon_index = x
-                except:
-                    pass
-
-            this_icon_index = rem_this_icon_index
-
-            # verify who is joystick
-            for x in range(3):
-                if this_feed_index == x:
-                    continue
-                if this_icon_index == x:
-                    continue
-                this_joystick_index = x
-
-            logger.info(
-                f'Feed Index: {this_feed_index} | Icon Index: {this_icon_index} | Joystick Index: {this_joystick_index}')
-
-            # Move feed
-            if feed_shifted:
-                feed_info = d(resourceId='me.underworld.helaplugin:id/hl_floating_icon',
-                              packageName='com.nianticlabs.pokemongo')[this_feed_index].info
-                feed_sx, feed_sy = await self.get_item_position(feed_info)
-                feed_ex, feed_ey = 0, 0.2 * height
-                d.drag(feed_sx, feed_sy, feed_ex, feed_ey, 0.5)
-
-            self.feed_index = this_feed_index
-            self.joystick_index = this_joystick_index
-            self.icon_index = this_icon_index
-
-            await asyncio.sleep(6.0)
-            x, y = await self.get_location(p, d)
-            if x > 0:
-                self.start_location = [x, y]
-                logger.info('RAB is able to retrieve location from PGSharp...')
-            else:
-                logger.info('RAB is unable to retrieve location from PGSharp...')
-        else:
-            return False
 
     async def get_item_position(self, info, resized=False):
         ya = info['bounds'].get('top')
