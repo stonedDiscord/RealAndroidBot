@@ -3092,19 +3092,13 @@ class RABGui(object):
         OwnerInfo1.pack(side=tk.LEFT, anchor=tk.SW)
         link1 = tk.Label(self.win_main, text="RAB Discord Channel", foreground='Blue', cursor="hand2")
         link1.pack(side=tk.LEFT, anchor=tk.SW)
-        link1.bind("<Button-1>", lambda e: self.openBrowser("https://discord.gg/Xw2DKBhRJu"))
+        link1.bind("<Button-1>", lambda e: self.openBrowser("https://discord.gg/ZVesHeBzYD"))
 
         OwnerInfo2 = tk.Label(self.win_main, text='Github: ', justify=tk.LEFT, wraplength=800)
         OwnerInfo2.pack(side=tk.LEFT, anchor=tk.SW)
         link2 = tk.Label(self.win_main, text="Github Page", foreground='Blue', cursor="hand2")
         link2.pack(side=tk.LEFT, anchor=tk.SW)
-        link2.bind("<Button-1>", lambda e: self.openBrowser("https://github.com/MerlionRock/RealAndroidBot/"))
-
-        OwnerInfo3 = tk.Label(self.win_main, text='Donation (Through Telegram): ', justify=tk.LEFT, wraplength=800)
-        OwnerInfo3.pack(side=tk.LEFT, anchor=tk.SW)
-        link3 = tk.Label(self.win_main, text="Telegram Link", foreground='Blue', cursor="hand2")
-        link3.pack(side=tk.LEFT, anchor=tk.SW)
-        link3.bind("<Button-1>", lambda e: self.openBrowser("https://t.me/RABFeedBot"))
+        link2.bind("<Button-1>", lambda e: self.openBrowser("https://github.com/stonedDiscord/RealAndroidBot/"))
 
         link2 = tk.Label(self.win_main, text='v'+self.version)
         link2.pack(side=tk.RIGHT, anchor=tk.SE)
