@@ -3055,7 +3055,7 @@ class RABGui(object):
     def start_win(self, parent):
         self.win_main = parent
         if not self.photo:
-            self.photo = PhotoImage(file="RAB Icon_large.png")
+            self.photo = PhotoImage(file="icon.png")
         self.win_main.iconphoto(False, self.photo)
 
         self.tabControl = ttk.Notebook(self.win_main)
