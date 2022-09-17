@@ -74,6 +74,18 @@ def find_pokestop(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag_full
     return pokestop_found, x, y, r, g, b
 
 
+def is_gym_color(r, g, b):
+    if (0 <= r <= 60) and (0 <= g <= 50) and (245 <= b <= 255):
+        return 'blue'
+    if (240 <= r <= 255) and (0 <= g <= 60) and (0 <= b <= 60):
+        return 'red'
+    if (240 <= r <= 255) and (220 <= g <= 255) and (0 <= b <= 5):
+        return 'yellow'
+    if (190 <= r <= 210) and (190 <= g <= 210) and (200 <= b <= 220):
+        return 'grey'
+    return False
+
+
 def find_object_to_tap(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag_full=False, missedcolors=[], skip_pokestop=False):
     x = random.randrange(460, 630)
     y = random.randrange(1000, 1300)
@@ -129,16 +141,8 @@ def find_object_to_tap(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag
                 if (200 <= r <= 215) and (150 <= g <= 155) and (225 <= b <= 245):
                     continue
 
-                # Gyms Color
-                if (190 <= r <= 210) and (190 <= g <= 210) and (200 <= b <= 220):  # grey
-                    continue
-                if (240 <= r <= 255) and (0 <= g <= 60) and (0 <= b <= 60):
-                    continue
-                if (0 <= r <= 60) and (0 <= g <= 50) and (245 <= b <= 255):
-                    continue
-                if (240 <= r <= 255) and (100 <= g <= 115) and (0 <= b <= 50):
-                    continue
-                if (240 <= r <= 255) and (220 <= g <= 255) and (0 <= b <= 5):
+                # Gyms
+                if (is_gym_color(r, g, b)):
                     continue
 
                 # Set of colors considered as vaild
