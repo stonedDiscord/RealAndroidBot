@@ -4285,7 +4285,9 @@ class Main:
 
         if self.config['poke_management'].get('enable_poke_management', False) and self.config['poke_management'].get('manage_poke_on_start', False) and not self.config['client'].get('client', '').lower() in ['polygon farmer', 'polygonfarmer']:
             await asyncio.sleep(1)
-            await tap_pokeball_btn(self.p)
+            im_rgb = await screen_cap(self.d)
+            if is_home_page(im_rgb):
+                await tap_pokeball_btn(self.p)
             await tap_open_pokemon_btn(self.p, 2)
             await clear_pokemon_inventory(self.p, self.d, pgsharp_client=pgsharp_client, mad_client=mad_client)
 
