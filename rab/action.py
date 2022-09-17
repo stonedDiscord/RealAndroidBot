@@ -537,7 +537,7 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
     offset = config['client'].get('screen_offset', 0)
     # Tap quest icon
     await tap_screen(p, 986, 1595 + offset, 2.0)
-    asyncio.sleep(0.5)
+    await asyncio.sleep(0.5)
     im_rgb = await screen_cap(d)
     if not is_quest_page(im_rgb):
         logger.warning("RAB didn't manage to tap into quest page....")
