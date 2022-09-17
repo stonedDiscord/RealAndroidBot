@@ -4251,14 +4251,6 @@ class Main:
                         logger.info(
                             "No overlay frame detected for PGSharp. Enable Nearby Radar to enable Enchanced PGSharp feature of RAB.")
                     self.pgsharpv2 = False
-                logger.info("100IV Shiny Hunting aviliable for donors.")
-                logger.info("If you like RAB, do consider donating to support us.")
-                # looking for star icon
-                #logger.info("Searching for main menu icon...")
-                # if await pgsharp_client.find_menu(self.p, self.d):
-                #    logger.info("Main Menu icon found")
-                # else:
-                #    logger.info("Main Menu icon not found, certain feature might not work as intented")
 
         await self.update_location(save_file=True)
 
