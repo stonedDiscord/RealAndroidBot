@@ -535,8 +535,9 @@ async def clear_quest(d, p, pokemon):
 
 async def check_quest(d, p, pokemon, rab_runtime_status=None):
     offset = config['client'].get('screen_offset', 0)
-    # Check TodayPage
-    await tap_screen(p, 986, 1592, 2.0)
+    # Tap quest icon
+    await tap_screen(p, 986, 1595 + offset, 2.0)
+    asyncio.sleep(0.5)
     im_rgb = await screen_cap(d)
     if not is_quest_page(im_rgb):
         logger.warning("RAB didn't manage to tap into quest page....")
@@ -931,6 +932,15 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
     await asyncio.sleep(1.5)
     no_pokemon_inventory_found = False
 
+    # Open sort
+    await tap_screen(p, 930, 1770 + offset, 1)
+    # Tap combat power
+    await tap_screen(p, 930, 1575 + offset, 1)
+    # Open sort
+    await tap_screen(p, 930, 1770 + offset, 1)
+    # Tap recent
+    await tap_screen(p, 930, 607 + offset, 1)
+
     # Ensure search text has been entered before using mass transfer
     if config['poke_management'].get('mass_transfer', False) and text_entry:
         logger.info("Mass transfer all pokemon caught using rule: {}".format(
@@ -940,8 +950,8 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
         y = poke_location[0].get('y')
 
         if config.get('resize', False):
-            x = int(x/1080*720)
-            y = int(y/1920*1280)
+            x = int(x*720/1080)
+            y = int(y*1280/1920)
 
         d.long_click(x, y)
         await asyncio.sleep(1)
