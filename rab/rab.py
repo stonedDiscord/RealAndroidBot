@@ -676,7 +676,7 @@ class Main:
             logger.error('Unable to connect to server, some server features will be disabled...')
         await self.p.start_logcat()
 
-        if self.config['client'].get('lower_resolution', False):
+        if self.config['client'].get('resolution_restart', False):
             logger.error('Pokemon Go will now restart for the changes to take place')
             await self.reset_app()
             webhook_url = self.config['discord'].get('webhook_url', '')
