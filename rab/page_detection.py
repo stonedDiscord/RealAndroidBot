@@ -336,6 +336,18 @@ def is_catch_pokemon_page(im, is_shadow=False, map_check=False):
 # to-do: exclude the popped up notification of raid nearby
 
 
+def is_gym_badge(im):
+    logger.debug("Checking: gym badge earned")
+    im_cropped = crop_top_half(im)
+    matched = match_key_word_wrapper(im_cropped, ['gym', 'badge', 'earned'], binary=False)
+
+    if len(matched) > 0:
+        logger.debug('YES: found key word: {}'.format(matched))
+        return matched
+    else:
+        return False
+
+
 def is_gym_page(im):
     logger.debug("Checking: gym page?")
     im_cropped = crop_bottom_half(im)
