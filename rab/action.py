@@ -567,7 +567,7 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
             i += 1
         return False
 
-    await tap_screen(p, 200, 390 + offset, 1.5)
+    await tap_screen(p, 200, 325 + offset, 1.5)
     logger.info("Checking and clearing TODAY Quest....")
     i = 0
     while True:
@@ -638,7 +638,7 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
 
     # Check Field Page
     logger.info("Checking and clearing FIELD Quest....")
-    await tap_screen(p, 540, 390 + offset, 1.5)
+    await tap_screen(p, 540, 325 + offset, 1.5)
     # if i == 0:
     #    await tap_screen(p, 540, 390 + offset, 1.5)
     # else:
@@ -713,7 +713,7 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
 
     # Check Special Page
     logger.info("Checking and clearing SPECIAL Quest....")
-    await tap_screen(p, 880, 390 + offset, 2.0)
+    await tap_screen(p, 880, 325 + offset, 2.0)
     # Page Shift
     last_iteration = int(time.time())
     while True:
