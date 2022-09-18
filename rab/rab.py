@@ -32,7 +32,7 @@ from page_detection import is_home_page, is_gym_page, is_pokestop_page, is_catch
     is_mon_caught_page, is_incubate_page2, is_warning_page, is_error_page, is_power_up_page, is_grunt_defeated_page, \
     has_completed_quest_on_map, completed_quest_position, is_team_selection, is_join_raid_battle, is_main_menu_page, \
     is_profile_page, is_pokemon_full, is_pokestop_scan_page, is_gym_badge, is_exit_trainer_dialog, \
-    is_plus_disconnected, is_weather_warning_page
+    is_plus_disconnected, is_weather_warning_page, is_not_pokestop_gym_on_map
 from PvpUtils import get_pvp_info
 from utils import Loader, Unknown, get_id_from_names, calculate_cooldown, get_average_color, timer, POKEMON
 
