@@ -91,8 +91,7 @@ class PGSharp:
         # Move menu
         menu_sx, menu_sy = await self.get_item_position(info0)
         menu_ex, menu_ey = 0.05, 0.1 * height
-        if (menu_sx != menu_ex and menu_sy != menu_ey):
-            d.drag(menu_sx, menu_sy, menu_ex, menu_ey, 1)
+        d.drag(menu_sx, menu_sy, menu_ex, menu_ey, 1)
 
         # Move joystick
         if info1 and floating_icon_count == 3:
@@ -114,8 +113,7 @@ class PGSharp:
         # Move feed
         feed_sx, feed_sy = await self.get_item_position(info2)
         feed_ex, feed_ey = 0.98 * width, 0.4 * height
-        if (feed_sx != feed_ex and feed_sy != feed_ey):
-            d.drag(feed_sx, feed_sy, feed_ex, feed_ey, 1)
+        d.drag(feed_sx, feed_sy, feed_ex, feed_ey, 1)
 
 
     async def get_item_position(self, info, resized=False):
