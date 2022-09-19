@@ -116,14 +116,14 @@ async def swipe_screen(p, x1, y1, x2, y2, duration=0.5):
     await p.swipe(x1, y1, x2, y2, duration)
 
 
-async def drag_screen(p, x1, y1, x2, y2, duration=0.5):
+def drag_screen(p, x1, y1, x2, y2, duration=0.5):
     logger.debug('Drag requested from '+str(x1)+','+str(y1)+' to '+str(x2)+','+str(y2))
     if config.get('resize', False):
         x1 = int((x1 *  720)/1080)
         y1 = int((y1 * 1280)/1920)
         x2 = int((x2 *  720)/1080)
         y2 = int((y2 * 1280)/1920)
-    await p.drag(x1, y1, x2, y2, duration)
+    p.drag(x1, y1, x2, y2, duration)
 
 
 async def tap_screen(p, x, y, duration=0.5):
@@ -643,7 +643,7 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
         if len(matched) > 0:
             logger.debug('YES: found key word: {}'.format(matched))
             await tap_screen(p, 540, 1185, 4)
-        await drag_screen(d, 800, 1825, 800, 300 + offset, 4)
+        drag_screen(d, 800, 1825, 800, 300 + offset, 4)
         i += 1
 
     # Check Field Page
@@ -654,7 +654,7 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
     # else:
     #    await tap_screen(p, 540, 220 + offset, 1.5)
 
-    await drag_screen(d, 540, 740 + offset, 540, 940 + offset, 1.5)  # Drag down a bit first
+    drag_screen(d, 540, 740 + offset, 540, 940 + offset, 1.5)  # Drag down a bit first
     await asyncio.sleep(1)
     # Clear quest
     # Check first 3 box, delete quest if the quest can't be complete by bot
@@ -770,9 +770,9 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
                                 pokemon = await after_pokemon_caught(p, d, pokemon, config)
                         return 'on_pokemon'
             else:
-                await drag_screen(d, 800, 1825, 800, 300 + offset, 4)
+                drag_screen(d, 800, 1825, 800, 300 + offset, 4)
                 break
-            await drag_screen(d, 800, 1825, 800, 300 + offset, 4)
+            drag_screen(d, 800, 1825, 800, 300 + offset, 4)
 
     await tap_close_btn(p, 1)
     return
@@ -1053,7 +1053,7 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
             if pokemon.status:
                 current_kept += 1
                 if current_kept == 9:
-                    await drag_screen(d, 190, y1, 190, y2, 2)
+                    drag_screen(d, 190, y1, 190, y2, 2)
                     current_kept = 0
                     await asyncio.sleep(2)
                     # First Pokemon in list position
@@ -1061,7 +1061,7 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
                     y1 = 1040 + offset
                     y2 = 650 + offset
 
-                    await drag_screen(d, 190, y1, 190, y2, 1)
+                    drag_screen(d, 190, y1, 190, y2, 1)
                     await asyncio.sleep(2)
                     # First Pokemon in list position
                     await tap_screen(p, poke_location[current_kept].get('x'), poke_location[current_kept].get('y'), 1)

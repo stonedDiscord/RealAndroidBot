@@ -167,7 +167,7 @@ async def check_item_backup(p, d, config):
         item_tracker += 1
         if item_tracker >= 4:
             # let's shift the page up
-            await drag_screen(d, 989, 1500, 989, 347, 4)
+            drag_screen(d, 989, 1500, 989, 347, 4)
             await asyncio.sleep(5)
             item_tracker = 0
 
@@ -292,7 +292,7 @@ async def check_item(p, d, config):
                 break
 
             # let's shift the page down
-            await drag_screen(d, 989, 1500, 989, 347, 4)  # test y = 383 or y = 384
+            drag_screen(d, 989, 1500, 989, 347, 4)  # test y = 383 or y = 384
             await asyncio.sleep(5)
 
             if not last_image:
