@@ -7,7 +7,7 @@ import sys
 import re
 
 
-from action import tap_screen, screen_cap
+from action import tap_screen, drag_screen, screen_cap
 from ImageUtils import compare_image, crop_middle, extract_text_from_image
 
 logger = logging.getLogger(__name__)
@@ -166,18 +166,8 @@ async def check_item_backup(p, d, config):
         # Keep track of items, 4 per page
         item_tracker += 1
         if item_tracker >= 4:
-            # let's shift the page
-            if config.get('resize', False):
-                x1 = int(989/1080*720)
-                y1 = int(1500/1920*1280)
-                x2 = int(989/1080*720)
-                y2 = int(347/1920*1280)
-            else:
-                x1 = 989
-                y1 = 1500
-                x2 = 989
-                y2 = 347
-            d.drag(x1, y1, x2, y2, 4)
+            # let's shift the page up
+            drag_screen(d, 989, 1500, 989, 347, 4)
             await asyncio.sleep(5)
             item_tracker = 0
 
@@ -301,18 +291,8 @@ async def check_item(p, d, config):
                 continue_loop = False
                 break
 
-            # let's shift the page
-            if config.get('resize', False):
-                x1 = int(989/1080*720)
-                y1 = int(1500/1920*1280)
-                x2 = int(989/1080*720)
-                y2 = int(347/1920*1280)
-            else:
-                x1 = 989
-                y1 = 1500
-                x2 = 989
-                y2 = 347
-            d.drag(x1, y1, x2, y2, 4)  # test y = 383 or y = 384
+            # let's shift the page down
+            drag_screen(d, 989, 1500, 989, 347, 4)  # test y = 383 or y = 384
             await asyncio.sleep(5)
 
             if not last_image:
