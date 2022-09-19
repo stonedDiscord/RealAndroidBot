@@ -106,6 +106,16 @@ async def screen_cap_native(p, border_width=100):
     return image_new
 
 
+async def swipe_screen(p, x1, y1, x2, y2, duration=0.5):
+    logger.debug('Swipe requested from '+str(x1)+','+str(y1)+' to '+str(x2)+','+str(y2))
+    if config.get('resize', False):
+        x1 = int((x1 *  720)/1080)
+        y1 = int((y1 * 1280)/1920)
+        x2 = int((x2 *  720)/1080)
+        y2 = int((y2 * 1280)/1920)
+    await p.swipe(x1, y1, x2, y2, duration)
+
+
 async def drag_screen(p, x1, y1, x2, y2, duration=0.5):
     logger.debug('Drag requested from '+str(x1)+','+str(y1)+' to '+str(x2)+','+str(y2))
     if config.get('resize', False):

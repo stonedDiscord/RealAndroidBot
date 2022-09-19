@@ -7,7 +7,7 @@ import numpy as np
 from PIL import Image
 
 from ImageUtils import save_screenshot
-from action import tap_screen, screen_cap, tap_close_btn, tap_exit_btn, tap_caught_ok_btn, tap_warning_ok_btn
+from action import tap_screen, swipe_screen, screen_cap, tap_close_btn, tap_exit_btn, tap_caught_ok_btn, tap_warning_ok_btn
 from page_detection import is_catch_pokemon_page, is_pokestop_page, is_gym_page, is_home_page, is_team_rocket_page, is_team_selection, \
     is_join_raid_battle, is_weather_warning_page, is_warning_page
 from utils import Unknown
@@ -246,7 +246,7 @@ async def load_tap_pokemon(p, d, pokemon, target_pokemon, timeout=90, config=Non
                 return pokemon
 
             # await tap_exit_btn(p)  # exit
-            #d.swipe(1040, 960 - 100, 1040, 960 + 100, 0.5)
+            #await swipe_screen(d, 1040, 960 - 100, 1040, 960 + 100, 0.5)
             return pokemon  # dont waste time, let's go next one
             if time.time() > t1:
                 logger.warning('No spawn after {} sec.'.format(timeout))
@@ -255,7 +255,7 @@ async def load_tap_pokemon(p, d, pokemon, target_pokemon, timeout=90, config=Non
                 continue
 
         if is_home_page(im_rgb) and not pgsharp_client:
-            #d.swipe(1040, 960 - 200, 1040, 960 + 200, 0.5)
+            #await swipe_screen(d, 1040, 960 - 200, 1040, 960 + 200, 0.5)
             await p.goto_location(lat + random.randint(-1, 1) * amplitude, lng + random.randint(-1, 1) * amplitude, 0.5)
             await p.goto_location(lat, lng, 0.5)
             await p.goto_location(lat + random.randint(-1, 1) * amplitude, lng + random.randint(-1, 1) * amplitude, 0.5)
@@ -297,17 +297,11 @@ async def load_tap_pokemon(p, d, pokemon, target_pokemon, timeout=90, config=Non
                     await tap_close_btn(p)
                     await asyncio.sleep(0.5)
             await asyncio.sleep(1.0)
-            if config.get('resize', False):
-                x1 = int(1040/1080*720)
-                y1 = int(860/1920*1280)
-                x2 = int(1040/1080*720)
-                y2 = int(1060/1920*1280)
-            else:
-                x1 = 1040
-                y1 = 860
-                x2 = 1040
-                y2 = 1060
-            d.swipe(x1, y1, x2, y2, 0.5)
+            x1 = 1040
+            y1 = 860
+            x2 = 1040
+            y2 = 1060
+            await swipe_screen(d, x1, y1, x2, y2, 0.5)
 
             if time.time() > t1:
                 logger.warning('No spawn after {} sec.'.format(timeout))
@@ -322,17 +316,11 @@ async def load_tap_pokemon(p, d, pokemon, target_pokemon, timeout=90, config=Non
         if is_gym_page(im_rgb):
             await tap_close_btn(p)
             await asyncio.sleep(1.0)
-            if config.get('resize', False):
-                x1 = int(1040/1080*720)
-                y1 = int(860/1920*1280)
-                x2 = int(1040/1080*720)
-                y2 = int(1060/1920*1280)
-            else:
-                x1 = 1040
-                y1 = 860
-                x2 = 1040
-                y2 = 1060
-            d.swipe(x1, y1, x2, y2, 0.5)
+            x1 = 1040
+            y1 = 860
+            x2 = 1040
+            y2 = 1060
+            await swipe_screen(d, x1, y1, x2, y2, 0.5)
             if time.time() > t1:
                 logger.warning('No spawn after {} sec.'.format(timeout))
                 break
@@ -342,17 +330,11 @@ async def load_tap_pokemon(p, d, pokemon, target_pokemon, timeout=90, config=Non
         if is_team_rocket_page(im_rgb):
             await tap_close_btn(p)
             await asyncio.sleep(1.0)
-            if config.get('resize', False):
-                x1 = int(1040/1080*720)
-                y1 = int(860/1920*1280)
-                x2 = int(1040/1080*720)
-                y2 = int(1060/1920*1280)
-            else:
-                x1 = 1040
-                y1 = 860
-                x2 = 1040
-                y2 = 1060
-            d.swipe(x1, y1, x2, y2, 0.5)
+            x1 = 1040
+            y1 = 860
+            x2 = 1040
+            y2 = 1060
+            await swipe_screen(d, x1, y1, x2, y2, 0.5)
             if time.time() > t1:
                 logger.warning('No spawn after {} sec.'.format(timeout))
                 break
