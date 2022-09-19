@@ -193,11 +193,15 @@ Important Note: From Polygon version Polygon# v0.8.4 onwards, all paid enhancer 
 
 *Enable or disable the settings in RAB's GUI accordingly*
 
-## PC/MAC/LINUX Requirements
+## PC/MAC/LINUX Setup
 
-Windows users who **downloaded the release version**, you just need to configure RAB, configure your phone and plug in to your PC and run RAB.exe will do. **You do not need to follow the steps below.** Remember to **ctrl+c** when you want to exit from RAB.
-
-### <span style="color:red">Windows users who downloaded the release version, you do not need to read any further!</span>
+### Windows
+1. Right-click Install.ps1 and choose "Run with PowerShell"
+```
+This will install Chocolatey, Python, Tesseract and all other dependencies for you
+```
+2. If there were no errors, you are ready to go!
+3. Double-click Start.bat to view the configuration and start the bot
 
 ## Install Tesseract
 
