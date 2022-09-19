@@ -638,7 +638,7 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
 
     # Check Field Page
     logger.info("Checking and clearing FIELD Quest....")
-    await tap_screen(p, 540, 325 + offset, 1.5)
+    await tap_screen(p, 540, 225 + offset, 1.5)
     # if i == 0:
     #    await tap_screen(p, 540, 390 + offset, 1.5)
     # else:
