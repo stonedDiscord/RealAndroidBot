@@ -88,6 +88,10 @@ def find_pokestop(im_rgb, min_x, max_x, x_steps, min_y, max_y, y_steps, bag_full
                         pokestop_found = True
                         x = int(s + (x_steps/2))
                         y = int(t + (y_steps/2))
+                    elif (is_gym_color(r, g, b)):
+                        pokestop_found = True
+                        x = int(s + (x_steps/2))
+                        y = int(t + (y_steps/2))
 
                     if pokestop_found:
                         break
