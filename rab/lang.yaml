@@ -18,9 +18,11 @@ english:
 
     tab2: "Configurations"
     tab2Frame1: "Client Settings - Match it with your client's setting"
-    tab2Frame1Label1: "Client Preset:" # New
+    tab2Frame1Label1: "Client Preset:"
     tab2Frame1OptionsMsg: "Select from list which 3rd party app you will be using with RAB"
-    tab2Frame1TeamRocket: "Auto Team Rocket" # New Onwards
+    tab2Frame1Label2: "Type Preset:"
+    tab2Frame1Option2Msg: "Select from list which device type you will be using with RAB"
+    tab2Frame1TeamRocket: "Auto Team Rocket"
     tab2Frame1TeamRocketMsg: "Auto win Team Rocket. (Enable/Disable in your 3rd Party App)"
     tab2Frame1InstantSpin: "Auto Spin Pokestop"
     tab2Frame1InstantSpinMsg: "Auto Spin Pokestop. (Enable/Disable in your 3rd Party App)"

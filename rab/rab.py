@@ -4995,6 +4995,15 @@ class Main:
                 cleanup()
 
 
+def get_adb(devicetype):
+    print(devicetype)
+    match devicetype.lower():
+        case "nox":
+            return "C:\\Program Files (x86)\\Nox\\bin\\nox_adb.exe"
+        case _:
+            return "adb"
+
+
 def get_env(name, message, cast=str):
     if name in os.environ:
         return os.environ[name]
@@ -5028,9 +5037,11 @@ def cleanup():
     global localnetwork
     global rab_runtime_status
 
+    adb_path = config['client'].get('manual_set_resolution', 'Real')
+
     if not config['client'].get('manual_set_resolution', False):
         args = [
-            "adb",
+            adb_path,
             "-s",
             device_id,
             "shell",
@@ -5041,7 +5052,7 @@ def cleanup():
         p = subprocess.Popen([str(arg) for arg in args], stdout=subprocess.PIPE)
         stdout, stderr = p.communicate()
         args = [
-            "adb",
+            adb_path,
             "-s",
             device_id,
             "shell",
@@ -5052,7 +5063,7 @@ def cleanup():
         p = subprocess.Popen([str(arg) for arg in args], stdout=subprocess.PIPE)
         stdout, stderr = p.communicate()
         args = [
-            "adb",
+            adb_path,
             "-s",
             device_id,
             "shell",
@@ -5066,7 +5077,7 @@ def cleanup():
 
     time.sleep(1.0)  # Let's wait for a while
     args = [
-        "adb",
+        adb_path,
         "-s",
         device_id,
         "shell",
@@ -5079,7 +5090,7 @@ def cleanup():
 
     if wifi_ip:
         args = [
-            "adb",
+            adb_path,
             "disconnect",
             device_id
         ]

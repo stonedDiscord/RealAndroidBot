@@ -139,6 +139,7 @@ class RABGui(object):
         # Config var binding
         # Tab 2 Frame 1
         self.clientVar = None  # Type of client
+        self.typeVar = None  # Type of device
         self.boolTeamRocket = None  # Team Rocket
         self.boolInstantSpin = None  # Instant Spin
         self.boolSkipIntro = None  # Skip Encounter Intro
@@ -385,9 +386,6 @@ class RABGui(object):
         logger.info('Shuting down Telegram...')
         self.client.loop.stop()
         self.client.disconnect()
-        #del self.client
-        #self.client = None
-        #print('Telegram closed')
 
     def get_env(self, name, message, cast=str):
         if name in os.environ:
@@ -459,8 +457,10 @@ class RABGui(object):
     #    await self.run(args)
 
     def reset_resolution(self):
+        adb_path = rab.get_adb(self.config['client']['type'])
+        print(adb_path)
         args = [
-            "adb",
+            adb_path,
             "-s",
             self.device_id,
             "shell",
@@ -471,7 +471,7 @@ class RABGui(object):
         p = subprocess.Popen([str(arg) for arg in args], stdout=subprocess.PIPE)
         stdout, stderr = p.communicate()
         args = [
-            "adb",
+            adb_path,
             "-s",
             self.device_id,
             "shell",
@@ -482,7 +482,7 @@ class RABGui(object):
         p = subprocess.Popen([str(arg) for arg in args], stdout=subprocess.PIPE)
         stdout, stderr = p.communicate()
         args = [
-            "adb",
+            adb_path,
             "-s",
             self.device_id,
             "shell",
@@ -496,7 +496,7 @@ class RABGui(object):
 
         time.sleep(1.0)  # Let's wait for a while
         args = [
-            "adb",
+            adb_path,
             "-s",
             self.device_id,
             "shell",
@@ -661,6 +661,7 @@ class RABGui(object):
     # Tab 2 Frame 1
     def change_dropdown(self, *args):
         self.config['client']['client'] = self.clientVar.get()
+        self.config['client']['type'] = self.typeVar.get()
 
         if self.config['client']['client'] == 'None':
             self.config['client']['team_rocket_blastoff'] = False
@@ -1386,16 +1387,28 @@ class RABGui(object):
                          'Pokemod', 'HAL', 'Polygon', 'Polygon Paid', 'Polygon Farmer']
         tab2Frame1Label1 = tk.Label(
             tempF1ClientOption, text=self.lang[self.gui_lang]['tab2Frame1Label1'].replace('\\n', '\n').replace('\\t', '\t'))
-        #tab2Frame1Label1.grid(row=0, column=0, sticky="E")
 
         tab2Frame1Options = ttk.OptionMenu(tempF1ClientOption, self.clientVar, self.config['client'].get(
             'client', 'PGSharp'), *clientChoices, command=self.change_dropdown)
         tab2Frame1Label1.pack(side=tk.LEFT)
         tab2Frame1Options.pack(side=tk.LEFT)
-        #tab2Frame1Options.grid(row=0, column=1,sticky="EW")
         tab2Frame1Options.bind('<Enter>', lambda event: self.on_enter(
             event, msg=self.lang[self.gui_lang]['tab2Frame1OptionsMsg'].replace('\\n', '\n').replace('\\t', '\t')))
         tab2Frame1Options.bind('<Leave>', self.on_leave)
+
+        # Client type
+        self.typeVar = StringVar()
+        typeChoices = ['Real', 'Nox']
+        tab2Frame1Label2 = tk.Label(
+            tempF1ClientOption, text=self.lang[self.gui_lang]['tab2Frame1Label2'].replace('\\n', '\n').replace('\\t', '\t'))
+
+        tab2Frame1Options2 = ttk.OptionMenu(tempF1ClientOption, self.typeVar, self.config['client'].get(
+            'type', 'Real'), *typeChoices, command=self.change_dropdown)
+        tab2Frame1Label2.pack(side=tk.LEFT)
+        tab2Frame1Options2.pack(side=tk.LEFT)
+        tab2Frame1Options2.bind('<Enter>', lambda event: self.on_enter(
+            event, msg=self.lang[self.gui_lang]['tab2Frame1Option2Msg'].replace('\\n', '\n').replace('\\t', '\t')))
+        tab2Frame1Options2.bind('<Leave>', self.on_leave)
 
         # Team Rocket
         self.boolTeamRocket = IntVar()
