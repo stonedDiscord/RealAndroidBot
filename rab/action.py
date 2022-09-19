@@ -616,7 +616,7 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
         if len(matched) > 0:
             logger.debug('YES: found key word: {}'.format(matched))
             break
-        if i == 10:
+        if i == 5:
             break
         matched = match_key_word_wrapper(
             im_rgb, ['pokemon has appeared', 'pokémon has appeared', 'mysterious pokémon',  'mysterious pokemon'])
