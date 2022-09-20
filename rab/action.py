@@ -1096,7 +1096,9 @@ async def feed_berry(p, d, pokemon):
     save_screenshot(im_rgb, sub_dir='berry', save=False)
 
     if len(berries) == 0:
-        await swipe_screen(p, 300, 1880, 50, 1880, 250)
+        x1, y1 = resize_coords(300, 1880)
+        x2, y2 = resize_coords( 50, 1880)
+        await p.swipe(x1, y1, x2, y2, 250)
         logger.warning('No berry or already used a berry.')
         return False
 
@@ -1140,14 +1142,15 @@ async def feed_berry(p, d, pokemon):
                             .format(berry_name, pokemon.name, pokemon.iv, pokemon.cp, pokemon.level))
                 berry_selectable = True
                 break
-
+    sx, sy = resize_coords(350, 1880)
+    ex, ey = resize_coords( 50, 1880)
     if berry_selectable:
-        swipe_screen(d, 300, 1880, 50, 1880, 0.5)
+        d.swipe(sx, sy, ex, ey, 0.5)
         await tap_screen(p, 540, 1660, 0.75)
 
         await asyncio.sleep(1.5)
     else:
-        swipe_screen(d, 350, 1880, 50, 1880, 0.5)
+        d.swipe(sx, sy, ex, ey, 0.5)
         logger.warning('No selectable berry.')
 
     return berry_selectable
@@ -1169,7 +1172,9 @@ async def select_ball(p, d, pokemon):
     save_screenshot(im_rgb, sub_dir='ball', save=False)
 
     if len(poke_balls) == 0:
-        await swipe_screen(p, 780, 1880, 1030, 1880, 250)
+        x1, y1 = resize_coords( 780, 1880)
+        x2, y2 = resize_coords(1030, 1880)
+        await p.swipe(x1, y1, x2, y2, 250)
         logger.warning('No poke balls.')
         return 'No Ball'
 
@@ -1228,9 +1233,13 @@ async def throw_ball(p, pokemon, trial=1, track_x=None, track_y=None):
         swipe_speed = 150
 
     if track_x:
-        await swipe_screen(p, 540, 1650, track_x, y_end, 150)
+        x1, y1 = resize_coords(540, 1650)
+        x2, y2 = resize_coords(track_x, y_end)
+        await p.swipe(x1, y1, x2, y2, 150)
     else:
-        await swipe_screen(p, 540, 1780, 540, y_end, swipe_speed)
+        x1, y1 = resize_coords(540, 1780)
+        x2, y2 = resize_coords(540, y_end)
+        await p.swipe(x1, y1, x2, y2, swipe_speed)
 
 
 @timer
@@ -2123,7 +2132,9 @@ async def find_cp(p, d):
 @timer
 async def spin_pokestop(p):
     logger.info('Action: spin pokestop')
-    await swipe_screen(p, 240, 1020, 930, 1020, 200)  # swipe left to right
+    x1, y1 = resize_coords(240, 1020)
+    x2, y2 = resize_coords(930, 1020)
+    await p.swipe(x1, y1, x2, y2, 200)   # swipe left to right
     await asyncio.sleep(1)
     await tap_close_btn(p)  # Close Pokestop
 
