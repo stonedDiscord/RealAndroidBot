@@ -4996,12 +4996,10 @@ class Main:
 
 
 def get_adb(devicetype):
-    print(devicetype)
-    match devicetype.lower():
-        case "nox":
-            return "C:\\Program Files (x86)\\Nox\\bin\\nox_adb.exe"
-        case _:
-            return "adb"
+    if(devicetype.lower() == "nox"):
+        return "C:\\Program Files (x86)\\Nox\\bin\\nox_adb.exe"
+    else:
+        return "adb"
 
 
 def get_env(name, message, cast=str):
