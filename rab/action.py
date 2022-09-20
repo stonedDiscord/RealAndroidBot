@@ -1096,7 +1096,7 @@ async def feed_berry(p, d, pokemon):
     save_screenshot(im_rgb, sub_dir='berry', save=False)
 
     if len(berries) == 0:
-        await swipe_screen(p, 300, 1880, 50, 1880, 2.5)
+        swipe_screen(p, 300, 1880, 50, 1880, 2.5)
         logger.warning('No berry or already used a berry.')
         return False
 
@@ -1169,7 +1169,7 @@ async def select_ball(p, d, pokemon):
     save_screenshot(im_rgb, sub_dir='ball', save=False)
 
     if len(poke_balls) == 0:
-        await swipe_screen(p, 780, 1880, 1030, 1880, 250)
+        swipe_screen(p, 780, 1880, 1030, 1880, 250)
         logger.warning('No poke balls.')
         return 'No Ball'
 
@@ -1228,9 +1228,9 @@ async def throw_ball(p, pokemon, trial=1, track_x=None, track_y=None):
         swipe_speed = 150
 
     if track_x:
-        await swipe_screen(p, 540, 1650, track_x, y_end, 150)
+        swipe_screen(p, 540, 1650, track_x, y_end, 150)
     else:
-        await swipe_screen(p, 540, 1780, 540, y_end, swipe_speed)
+        swipe_screen(p, 540, 1780, 540, y_end, swipe_speed)
 
 
 @timer
@@ -2123,7 +2123,7 @@ async def find_cp(p, d):
 @timer
 async def spin_pokestop(p):
     logger.info('Action: spin pokestop')
-    await swipe_screen(p, 240, 1020, 930, 1020, 200)  # swipe left to right
+    swipe_screen(p, 240, 1020, 930, 1020, 200)  # swipe left to right
     await asyncio.sleep(1)
     await tap_close_btn(p)  # Close Pokestop
 
