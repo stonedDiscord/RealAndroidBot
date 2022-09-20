@@ -5027,7 +5027,7 @@ def cleanup():
     global localnetwork
     global rab_runtime_status
 
-    adb_path = config['client'].get('manual_set_resolution', 'Real')
+    adb_path = get_adb(config['client'].get('type', 'Real'))
 
     if not config['client'].get('manual_set_resolution', False):
         args = [
