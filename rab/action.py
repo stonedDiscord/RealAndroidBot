@@ -113,11 +113,11 @@ def resize_coords(x, y):
     return x, y
 
 
-def swipe_screen(p, x1, y1, x2, y2, duration=0.5):
+async def swipe_screen(p, x1, y1, x2, y2, duration=0.5):
     logger.debug('Swipe requested from '+str(x1)+','+str(y1)+' to '+str(x2)+','+str(y2))
     x1, y1 = resize_coords(x1, y1)
     x2, y2 = resize_coords(x2, y2)
-    p.swipe(x1, y1, x2, y2, duration)
+    await p.swipe(x1, y1, x2, y2, duration)
 
 
 def drag_screen(p, x1, y1, x2, y2, duration=0.5):
@@ -1096,7 +1096,7 @@ async def feed_berry(p, d, pokemon):
     save_screenshot(im_rgb, sub_dir='berry', save=False)
 
     if len(berries) == 0:
-        await swipe_screen(p, 300, 1880, 50, 1880, 2.5)
+        await swipe_screen(p, 300, 1880, 50, 1880, 250)
         logger.warning('No berry or already used a berry.')
         return False
 
