@@ -106,32 +106,31 @@ async def screen_cap_native(p, border_width=100):
     return image_new
 
 
+def resize_coords(x, y):
+    if config.get('resize', False):
+        x = int((x* 720)/1080)  # Yes, this would make more sense as x / 1080 and then * 720
+        y = int((y*1280)/1920)  # But this way it is more accurate because bigger numbers are easier for computers
+    return x, y
+
+
 async def swipe_screen(p, x1, y1, x2, y2, duration=0.5):
     logger.debug('Swipe requested from '+str(x1)+','+str(y1)+' to '+str(x2)+','+str(y2))
-    if config.get('resize', False):
-        x1 = int((x1 *  720)/1080)
-        y1 = int((y1 * 1280)/1920)
-        x2 = int((x2 *  720)/1080)
-        y2 = int((y2 * 1280)/1920)
+    x1, y1 = resize_coords(x1, y1)
+    x2, y2 = resize_coords(x2, y2)
     await p.swipe(x1, y1, x2, y2, duration)
 
 
 def drag_screen(p, x1, y1, x2, y2, duration=0.5):
     logger.debug('Drag requested from '+str(x1)+','+str(y1)+' to '+str(x2)+','+str(y2))
-    if config.get('resize', False):
-        x1 = int((x1 *  720)/1080)
-        y1 = int((y1 * 1280)/1920)
-        x2 = int((x2 *  720)/1080)
-        y2 = int((y2 * 1280)/1920)
+    x1, y1 = resize_coords(x1, y1)
+    x2, y2 = resize_coords(x2, y2)
     p.drag(x1, y1, x2, y2, duration)
 
 
 async def tap_screen(p, x, y, duration=0.5):
     logger.debug('Tap requested at '+str(x)+','+str(y))
-    if config.get('resize', False):
-        x = int((x*720)/1080)   # Yes, this would make more sense as x / 1080 and then * 720
-        y = int((y*1280)/1920)  # But this way it is more accurate because bigger numbers are easier for computers
-    await p.tap(x, y)           # than numbers below 1
+    x, y = resize_coords(x, y)
+    await p.tap(x, y)
     logger.debug('Tapped '+str(x)+','+str(y))
     # p.click(x, y)
     await asyncio.sleep(duration)
@@ -929,9 +928,7 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
         x = poke_location[0].get('x')
         y = poke_location[0].get('y')
 
-        if config.get('resize', False):
-            x = int(x*720/1080)
-            y = int(y*1280/1920)
+        x, y = resize_coords(x, y)
 
         d.long_click(x, y)
         await asyncio.sleep(1)
@@ -957,9 +954,7 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
                 x = poke_location[chosen].get('x')
                 y = poke_location[chosen].get('y')
 
-                if config.get('resize', False):
-                    x = int(x/1080*720)
-                    y = int(y/1920*1280)
+                x, y = resize_coords(x, y)
 
                 d.long_click(x, y)
             else:
@@ -1101,17 +1096,7 @@ async def feed_berry(p, d, pokemon):
     save_screenshot(im_rgb, sub_dir='berry', save=False)
 
     if len(berries) == 0:
-        if config.get('resize', False):
-            x1 = int(300*720/1080)
-            y1 = int(1880*1280/1920)
-            x2 = int(50*720/1080)
-            y2 = int(1880*1280/1920)
-        else:
-            x1 = 300
-            y1 = 1880
-            x2 = 50
-            y2 = 1880
-        await p.swipe(x1, y1, x2, y2, 250)
+        await swipe_screen(p, 300, 1880, 50, 1880, 250)
         logger.warning('No berry or already used a berry.')
         return False
 
@@ -1156,27 +1141,13 @@ async def feed_berry(p, d, pokemon):
                 berry_selectable = True
                 break
 
-    if config.get('resize', False):
-        sx = int(350*720/1080)
-        sy = int(1880*1280/1920)
-        ex = int(50*720/1080)
-        ey = int(1880*1280/1920)
-    else:
-        sx = 350
-        sy = 1880
-        ex = 50
-        ey = 1880
     if berry_selectable:
-        # Temporary Solution, tap once before throwing berry in case berry selection not close
-        # await tap_screen(p, 540, 1360, 0.75)
-        #d(packageName='com.nianticlabs.pokemongo').swipe("left", steps=50)
-        d.swipe(sx, sy, ex, ey, 0.5)
+        swipe_screen(d, 300, 1880, 50, 1880, 0.5)
         await tap_screen(p, 540, 1660, 0.75)
 
         await asyncio.sleep(1.5)
     else:
-        d.swipe(sx, sy, ex, ey, 0.5)
-        #d(packageName='com.nianticlabs.pokemongo').swipe("left", steps=50)
+        swipe_screen(d, 350, 1880, 50, 1880, 0.5)
         logger.warning('No selectable berry.')
 
     return berry_selectable
@@ -1198,17 +1169,7 @@ async def select_ball(p, d, pokemon):
     save_screenshot(im_rgb, sub_dir='ball', save=False)
 
     if len(poke_balls) == 0:
-        if config.get('resize', False):
-            x1 = int(780*720/1080)
-            y1 = int(1880*1280/1920)
-            x2 = int(1030*720/1080)
-            y2 = int(1880*1280/1920)
-        else:
-            x1 = 780
-            y1 = 1880
-            x2 = 1030
-            y2 = 1880
-        await p.swipe(x1, y1, x2, y2, 250)
+        await swipe_screen(p, 780, 1880, 1030, 1880, 250)
         logger.warning('No poke balls.')
         return 'No Ball'
 
@@ -1267,29 +1228,9 @@ async def throw_ball(p, pokemon, trial=1, track_x=None, track_y=None):
         swipe_speed = 150
 
     if track_x:
-        if config.get('resize', False):
-            x1 = int(540*720/1080)
-            y1 = int(1780*1280/1920)
-            x2 = int(track_x*720/1080)
-            y2 = int(y_end*1280/1920)
-        else:
-            x1 = 540
-            y1 = 1650
-            x2 = track_x
-            y2 = y_end
-        await p.swipe(x1, y1, x2, y2, 150)
+        await swipe_screen(p, 540, 1650, track_x, y_end, 150)
     else:
-        if config.get('resize', False):
-            x1 = int(540*720/1080)
-            y1 = int(1780*1280/1920)
-            x2 = int(540*720/1080)
-            y2 = int(y_end*1280/1920)
-        else:
-            x1 = 540
-            y1 = 1780
-            x2 = 540
-            y2 = y_end
-        await p.swipe(x1, y1, x2, y2, swipe_speed)
+        await swipe_screen(p, 540, 1780, 540, y_end, swipe_speed)
 
 
 @timer
@@ -2182,17 +2123,7 @@ async def find_cp(p, d):
 @timer
 async def spin_pokestop(p):
     logger.info('Action: spin pokestop')
-    if config.get('resize', False):
-        x1 = int(240*720/1080)
-        y1 = int(1020*1280/1920)
-        x2 = int(930*720/1080)
-        y2 = int(1020*1280/1920)
-    else:
-        x1 = 240
-        y1 = 1020
-        x2 = 930
-        y2 = 1020
-    await p.swipe(x1, y1, x2, y2, 200)  # swipe left to right
+    await swipe_screen(p, 240, 1020, 930, 1020, 200)  # swipe left to right
     await asyncio.sleep(1)
     await tap_close_btn(p)  # Close Pokestop
 
@@ -2229,17 +2160,7 @@ async def fight_team_rocket(p, d, rocket_type='rocket_grunt'):
         # await tap_caught_ok_btn(p)
 
     await asyncio.sleep(1)
-    if config.get('resize', False):
-        x1 = int(970*720/1080)
-        y1 = int(1220*1280/1920)
-        x2 = int(120*720/1080)
-        y2 = int(1220*1280/1920)
-    else:
-        x1 = 970
-        y1 = 1220
-        x2 = 120
-        y2 = 1220
-    # await p.swipe(x1, y1, x2, y2, 750) # Sometimes there are missing or dead pokemon, swipe right to already build team
+
     # let's check we have all pokemon
     im_rgb = await screen_cap(d)
     slot1, slot2, slot3 = is_team_selection_vaild(im_rgb)

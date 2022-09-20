@@ -20,10 +20,12 @@ import yaml
 from ImageUtils import save_screenshot, extract_text_from_image
 from Pokemon import Pokemon
 from PokemonUtils import get_pokemon_name_from_text
-from action import select_vaild_pokemon, tap_screen, screen_cap, spin_pokestop, tap_close_btn, catch_pokemon, tap_exit_trainer, \
-    close_team_rocket, fight_team_rocket, after_pokemon_caught, tap_incubate, tap_caught_ok_btn, tap_warning_ok_btn, \
-    select_egg, tap_exit_btn, tap_remove_quest_ok_btn, clear_quest, set_config, check_quest, clear_pokemon_inventory, \
-    tap_pokeball_btn, tap_open_pokemon_btn, tap_collect_component, tap_equip_radar, tap_gym_btn, fav_last_caught, check_player_level
+from action import select_vaild_pokemon, tap_screen, swipe_screen, screen_cap, spin_pokestop, \
+    tap_close_btn, catch_pokemon, tap_exit_trainer, close_team_rocket, fight_team_rocket, \
+    after_pokemon_caught, tap_incubate, tap_caught_ok_btn, tap_warning_ok_btn, select_egg, \
+    tap_exit_btn, tap_remove_quest_ok_btn, clear_quest, set_config, check_quest, \
+    clear_pokemon_inventory, tap_pokeball_btn, tap_open_pokemon_btn, tap_collect_component, \
+    tap_equip_radar, tap_gym_btn, fav_last_caught, check_player_level
 from check_shiny import load_tap_pokemon, load_spawns
 from find_object import find_object_to_tap, walk_towards_pokestops, find_pokestop
 from item import check_item
@@ -4853,17 +4855,7 @@ class Main:
                                         self.count_gym_count = 0
 
                                 if not pokefound:
-                                    if self.config.get('resize', False):
-                                        x1 = int(1040*720/1080)
-                                        y1 = int(860*1280/1920)
-                                        x2 = int(1040*720/1080)
-                                        y2 = int(1060*1280/1920)
-                                    else:
-                                        x1 = 1040
-                                        y1 = 860
-                                        x2 = 1040
-                                        y2 = 1060
-                                    self.d.swipe(x1, y1, x2, y2, 0.5)
+                                    swipe_screen(self.d, 1040, 860, 1040, 1060, 0.5)
                                     while True:
                                         x = random.randrange(415, 680)
                                         if self.manual_direction == 0:
