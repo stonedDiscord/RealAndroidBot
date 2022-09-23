@@ -238,6 +238,8 @@ def is_quest_color(r, g, b):
         return 'light orange'
     if (( 83 <= r <=  89) and (170 <= g <= 176) and (253 <= b <= 255)):
         return 'ar mapping'
+    if (( 52 <= r <=  54) and ( 52 <= g <=  54) and ( 52 <= b <=  54)):
+        return 'ar mapping'
     if ((180 <= r <= 185) and (120 <= g <= 126) and (200 <= b <= 210)):
         return 'sponsored'
     if ((205 <= r <= 215) and (165 <= g <= 170) and ( 26 <= b <=  33)):
