@@ -20,7 +20,7 @@ from page_detection import is_catch_pokemon_page, is_mon_caught_page, save_scree
     is_quest_page, is_caught_flee, is_zero_ball, is_mon_details_page, is_mysterious_pokemon, \
     is_razz_berry_page, is_nanab_berry_page, is_pinap_berry_page, is_golden_berry_page, \
     is_silver_berry_page, is_team_selection_vaild, is_pokemon_full, is_pokemon_inventory_page, \
-    is_transfer_menu, is_power_up_page, selection_contains, encounter_position, resize_coords
+    is_transfer_menu, is_power_up_page, selection_contains, encounter_position
 from utils import Loader, Unknown, timer, get_average_color
 from Pokemon import Pokemon
 from PokemonUtils import get_pokemon_name_from_text
@@ -104,6 +104,13 @@ async def screen_cap_native(p, border_width=100):
 
     logger.info('Finished taking screenshot in {:0.1f} sec.'.format(time.time() - t0))
     return image_new
+
+
+def resize_coords(x, y):
+    if config.get('resize', False):
+        x = int((x* 720)/1080)  # Yes, this would make more sense as x / 1080 and then * 720
+        y = int((y*1280)/1920)  # But this way it is more accurate because bigger numbers are easier for computers
+    return x, y
 
 
 async def swipe_screen(p, x1, y1, x2, y2, duration=0.5):

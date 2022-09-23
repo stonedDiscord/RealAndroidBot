@@ -17,10 +17,10 @@ from datetime import datetime
 import uiautomator2 as u2
 import yaml
 
-from ImageUtils import save_screenshot, extract_text_from_image, resize_coords
+from ImageUtils import save_screenshot, extract_text_from_image
 from Pokemon import Pokemon
 from PokemonUtils import get_pokemon_name_from_text
-from action import select_vaild_pokemon, tap_screen, screen_cap, spin_pokestop, \
+from action import select_vaild_pokemon, tap_screen, resize_coords, screen_cap, spin_pokestop, \
     tap_close_btn, catch_pokemon, tap_exit_trainer, close_team_rocket, fight_team_rocket, \
     after_pokemon_caught, tap_incubate, tap_caught_ok_btn, tap_warning_ok_btn, select_egg, \
     tap_exit_btn, tap_remove_quest_ok_btn, clear_quest, set_config, check_quest, \
