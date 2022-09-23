@@ -3,7 +3,7 @@
 
 name: Python lint
 
-on: [push, fork]
+on: [push]
 
 jobs:
   build:
