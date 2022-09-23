@@ -354,6 +354,13 @@ def is_gym_page(im):
     logger.debug("Checking: gym page?")
     im_cropped = crop_bottom_half(im)
 
+    th_btn_challenge = 40000000
+    template_path = 'assets/btn_challenge.png'
+    has_challenge_btn = match_template_wrapper(template_path, im_cropped, threshold=th_btn_challenge)
+    if has_challenge_btn:
+        logger.debug('YES: found {}'.format(os.path.basename(template_path)))
+        return 'gym_enemy'
+
     th_btn_deploy_pokemon = 40000000
     template_path = 'assets/btn_deploy_pokemon.png'
     has_deploy_pokemon_btn = match_template_wrapper(template_path, im_cropped, threshold=th_btn_deploy_pokemon)
@@ -361,19 +368,12 @@ def is_gym_page(im):
         logger.debug('YES: found {}'.format(os.path.basename(template_path)))
         return 'gym_deployable'
 
-    #th_btn_pokestop = 40000000
-    #template_path = 'assets/btn_pokestop.png'
-    #has_pokestop_btn = match_template_wrapper(template_path, im_cropped, threshold=th_btn_pokestop)
-    # if has_pokestop_btn:
-    #    logger.debug('YES: found {}'.format(os.path.basename(template_path)))
-    #    return 'gym_spinnable'
-
-    #th_btn_challenge = 40000000
-    #template_path = 'assets/btn_challenge.png'
-    #has_challenge_btn = match_template_wrapper(template_path, im_cropped, threshold=th_btn_challenge)
-    # if has_challenge_btn:
-    #    logger.debug('YES: found {}'.format(os.path.basename(template_path)))
-    #    return 'gym_enemy'
+    th_btn_pokestop = 40000000
+    template_path = 'assets/btn_pokestop.png'
+    has_pokestop_btn = match_template_wrapper(template_path, im_cropped, threshold=th_btn_pokestop)
+    if has_pokestop_btn:
+        logger.debug('YES: found {}'.format(os.path.basename(template_path)))
+        return 'gym_spinnable'
 
     #th_buddy_heart = 5000000
     #template_path = 'assets/Buddy_SingleHeart_Full.png'
