@@ -439,7 +439,7 @@ def is_pokestop_page(im):
         logger.debug('YES: Pokestop Page: found TroyKeyVector')
 
     if not has_troy_key_vector:
-        r, g, b = im.getpixel((390, 520))
+        r, g, b = im.getpixel((350, 500))
         if (233 <= r <= 253) and (108 <= g <= 118) and (167 <= b <= 187):
             has_troy_key_vector = True
             logger.debug('YES: Pokestop Page: lured')
