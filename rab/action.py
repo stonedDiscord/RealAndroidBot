@@ -408,6 +408,31 @@ async def power_up(d, p, by_level=5):
     await tap_power_up_confirm(p)
 
 
+async def catch_quest_pokemon(d, p, pokemon):
+    if not config['client'].get('skip_encounter_intro'):
+        await asyncio.sleep(3)
+    else:
+        await asyncio.sleep(1.5)
+    im_rgb = await screen_cap(d)
+    if is_catch_pokemon_page(im_rgb):
+        if config['client'].get('encounter_iv', False):
+            pokemon.update_stats_from_pokemod(im_rgb)
+        if not pokemon.shiny or Unknown.is_(pokemon.name) or Unknown.is_(pokemon.cp):
+            im_rgb = await screen_cap(d)
+            save_screenshot(im_rgb, sub_dir='encounter', save=config['screenshot'].get('encounter'))
+            pokemon.update_stats_from_catch_screen(im_rgb)
+
+        if pokemon.shiny:
+            save_screenshot(im_rgb, sub_dir='shiny', save=config['screenshot'].get('shiny'))
+
+        pokemon_caught = await catch_pokemon(p, d, pokemon)
+        if (pokemon_caught and not config['client'].get('transfer_on_catch', False)):
+            if pokemon_caught != 'No Ball':
+                pokemon = await after_pokemon_caught(p, d, pokemon, config)
+        return True
+    return False
+
+
 async def clear_quest(d, p, pokemon):
     im_rgb = await screen_cap(d)
     if not is_quest_page(im_rgb):
@@ -453,29 +478,11 @@ async def clear_quest(d, p, pokemon):
         text = extract_text_from_image(im_cropped)
         if not quest_can_be_completed(text):
             await tap_screen(p, 995, 990 + offset, 1.0)
-            #logger.info('tapped box 1')
+            logger.debug('tapped box 1')
             await tap_remove_quest_ok_btn(p)
             item_removed = True
-            if not config['client'].get('skip_encounter_intro'):
-                await asyncio.sleep(3)
-            else:
-                await asyncio.sleep(1.5)
-            im_rgb = await screen_cap(d)
-            if is_catch_pokemon_page(im_rgb):
-                if config['client'].get('encounter_iv', False):
-                    pokemon.update_stats_from_pokemod(im_rgb)
-                if not pokemon.shiny or Unknown.is_(pokemon.name) or Unknown.is_(pokemon.cp):
-                    im_rgb = await screen_cap(d)
-                    save_screenshot(im_rgb, sub_dir='encounter', save=config['screenshot'].get('encounter'))
-                    pokemon.update_stats_from_catch_screen(im_rgb)
 
-                if pokemon.shiny:
-                    save_screenshot(im_rgb, sub_dir='shiny', save=config['screenshot'].get('shiny'))
-
-                pokemon_caught = await catch_pokemon(p, d, pokemon)
-                if (pokemon_caught and not config['client'].get('transfer_on_catch', False)):
-                    if pokemon_caught != 'No Ball':
-                        pokemon = await after_pokemon_caught(p, d, pokemon, config)
+            if catch_quest_pokemon(p, d, pokemon):
                 return 'on_pokemon'
 
             continue
@@ -485,65 +492,25 @@ async def clear_quest(d, p, pokemon):
         text = extract_text_from_image(im_cropped)
         if not quest_can_be_completed(text):
             await tap_screen(p, 995, 1260 + offset, 1.0)
-            #logger.info('tapped box 2')
+            logger.debug('tapped box 2')
             await tap_remove_quest_ok_btn(p)
             item_removed = True
-            if not config['client'].get('skip_encounter_intro'):
-                await asyncio.sleep(3)
-            else:
-                await asyncio.sleep(1.5)
-            im_rgb = await screen_cap(d)
-            if is_catch_pokemon_page(im_rgb):
-                if config['client'].get('encounter_iv', False):
-                    pokemon.update_stats_from_pokemod(im_rgb)
-                if not pokemon.shiny or Unknown.is_(pokemon.name) or Unknown.is_(pokemon.cp):
-                    im_rgb = await screen_cap(d)
-                    save_screenshot(im_rgb, sub_dir='encounter', save=config['screenshot'].get('encounter'))
-                    pokemon.update_stats_from_catch_screen(im_rgb)
 
-                if pokemon.shiny:
-                    save_screenshot(im_rgb, sub_dir='shiny', save=config['screenshot'].get('shiny'))
-
-                pokemon_caught = await catch_pokemon(p, d, pokemon)
-                if (pokemon_caught and not config['client'].get('transfer_on_catch', False)):
-                    if pokemon_caught != 'No Ball':
-                        pokemon = await after_pokemon_caught(p, d, pokemon, config)
+            if catch_quest_pokemon(p, d, pokemon):
                 return 'on_pokemon'
 
             continue
 
         # Box 3
-        # if offset > 0:
-        #    new_offset = offset - 10
-        # else:
-        new_offset = 0
         im_cropped = im_rgb.crop((80, 1510 + offset, 795, 1740 + offset))
         text = extract_text_from_image(im_cropped)
         if not quest_can_be_completed(text):
             await tap_screen(p, 995, 1550 + offset, 1.0)
-            #logger.info('tapped box 3')
+            logger.debug('tapped box 3')
             await tap_remove_quest_ok_btn(p)
             item_removed = True
-            if not config['client'].get('skip_encounter_intro'):
-                await asyncio.sleep(3)
-            else:
-                await asyncio.sleep(1.5)
-            im_rgb = await screen_cap(d)
-            if is_catch_pokemon_page(im_rgb):
-                if config['client'].get('encounter_iv', False):
-                    pokemon.update_stats_from_pokemod(im_rgb)
-                if not pokemon.shiny or Unknown.is_(pokemon.name) or Unknown.is_(pokemon.cp):
-                    im_rgb = await screen_cap(d)
-                    save_screenshot(im_rgb, sub_dir='encounter', save=config['screenshot'].get('encounter'))
-                    pokemon.update_stats_from_catch_screen(im_rgb)
 
-                if pokemon.shiny:
-                    save_screenshot(im_rgb, sub_dir='shiny', save=config['screenshot'].get('shiny'))
-
-                pokemon_caught = await catch_pokemon(p, d, pokemon)
-                if (pokemon_caught and not config['client'].get('transfer_on_catch', False)):
-                    if pokemon_caught != 'No Ball':
-                        pokemon = await after_pokemon_caught(p, d, pokemon, config)
+            if catch_quest_pokemon(p, d, pokemon):
                 return 'on_pokemon'
 
             continue
