@@ -482,7 +482,7 @@ async def clear_quest(d, p, pokemon):
             await tap_remove_quest_ok_btn(p)
             item_removed = True
 
-            if catch_quest_pokemon(p, d, pokemon):
+            if await catch_quest_pokemon(p, d, pokemon):
                 return 'on_pokemon'
 
             continue
@@ -496,7 +496,7 @@ async def clear_quest(d, p, pokemon):
             await tap_remove_quest_ok_btn(p)
             item_removed = True
 
-            if catch_quest_pokemon(p, d, pokemon):
+            if await catch_quest_pokemon(p, d, pokemon):
                 return 'on_pokemon'
 
             continue
@@ -510,7 +510,7 @@ async def clear_quest(d, p, pokemon):
             await tap_remove_quest_ok_btn(p)
             item_removed = True
 
-            if catch_quest_pokemon(p, d, pokemon):
+            if await catch_quest_pokemon(p, d, pokemon):
                 return 'on_pokemon'
 
             continue
