@@ -6,7 +6,7 @@ import re
 import sys
 
 from ImageUtils import match_template, save_screenshot, crop_bottom_half, crop_top_half, crop_middle, \
-    extract_text_from_image, crop_horizontal_piece, resize_coords
+    extract_text_from_image, crop_horizontal_piece
 from utils import get_average_color, Unknown
 from names import POKEMON
 
@@ -238,8 +238,6 @@ def is_quest_color(r, g, b):
         return 'light orange'
     if (( 83 <= r <=  89) and (170 <= g <= 176) and (253 <= b <= 255)):
         return 'ar mapping'
-    if (( 52 <= r <=  54) and ( 52 <= g <=  54) and ( 52 <= b <=  54)):
-        return 'ar mapping'
     if ((180 <= r <= 185) and (120 <= g <= 126) and (200 <= b <= 210)):
         return 'sponsored'
     if ((205 <= r <= 215) and (165 <= g <= 170) and ( 26 <= b <=  33)):
@@ -439,7 +437,7 @@ def is_pokestop_page(im):
         logger.debug('YES: Pokestop Page: found TroyKeyVector')
 
     if not has_troy_key_vector:
-        r, g, b = im.getpixel(resize_coords(390, 520))
+        r, g, b = im.getpixel((390, 520))
         if (233 <= r <= 253) and (108 <= g <= 118) and (167 <= b <= 187):
             has_troy_key_vector = True
             logger.debug('YES: Pokestop Page: lured')
