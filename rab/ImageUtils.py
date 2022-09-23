@@ -37,6 +37,14 @@ def get_center_point(box_coordinates):
     return [int((x1 + x2) / 2), int((y1 + y2) / 2)]
 
 
+def resize_coords(x, y):
+    global config
+    if config.get('resize', False):
+        x = int((x* 720)/1080)  # Yes, this would make more sense as x / 1080 and then * 720
+        y = int((y*1280)/1920)  # But this way it is more accurate because bigger numbers are easier for computers
+    return x, y
+
+
 def save_screenshot(im, main_dir=screenshot_dir, sub_dir=None, save=False, filename=None):
     if save:
         dir_ = main_dir + '/' + sub_dir if sub_dir else main_dir
