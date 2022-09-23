@@ -375,13 +375,6 @@ def is_gym_page(im):
         logger.debug('YES: found {}'.format(os.path.basename(template_path)))
         return 'gym_spinnable'
 
-    #th_buddy_heart = 5000000
-    #template_path = 'assets/Buddy_SingleHeart_Full.png'
-    #has_heart_icon = match_template_wrapper(template_path, crop_horizontal_piece(im, 3, 2), threshold=th_buddy_heart)
-    # if has_heart_icon:
-    #    logger.debug('YES: found {}'.format(os.path.basename(template_path)))
-    #    return True
-
     th_question_button = 15000000
     template_path = 'assets/btn_question_03_normal_white.png'
     has_gym_question_btn = match_template_wrapper(template_path, im_cropped, threshold=th_question_button)
