@@ -1209,6 +1209,32 @@ async def throw_ball(p, pokemon, trial=1, track_x=None, track_y=None):
         await p.swipe(x1, y1, x2, y2, swipe_speed)
 
 
+def format_iv(pokemon):
+    return '({}/{}/{})'.format(pokemon.atk_iv, pokemon.def_iv, pokemon.sta_iv)
+
+
+async def report_encounter(p, d, pokemon, device_id):
+    if config.get('discord', False):
+        now = datetime.datetime.now()
+        str_now = now.strftime("%Y-%m-%d %H:%M:%S")
+        message = ''
+        if config['discord'].get('notify_encountered', False) and config['discord'].get('enabled', False):
+            keep_poke = await check_keep(p, d, pokemon, keep_shiny=True, show_log=False)
+            iv_str = pokemon.name + ' Found ' + format_iv(pokemon)
+            if keep_poke or pokemon.shiny:
+                if pokemon.shiny and config['discord'].get('notify_shiny', False):
+                    message = str_now + ': **Shiny** ' + iv_str
+                elif pokemon.iv == 100 and config['discord'].get('notify_max_iv', False):
+                    message = str_now + ': **100IV** ' + iv_str
+                elif pokemon.pvp_info and config['discord'].get('notify_pvp_iv', False):
+                    if pokemon.pvp_info['GL'].get('rating', 0) >= config['pvp'].get('gl_rating', 100) or pokemon.pvp_info['UL'].get('rating', 0) >= config['pvp'].get('ul_rating', 100):
+                        message = str_now + ': **PVP** ' + iv_str + ' PVP Information: {}'.format(pokemon.pvp_info)
+
+                webhook_url = config['discord'].get('webhook_url', '')
+                if webhook_url and message:
+                    send_to_discord(webhook_url, 'RAB Encounter Reporter {}'.format(device_id), message)
+
+
 @timer
 async def catch_pokemon(p, d, pokemon, localnetwork=None, displayID=None, is_shadow=False, track_r=0, track_g=0, track_b=0, rab_runtime_status=None, pgsharp_client=None, mad_client=None, device_id=''):
     # {'type': None, 'status': None, 'dex': 241, 'name': 'Miltank', 'form': '???', 'shiny': False, 'iv': 84, 'atk_iv': 10, 'def_iv': 14, 'sta_iv': 14, 'cp': 975, 'level': 15, 'gender': 'Female', 'pvp_info': {'GL': {'dex': 241, 'name': 'Miltank', 'rating': 96.57, 'cp': 1495, 'level': '23'}, 'UL': {'dex': 241, 'name': 'Miltank', 'rating': 98.12, 'cp': 2497, 'level': '47.5'}}, 'screen_x': 0, 'screen_y': 0, 'latitude': 0, 'longitude': 0}
@@ -1231,27 +1257,7 @@ async def catch_pokemon(p, d, pokemon, localnetwork=None, displayID=None, is_sha
         tracking = True
         logger.debug('Tracking R: {} G: {} B: {}'.format(track_r, track_g, track_b))
 
-    if config.get('discord', False):
-        now = datetime.datetime.now()
-        str_now = now.strftime("%Y-%m-%d %H:%M:%S")
-        message = ''
-        if config['discord'].get('notify_encountered', False) and config['discord'].get('enabled', False):
-            keep_poke = await check_keep(p, d, pokemon, keep_shiny=True, show_log=False)
-            if keep_poke or pokemon.shiny:
-                if pokemon.shiny and config['discord'].get('notify_shiny', False):
-                    message = '{}: **Shiny** {} Found ({}/{}/{})'.format(str_now, pokemon.name,
-                                                                         pokemon.atk_iv, pokemon.def_iv, pokemon.sta_iv)
-                elif pokemon.iv == 100 and config['discord'].get('notify_max_iv', False):
-                    message = '{}: **100IV** {} Found ({}/{}/{})'.format(str_now, pokemon.name,
-                                                                         pokemon.atk_iv, pokemon.def_iv, pokemon.sta_iv)
-                elif pokemon.pvp_info and config['discord'].get('notify_pvp_iv', False):
-                    if pokemon.pvp_info['GL'].get('rating', 0) >= config['pvp'].get('gl_rating', 100) or pokemon.pvp_info['UL'].get('rating', 0) >= config['pvp'].get('ul_rating', 100):
-                        message = '{}: **PVP** {} Found ({}/{}/{}) PVP Information: {}'.format(str_now,
-                            pokemon.name, pokemon.atk_iv, pokemon.def_iv, pokemon.sta_iv, pokemon.pvp_info)
-
-                webhook_url = config['discord'].get('webhook_url', '')
-                if webhook_url and message:
-                    send_to_discord(webhook_url, 'RAB Encounter Reporter {}'.format(device_id), message)
+    await report_encounter(p, d, pokemon, device_id)
 
     logger.info('Action: catch pokemon')
     is_caught = False
@@ -1389,7 +1395,6 @@ async def catch_pokemon(p, d, pokemon, localnetwork=None, displayID=None, is_sha
                         break
 
             if track_x > 0:
-                #logger.info('Pokemon Tracked... ({},{},{})'.format(track_r,track_g,track_b))
                 logger.info('Pokemon Tracked...')
                 await throw_ball(p, pokemon, trial, track_x, track_y)
             else:
@@ -1777,35 +1782,31 @@ async def catch_pokemon(p, d, pokemon, localnetwork=None, displayID=None, is_sha
                     message = ''
                     if confirm_caught:
                         if pokemon.shiny and config['discord'].get('notify_shiny', False):
-                            message = '{}: **Shiny** {} Caught ({}/{}/{})'.format(str_now,
-                                                                                  pokemon.name, pokemon.atk_iv, pokemon.def_iv, pokemon.sta_iv)
+                            message = str_now + ': **Shiny** {} Caught '.format(pokemon.name) + format_iv(pokemon)
                         elif pokemon.iv == 100 and config['discord'].get('notify_max_iv', False):
-                            message = '{}: **100IV** {} Caught'.format(str_now, pokemon.name)
+                            message = str_now + ': **100IV** {} Caught'.format(pokemon.name)
                         elif pokemon.pvp_info and config['discord'].get('notify_pvp_iv', False):
                             if pokemon.pvp_info['GL'].get('rating', 0) >= config['pvp'].get('gl_rating', 100) or pokemon.pvp_info['UL'].get('rating', 0) >= config['pvp'].get('ul_rating', 100):
-                                message = '{}: **PVP** {} Caught ({}/{}/{}) PVP Information: {}'.format(
-                                    str_now, pokemon.name, pokemon.atk_iv, pokemon.def_iv, pokemon.sta_iv, pokemon.pvp_info)
+                                message = str_now + ': **PVP** {} Caught {} PVP Information: {}'.format(
+                                    str_now, pokemon.name, format_iv(pokemon), pokemon.pvp_info)
                     else:
                         if pokemon.shiny and config['discord'].get('notify_shiny', False):
-                            message = '{}: **Shiny** {} Caught (or fled)({}/{}/{})'.format(str_now,
-                                                                                           pokemon.name, pokemon.atk_iv, pokemon.def_iv, pokemon.sta_iv)
+                            message = '{}: **Shiny** {} Caught (or fled){}'.format(str_now, pokemon.name, format_iv(pokemon))
                         elif pokemon.iv == 100 and config['discord'].get('notify_max_iv', False):
                             message = '{}: **100IV** {} Caught (or fled)'.format(str_now, pokemon.name)
                         elif pokemon.pvp_info and config['discord'].get('notify_pvp_iv', False):
                             if pokemon.pvp_info['GL'].get('rating', 0) >= config['pvp'].get('gl_rating', 100) or pokemon.pvp_info['UL'].get('rating', 0) >= config['pvp'].get('ul_rating', 100):
-                                message = '{}: **PVP** {} Caught (or fled) ({}/{}/{}) PVP Information: {}'.format(
-                                    str_now, pokemon.name, pokemon.atk_iv, pokemon.def_iv, pokemon.sta_iv, pokemon.pvp_info)
+                                message = '{}: **PVP** {} Caught (or fled) {} PVP Information: {}'.format(
+                                    str_now, pokemon.name, format_iv(pokemon), pokemon.pvp_info)
 
                     webhook_url = config['discord'].get('webhook_url', '')
                     if webhook_url and message:
                         send_to_discord(webhook_url, 'RAB Poke Caught Reporter {}'.format(device_id), message)
             if config['discord'].get('notify_all_caught', False) and config['discord'].get('enabled', False):
                 if confirm_caught:
-                    message = '{}: {} Caught CP: {} ({}/{}/{}) Shiny: {}'.format(str_now, pokemon.name,
-                                                                                 pokemon.cp, pokemon.atk_iv, pokemon.def_iv, pokemon.sta_iv, pokemon.shiny)
+                    message = '{}: {} Caught CP: {} {} Shiny: {}'.format(str_now, pokemon.name, pokemon.cp, format_iv(pokemon), pokemon.shiny)
                 else:
-                    message = '{}: {} Caught (or fled) CP: {} ({}/{}/{}) Shiny: {}'.format(str_now, pokemon.name,
-                                                                                           pokemon.cp, pokemon.atk_iv, pokemon.def_iv, pokemon.sta_iv, pokemon.shiny)
+                    message = '{}: {} Caught (or fled) CP: {} {} Shiny: {}'.format(str_now, pokemon.name, pokemon.cp, format_iv(pokemon), pokemon.shiny)
                 # elif config['client'].get('transfer_on_catch',False):
                 #    message = '{}: {} Caught (or fled) CP: {} ({}/{}/{}) Shiny: {}'.format(str_now, pokemon.name, pokemon.cp, pokemon.atk_iv, pokemon.def_iv, pokemon.sta_iv, pokemon.shiny)
 
