@@ -25,7 +25,7 @@ from action import select_vaild_pokemon, tap_screen, resize_coords, screen_cap, 
     after_pokemon_caught, tap_incubate, tap_caught_ok_btn, tap_warning_ok_btn, select_egg, \
     tap_exit_btn, tap_remove_quest_ok_btn, clear_quest, set_config, check_quest, \
     clear_pokemon_inventory, tap_pokeball_btn, tap_open_pokemon_btn, tap_collect_component, \
-    tap_equip_radar, tap_gym_btn, fav_last_caught, check_player_level
+    tap_equip_radar, tap_gym_btn, fav_last_caught, check_player_level, poke_location
 from check_shiny import load_tap_pokemon, load_spawns
 from find_object import find_object_to_tap, walk_towards_pokestops, find_pokestop
 from item import check_item
@@ -2711,15 +2711,9 @@ class Main:
             offset = self.config['client']['screen_offset']
             await tap_screen(self.p, 545, 1140, 5)
             await tap_screen(self.p, 955, 1570, 1)
-            # await tap_screen(self.p, 980, 1875, 1)
-            # await tap_screen(self.p, 940, 1555, 1) # Sort by CP
-            # await tap_screen(self.p, 235, 175 + offset, 1.0) # Tag
-            # await tap_screen(self.p, 540, 540 + offset, 1.0) # Fav Tag
-            poke_location = [{'x': 190, 'y': 650 + offset}, {'x': 540, 'y': 650 + offset}, {'x': 880, 'y': 650 + offset},
-                             {'x': 190, 'y': 1040 + offset}, {'x': 540, 'y': 1040 + offset}, {'x': 880, 'y': 1040 + offset},
-                             {'x': 190, 'y': 1435 + offset}, {'x': 540, 'y': 1435 + offset}, {'x': 880, 'y': 1435 + offset}, ]
+
             # First Pokemon in list position
-            await tap_screen(self.p, poke_location[self.poke_in_gym].get('x'), poke_location[self.poke_in_gym].get('y'), 2)
+            await tap_screen(self.p, poke_location[self.poke_in_gym].get('x'), poke_location[self.poke_in_gym].get('y') + offset, 2)
             # await tap_screen(self.p, 540, 980, 1.5) #okay
             im_rgb = await screen_cap(self.d)
             await tap_caught_ok_btn(self.p, im_rgb=im_rgb)

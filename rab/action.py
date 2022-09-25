@@ -49,6 +49,10 @@ logger.setLevel('INFO')
 #    config = yaml.load(f, Loader)
 config = None
 
+# defining the 9 locations
+poke_location = [{'x': 190, 'y':  650}, {'x': 540, 'y':  650}, {'x': 880, 'y':  650},
+                { 'x': 190, 'y': 1040}, {'x': 540, 'y': 1040}, {'x': 880, 'y': 1040},
+                { 'x': 190, 'y': 1460}, {'x': 540, 'y': 1460}, {'x': 880, 'y': 1460}]
 
 async def set_config(main_config):
     global config
@@ -869,10 +873,6 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
     # to avoid scrolling in pokemon inventory, once reach max 9 poke that cannot be transfered, exit/return
     current_kept = 0
     chosen = 0
-    # defining the 9 locations
-    poke_location = [{'x': 190, 'y': 650 + offset}, {'x': 540, 'y': 650 + offset}, {'x': 880, 'y': 650 + offset},
-                     {'x': 190, 'y': 1040 + offset}, {'x': 540, 'y': 1040 + offset}, {'x': 880, 'y': 1040 + offset},
-                     {'x': 190, 'y': 1460 + offset}, {'x': 540, 'y': 1460 + offset}, {'x': 880, 'y': 1460 + offset}]
 
     logger.info('Action: Clearing Pokemon Inventory')
     await asyncio.sleep(1.5)
@@ -893,7 +893,7 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
             config['poke_management'].get('poke_search_string', "age0-1")))
         # long tap
         x = poke_location[0].get('x')
-        y = poke_location[0].get('y')
+        y = poke_location[0].get('y') + offset
 
         x, y = resize_coords(x, y)
 
@@ -919,13 +919,13 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
             if chosen == 0:
                 # long tap
                 x = poke_location[chosen].get('x')
-                y = poke_location[chosen].get('y')
+                y = poke_location[chosen].get('y') + offset
 
                 x, y = resize_coords(x, y)
 
                 d.long_click(x, y)
             else:
-                await tap_screen(p, poke_location[chosen].get('x'), poke_location[chosen].get('y'), 0.5)
+                await tap_screen(p, poke_location[chosen].get('x'), poke_location[chosen].get('y') + offset, 0.5)
             chosen += 1
             if chosen == 9 or i == (no_of_pokemons - 1):
                 im_rgb = await screen_cap(d)
@@ -970,11 +970,11 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
                 break
 
             logger.info('Checking Pokemon {}/{}...'.format(i+1, no_of_pokemons))
-            if not await check_pokemon_exisits(p, d, poke_location[current_kept].get('x'), poke_location[current_kept].get('y')):
+            if not await check_pokemon_exisits(p, d, poke_location[current_kept].get('x'), poke_location[current_kept].get('y') + offset):
                 logger.info("There's nothing more to transfer...")
                 break
             # First Pokemon in list position
-            await tap_screen(p, poke_location[current_kept].get('x'), poke_location[current_kept].get('y'), 1.5)
+            await tap_screen(p, poke_location[current_kept].get('x'), poke_location[current_kept].get('y') + offset, 1.5)
             if mad_client:
                 try:
                     pokemon.update_stats_from_mad(p, d)
@@ -1019,14 +1019,14 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
                     current_kept = 0
                     await asyncio.sleep(2)
                     # First Pokemon in list position
-                    await tap_screen(p, poke_location[current_kept].get('x'), poke_location[current_kept].get('y'), 1)
+                    await tap_screen(p, poke_location[current_kept].get('x'), poke_location[current_kept].get('y') + offset, 1)
                     y1 = 1040 + offset
                     y2 = 650 + offset
 
                     drag_screen(d, 190, y1, 190, y2, 1)
                     await asyncio.sleep(2)
                     # First Pokemon in list position
-                    await tap_screen(p, poke_location[current_kept].get('x'), poke_location[current_kept].get('y'), 1)
+                    await tap_screen(p, poke_location[current_kept].get('x'), poke_location[current_kept].get('y') + offset, 1)
                 # break
 
     if not no_pokemon_inventory_found:
@@ -2218,11 +2218,7 @@ async def fav_last_caught(p, d, pokemon):
         await tap_pokeball_btn(p)
         await tap_open_pokemon_btn(p, 2)
 
-        poke_location = [{'x': 190, 'y': 650 + offset}, {'x': 540, 'y': 650 + offset}, {'x': 880, 'y': 650 + offset},
-                         {'x': 190, 'y': 1040 + offset}, {'x': 540, 'y': 1040 + offset}, {'x': 880, 'y': 1040 + offset},
-                         {'x': 190, 'y': 1460}, {'x': 540, 'y': 1460}, {'x': 880, 'y': 1460}]
-
-        await tap_screen(p, poke_location[0].get('x'), poke_location[0].get('y'), 1.5)
+        await tap_screen(p, poke_location[0].get('x'), poke_location[0].get('y') + offset, 1.5)
         await tap_fav_icon(p, offset)
         d.press("back")
         await asyncio.sleep(1)
