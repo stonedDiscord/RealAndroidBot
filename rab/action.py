@@ -1247,7 +1247,7 @@ async def catch_pokemon(p, d, pokemon, localnetwork=None, displayID=None, is_sha
                 elif pokemon.pvp_info and config['discord'].get('notify_pvp_iv', False):
                     if pokemon.pvp_info['GL'].get('rating', 0) >= config['pvp'].get('gl_rating', 100) or pokemon.pvp_info['UL'].get('rating', 0) >= config['pvp'].get('ul_rating', 100):
                         message = '{}: **PVP** {} Found ({}/{}/{}) PVP Information: {}'.format(str_now,
-                                                                                               pokemon.name, pokemon.atk_iv, pokemon.def_iv, pokemon.sta_iv, pokemon.pvp_info)
+                            pokemon.name, pokemon.atk_iv, pokemon.def_iv, pokemon.sta_iv, pokemon.pvp_info)
 
                 webhook_url = config['discord'].get('webhook_url', '')
                 if webhook_url and message:
