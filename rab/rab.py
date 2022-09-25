@@ -342,6 +342,8 @@ class Main:
         if self.args.map_mode is not None:
             self.map_mode = True
 
+        await self.p.set_adb_path(get_adb(config['client'].get('type', 'Real')))
+
         if self.args.wifi_ip is not None:
             if self.args.wifi_port is not None:
                 self.wifi_port = self.args.wifi_port
@@ -393,8 +395,6 @@ class Main:
 
         with open(config_path, "r", encoding='utf8') as f:
             self.config = yaml.load(f, Loader)
-
-        await self.p.set_adb_path(get_adb(config['client'].get('type', 'Real')))
 
         await self.p.set_android_version()
         if self.p.android_version:
