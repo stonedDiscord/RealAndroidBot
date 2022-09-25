@@ -1233,7 +1233,7 @@ async def report_encounter(p, d, pokemon, device_id):
                     shiny_folder = ''
                     if pokemon.shiny:
                         shiny_folder = 'shiny/'
-                    send_to_discord(webhook_url, 'RAB Encounter {}'.format(device_id), message, "https://github.com/PokeAPI/sprites/raw/master/sprites/pokemon/" + shiny_folder + pokemon.dex + ".png")
+                    send_to_discord(webhook_url, 'RAB Encounter {}'.format(device_id), message, "https://github.com/PokeAPI/sprites/raw/master/sprites/pokemon/" + shiny_folder + str(pokemon.dex) + ".png")
 
 
 @timer
@@ -1803,7 +1803,7 @@ async def catch_pokemon(p, d, pokemon, localnetwork=None, displayID=None, is_sha
                         shiny_folder = ''
                         if pokemon.shiny:
                             shiny_folder = 'shiny/'
-                        send_to_discord(webhook_url, 'RAB Caught {}'.format(device_id), message, "https://github.com/PokeAPI/sprites/raw/master/sprites/pokemon/" + shiny_folder + pokemon.dex + ".png")
+                        send_to_discord(webhook_url, 'RAB Caught {}'.format(device_id), message, "https://github.com/PokeAPI/sprites/raw/master/sprites/pokemon/" + shiny_folder + str(pokemon.dex) + ".png")
 
             if config['discord'].get('notify_all_caught', False) and config['discord'].get('enabled', False):
                 if confirm_caught:
@@ -1816,7 +1816,7 @@ async def catch_pokemon(p, d, pokemon, localnetwork=None, displayID=None, is_sha
                     shiny_folder = ''
                     if pokemon.shiny:
                         shiny_folder = 'shiny/'
-                    send_to_discord(webhook_url, 'RAB Caught {}'.format(device_id), message, "https://github.com/PokeAPI/sprites/raw/master/sprites/pokemon/" + shiny_folder + pokemon.dex + ".png")
+                    send_to_discord(webhook_url, 'RAB Caught {}'.format(device_id), message, "https://github.com/PokeAPI/sprites/raw/master/sprites/pokemon/" + shiny_folder + str(pokemon.dex) + ".png")
 
         if localnetwork:
             localnetwork.catch[:] = []  # Let's clear it totally
