@@ -1230,7 +1230,10 @@ async def report_encounter(p, d, pokemon, device_id):
 
                 webhook_url = config['discord'].get('webhook_url', '')
                 if webhook_url and message:
-                    send_to_discord(webhook_url, 'RAB Encounter Reporter {}'.format(device_id), message)
+                    shiny_folder = ''
+                    if pokemon.shiny:
+                        shiny_folder = 'shiny/'
+                    send_to_discord(webhook_url, 'RAB Encounter {}'.format(device_id), message, "https://github.com/PokeAPI/sprites/raw/master/sprites/pokemon/" + shiny_folder + pokemon.dex + ".png")
 
 
 @timer
@@ -1797,7 +1800,11 @@ async def catch_pokemon(p, d, pokemon, localnetwork=None, displayID=None, is_sha
 
                     webhook_url = config['discord'].get('webhook_url', '')
                     if webhook_url and message:
-                        send_to_discord(webhook_url, 'RAB Poke Caught Reporter {}'.format(device_id), message)
+                        shiny_folder = ''
+                        if pokemon.shiny:
+                            shiny_folder = 'shiny/'
+                        send_to_discord(webhook_url, 'RAB Caught {}'.format(device_id), message, "https://github.com/PokeAPI/sprites/raw/master/sprites/pokemon/" + shiny_folder + pokemon.dex + ".png")
+
             if config['discord'].get('notify_all_caught', False) and config['discord'].get('enabled', False):
                 if confirm_caught:
                     message = '{} Caught CP: {} {} Shiny: {}'.format(pokemon.name, pokemon.cp, format_iv(pokemon), pokemon.shiny)
@@ -1806,7 +1813,10 @@ async def catch_pokemon(p, d, pokemon, localnetwork=None, displayID=None, is_sha
 
                 webhook_url = config['discord'].get('webhook_url', '')
                 if webhook_url and message:
-                    send_to_discord(webhook_url, 'RAB Poke Caught Reporter {}'.format(device_id), message)
+                    shiny_folder = ''
+                    if pokemon.shiny:
+                        shiny_folder = 'shiny/'
+                    send_to_discord(webhook_url, 'RAB Caught {}'.format(device_id), message, "https://github.com/PokeAPI/sprites/raw/master/sprites/pokemon/" + shiny_folder + pokemon.dex + ".png")
 
         if localnetwork:
             localnetwork.catch[:] = []  # Let's clear it totally

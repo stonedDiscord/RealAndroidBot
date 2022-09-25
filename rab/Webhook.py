@@ -45,13 +45,14 @@ def send_to_telegram(text, cid_pool='-1001415186432'):
 # Send Alert to Discord
 
 
-def send_to_discord(webhook_url, username, content):
+def send_to_discord(webhook_url, username, content, avatar=None):
     logger.debug("Attempting to send notification to Discord.")
 
     payload = {
         # Usernames are limited to 32 characters
         'username': username[:32],
-        'content': content
+        'content': content,
+        'avatar_url': avatar
     }
 
     args = {
