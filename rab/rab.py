@@ -718,8 +718,7 @@ class Main:
             # im_rgb = await screen_cap(self.d)
             if is_home_page(im_rgb):
                 if webhook_url and self.config['discord'].get('enabled', False):
-                    send_to_discord(webhook_url, 'RAB Bot ({})'.format(self.device_id),
-                                    'Pokemon Go restarted. Resume scanning...')
+                    logger.info('Pokemon Go restarted. Resume scanning...')
 
         # Save sample screenshot
         im_rgb = await screen_cap(self.d)
