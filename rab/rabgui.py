@@ -532,7 +532,7 @@ class RABGui(object):
             self.tab2Frame1SkipIntro.config(state=tk.DISABLED)
             self.tab2Frame1EncounterIV.config(state=tk.NORMAL)
             self.tab2Frame1QuickCatch.config(state=tk.DISABLED)
-            self.tab2Frame2AutoRoute.config(state=tk.DISABLED)
+            self.tab2Frame2AutoRoute.config(state=tk.NORMAL)
             self.tab2Frame2ShinyAutoCatch.config(state=tk.NORMAL)
 
             self.tab4Frame1InventoryIV.config(state=tk.NORMAL)
