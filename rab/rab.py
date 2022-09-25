@@ -606,8 +606,8 @@ class Main:
             logger.info(self.d.app_current())
             appInfor = self.d.app_current()
             if appInfor['package'] != 'com.nianticlabs.pokemongo':
-                logger.error('Pokemon Go not found! Exiting...')
-                return False
+                logger.error('Pokemon Go not found! Resetting...')
+                await self.reset_app()
 
             if self.config['client'].get('auto_offset', True):
                 logger.info('Please wait... checking offset...')
@@ -4281,8 +4281,6 @@ class Main:
                                 pgsharp_client.feed_index = 1
                                 pgsharp_client.icon_index = 0
                                 pgsharp_client.joystick_index = 2
-                    #logger.error('Pokemon Go not found! Exiting...')
-                    # cleanup()
 
             last_status = 'Something Else'  # Use this to skip take screenshot for polygon to speed it up going from location to location
             # Assuming screen starts at main map, check for pokemon
