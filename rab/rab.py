@@ -394,6 +394,8 @@ class Main:
         with open(config_path, "r", encoding='utf8') as f:
             self.config = yaml.load(f, Loader)
 
+        await self.p.set_adb_path(get_adb(config['client'].get('type', 'Real')))
+
         await self.p.set_android_version()
         if self.p.android_version:
             logger.info("Detected Android Version: {}".format(self.p.android_version))

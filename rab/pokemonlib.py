@@ -51,11 +51,12 @@ class PokemonGo(object):
         self.calcy_pid = None
         self.use_fallback_screenshots = False
         self.android_version = None
+        self.adb_path = "adb"
 
     async def connect_wifi(self, wifi_ip=None, port='5555'):
         self.wifi_ip = wifi_ip
         args = [
-            "adb",
+            self.adb_path,
             "-d",
             "tcpip",
             port
@@ -63,7 +64,7 @@ class PokemonGo(object):
         await self.run(args)
 
         args = [
-            "adb",
+            self.adb_path,
             "connect",
             self.wifi_ip + ':' + port
         ]
@@ -71,7 +72,7 @@ class PokemonGo(object):
 
     async def disconnect_wifi(self, port='5555'):
         args = [
-            "adb",
+            self.adb_path,
             "disconnect",
             self.wifi_ip + ':' + str(port)
         ]
@@ -85,7 +86,7 @@ class PokemonGo(object):
         logger.info("Getting last known location from {}".format(deviceid))
 
         args = [
-            "adb",
+            self.adb_path,
             "-s",
             deviceid,
             "shell",
@@ -131,16 +132,16 @@ class PokemonGo(object):
     async def screencap(self):
         if not self.use_fallback_screenshots:
             return_code, stdout, stderr = await self.run(
-                ["adb", "-s", await self.get_device(), "exec-out", "screencap", "-p"])
+                [self.adb_path, "-s", await self.get_device(), "exec-out", "screencap", "-p"])
             try:
                 return Image.open(BytesIO(stdout))
             except (OSError, IOError):
                 logger.debug("Screenshot failed, using fallback method")
                 self.use_fallback_screenshots = True
         return_code, stdout, stderr = await self.run(
-            ["adb", "-s", await self.get_device(), "shell", "screencap", "-p", "/sdcard/screen.png"])
+            [self.adb_path, "-s", await self.get_device(), "shell", "screencap", "-p", "/sdcard/screen.png"])
         return_code, stdout, stderr = await self.run(
-            ["adb", "-s", await self.get_device(), "pull", "/sdcard/screen.png", "."])
+            [self.adb_path, "-s", await self.get_device(), "pull", "/sdcard/screen.png", "."])
         image = Image.open("screen.png")
         return image
 
@@ -176,7 +177,7 @@ class PokemonGo(object):
         return (p.returncode, stdout, stderr)
 
     async def get_devices(self):
-        code, stdout, stderr = await self.run(["adb", "devices"])
+        code, stdout, stderr = await self.run([self.adb_path, "devices"])
         devices = []
 
         for line in stdout.decode('utf-8').splitlines()[1:-1]:
@@ -185,7 +186,7 @@ class PokemonGo(object):
         return devices
 
     async def start_logcat(self):
-        cmd = ["adb", "-s", await self.get_device(), "logcat", "-T", "1", "-v", "brief",
+        cmd = [self.adb_path, "-s", await self.get_device(), "logcat", "-T", "1", "-v", "brief",
                "MainService:D j:D ClipboardReceiver:D *:S"]
         logger.info("Starting logcat %s", cmd)
         self.logcat_task = await asyncio.create_subprocess_exec(
@@ -246,24 +247,24 @@ class PokemonGo(object):
             else:
                 cmd = cmd + " -e {} '{}'".format(key, value)
         logger.info("Sending intent: " + cmd)
-        await self.run(["adb", "-s", await self.get_device(), "shell", cmd])
+        await self.run([self.adb_path, "-s", await self.get_device(), "shell", cmd])
 
     async def tap(self, x, y):
         logger.debug("Tapping at [{}, {}]".format(x, y))
-        await self.run(["adb", "-s", await self.get_device(), "shell", "input", "tap", x, y])
+        await self.run([self.adb_path, "-s", await self.get_device(), "shell", "input", "tap", x, y])
 
     async def key(self, key):
         logger.info("Pressing key {}".format(key))
-        await self.run(["adb", "-s", await self.get_device(), "shell", "input", "keyevent", key])
+        await self.run([self.adb_path, "-s", await self.get_device(), "shell", "input", "keyevent", key])
 
     async def text(self, text):
         logger.info("Typing {}".format(text))
-        await self.run(["adb", "-s", await self.get_device(), "shell", "input", "text", text])
+        await self.run([self.adb_path, "-s", await self.get_device(), "shell", "input", "text", text])
 
     async def swipe(self, x1, y1, x2, y2, duration=None):
         logger.debug("Swiping from [{}, {}] to [{}, {}] in {} milliseconds.".format(x1, y1, x2, y2, duration))
         args = [
-            "adb",
+            self.adb_path,
             "-s",
             await self.get_device(),
             "shell",
@@ -281,7 +282,7 @@ class PokemonGo(object):
     async def check_if_app_running(self, app_process):
         logger.info("Checking if '{}' is running".format(app_process))
         args = [
-            "adb",
+            self.adb_path,
             "-s",
             await self.get_device(),
             "shell",
@@ -303,7 +304,7 @@ class PokemonGo(object):
         await asyncio.sleep(delay)
         if self.android_version >= 8:
             args = [
-                "adb",
+                self.adb_path,
                 "-s",
                 await self.get_device(),
                 "shell",
@@ -321,7 +322,7 @@ class PokemonGo(object):
         else:
             # adb shell am startservice -a theappninjas.gpsjoystick.TELEPORT --ef lat {your-latitude-value} --ef lng {your-longitude-value} --ef alt {your-altitude-value}
             args = [
-                "adb",
+                self.adb_path,
                 "-s",
                 await self.get_device(),
                 "shell",
@@ -349,7 +350,7 @@ class PokemonGo(object):
         await asyncio.sleep(delay)
         if self.android_version >= 8:
             args = [
-                "adb",
+                self.adb_path,
                 "-s",
                 await self.get_device(),
                 "shell",
@@ -364,7 +365,7 @@ class PokemonGo(object):
         else:
             # adb shell am startservice -a theappninjas.gpsjoystick.ROUTE --es name \"{your-route-name}\"
             args = [
-                "adb",
+                self.adb_path,
                 "-s",
                 await self.get_device(),
                 "shell",
@@ -386,7 +387,7 @@ class PokemonGo(object):
     async def navigation_offset(self, y=0, top=0):
         if y > 0 and top <= 0:
             args = [
-                "adb",
+                self.adb_path,
                 "-s",
                 await self.get_device(),
                 "shell",
@@ -396,7 +397,7 @@ class PokemonGo(object):
             ]
         elif y > 0 and top > 0:
             args = [
-                "adb",
+                self.adb_path,
                 "-s",
                 await self.get_device(),
                 "shell",
@@ -406,7 +407,7 @@ class PokemonGo(object):
             ]
         elif y <= 0 and top > 0:
             args = [
-                "adb",
+                self.adb_path,
                 "-s",
                 await self.get_device(),
                 "shell",
@@ -416,7 +417,7 @@ class PokemonGo(object):
             ]
         else:
             args = [
-                "adb",
+                self.adb_path,
                 "-s",
                 await self.get_device(),
                 "shell",
@@ -427,9 +428,12 @@ class PokemonGo(object):
 
         await self.run(args)
 
+    async def set_adb_path(self, path):
+        self.adb_path = path
+
     async def set_android_version(self):
         args = [
-            "adb",
+            self.adb_path,
             "-s",
             await self.get_device(),
             "shell",
@@ -446,7 +450,7 @@ class PokemonGo(object):
 
     async def get_screen_resolution(self):
         args = [
-            "adb",
+            self.adb_path,
             "-s",
             await self.get_device(),
             "shell",
@@ -465,7 +469,7 @@ class PokemonGo(object):
 
     async def get_screen_dpi(self):
         args = [
-            "adb",
+            self.adb_path,
             "-s",
             await self.get_device(),
             "shell",
@@ -485,7 +489,7 @@ class PokemonGo(object):
     async def change_screen_resolution(self, x=1080, y=1920, dpi=None):
         if dpi:
             args = [
-                "adb",
+                self.adb_path,
                 "-s",
                 await self.get_device(),
                 "shell",
@@ -496,7 +500,7 @@ class PokemonGo(object):
             await self.run(args)
         await asyncio.sleep(1)
         args = [
-            "adb",
+            self.adb_path,
             "-s",
             await self.get_device(),
             "shell",
@@ -508,7 +512,7 @@ class PokemonGo(object):
 
     async def reset_screen_resolution(self):
         args = [
-            "adb",
+            self.adb_path,
             "-s",
             await self.get_device(),
             "shell",
@@ -519,7 +523,7 @@ class PokemonGo(object):
         await self.run(args)
         await asyncio.sleep(1)
         args = [
-            "adb",
+            self.adb_path,
             "-s",
             await self.get_device(),
             "shell",
@@ -530,7 +534,7 @@ class PokemonGo(object):
         await self.run(args)
         await asyncio.sleep(1)
         args = [
-            "adb",
+            self.adb_path,
             "-s",
             await self.get_device(),
             "shell",
@@ -542,7 +546,7 @@ class PokemonGo(object):
 
     async def set_screen_brightness(self, brightness):
         args = [
-            "adb",
+            self.adb_path,
             "-s",
             await self.get_device(),
             "shell",
