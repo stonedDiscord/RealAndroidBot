@@ -1064,7 +1064,9 @@ class Main:
                                                 # return 'on_pokestop'
                                             else:
                                                 break
-                                        elif (is_gym_page(im_rgb)):
+                                        gym_status = is_gym_page(im_rgb)
+                                        if gym_status:
+                                            logger.info('Gym found: {}'.format(gym_status))
                                             await tap_screen(self.p, 940, 1750)
                                             await spin_pokestop(self.p)
                                             im_rgb = await screen_cap(self.d)
@@ -1073,6 +1075,7 @@ class Main:
                                                 await asyncio.sleep(0.5)
                                             self.bag_full = is_bag_full(im_rgb)
                                             await tap_close_btn(self.p)
+                                            return 'on_gym'
                                         else:
                                             break
                                     else:
