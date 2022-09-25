@@ -742,6 +742,14 @@ class Main:
         # else:
         #    logger.info('Cannot detect Player Level')
 
+
+    async def report_encounter(self):
+        message = '{} Encountered. CP: {} ({}/{}/{}) Shiny: {}'.format(
+            self.pokemon.name, self.pokemon.cp, self.pokemon.atk_iv, self.pokemon.def_iv, self.pokemon.sta_iv, self.pokemon.shiny)
+        webhook_url = self.config['discord'].get('webhook_url', '')
+        if webhook_url and message:
+            send_to_discord(webhook_url, 'RAB Encounter ({})'.format(self.device_id), message)
+
     async def check_map(self):
         global rab_runtime_status
         global pgsharp_client
@@ -1116,13 +1124,7 @@ class Main:
                     save_screenshot(im_rgb, sub_dir='shiny', save=self.config['screenshot'].get('shiny'))
 
                 if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                    now = datetime.now()
-                    str_now = now.strftime("%Y-%m-%d %H:%M:%S")
-                    message = '{}: {} Encountered. CP: {} ({}/{}/{}) Shiny: {}'.format(
-                        str_now, self.pokemon.name, self.pokemon.cp, self.pokemon.atk_iv, self.pokemon.def_iv, self.pokemon.sta_iv, self.pokemon.shiny)
-                    webhook_url = self.config['discord'].get('webhook_url', '')
-                    if webhook_url and message:
-                        send_to_discord(webhook_url, 'RAB Encounter Reporter ({})'.format(self.device_id), message)
+                    self.report_encounter()
 
                 if self.config['client'].get('client', '').lower() in ['none', 'pgsharp', 'pgsharp paid'] and not self.pgsharpv2:
                     pokemon_caught = await catch_pokemon(self.p, self.d, self.pokemon, track_r=r, track_g=g, track_b=b, rab_runtime_status=rab_runtime_status, pgsharp_client=pgsharp_client, mad_client=mad_client, device_id=self.device_id)
@@ -1304,13 +1306,7 @@ class Main:
                     save_screenshot(im_rgb, sub_dir='shiny', save=self.config['screenshot'].get('shiny'))
 
                 if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                    now = datetime.now()
-                    str_now = now.strftime("%Y-%m-%d %H:%M:%S")
-                    message = '{}: {} Encountered. CP: {} ({}/{}/{}) Shiny: {}'.format(
-                        str_now, self.pokemon.name, self.pokemon.cp, self.pokemon.atk_iv, self.pokemon.def_iv, self.pokemon.sta_iv, self.pokemon.shiny)
-                    webhook_url = self.config['discord'].get('webhook_url', '')
-                    if webhook_url and message:
-                        send_to_discord(webhook_url, 'RAB Encounter Reporter ({})'.format(self.device_id), message)
+                    self.report_encounter()
 
                 if self.config['client'].get('client', '').lower() in ['none', 'pgsharp', 'pgsharp paid'] and not self.pgsharpv2:
                     pokemon_caught = await catch_pokemon(self.p, self.d, self.pokemon, track_r=r, track_g=g, track_b=b, rab_runtime_status=rab_runtime_status, pgsharp_client=pgsharp_client, mad_client=mad_client, device_id=self.device_id)
@@ -1354,13 +1350,7 @@ class Main:
                     save_screenshot(im_rgb, sub_dir='shiny', save=self.config['screenshot'].get('shiny'))
 
                 if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                    now = datetime.now()
-                    str_now = now.strftime("%Y-%m-%d %H:%M:%S")
-                    message = '{}: {} Encountered. CP: {} ({}/{}/{}) Shiny: {}'.format(
-                        str_now, self.pokemon.name, self.pokemon.cp, self.pokemon.atk_iv, self.pokemon.def_iv, self.pokemon.sta_iv, self.pokemon.shiny)
-                    webhook_url = self.config['discord'].get('webhook_url', '')
-                    if webhook_url and message:
-                        send_to_discord(webhook_url, 'RAB Encounter Reporter ({})'.format(self.device_id), message)
+                    self.report_encounter()
 
                 if config['client'].get('client', '').lower() in ['none', 'pgsharp', 'pgsharp paid'] and not self.pgsharpv2:
                     pokemon_caught = await catch_pokemon(self.p, self.d, self.pokemon, track_r=r, track_g=g, track_b=b, rab_runtime_status=rab_runtime_status, pgsharp_client=pgsharp_client, mad_client=mad_client, device_id=self.device_id)
@@ -1581,13 +1571,7 @@ class Main:
                             return 'on_pokemon'
 
                     if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                        now = datetime.now()
-                        str_now = now.strftime("%Y-%m-%d %H:%M:%S")
-                        message = '{}: {} Encountered. CP: {} ({}/{}/{}) Shiny: {}'.format(
-                            str_now, self.pokemon.name, self.pokemon.cp, self.pokemon.atk_iv, self.pokemon.def_iv, self.pokemon.sta_iv, self.pokemon.shiny)
-                        webhook_url = self.config['discord'].get('webhook_url', '')
-                        if webhook_url and message:
-                            send_to_discord(webhook_url, 'RAB Encounter Reporter ({})'.format(self.device_id), message)
+                        self.report_encounter()
 
                     if self.pokemon.shiny:
                         save_screenshot(im_rgb, sub_dir='shiny', save=self.config['screenshot'].get('shiny'))
@@ -1626,13 +1610,7 @@ class Main:
                     return 'on_pokemon'
 
             if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                now = datetime.now()
-                str_now = now.strftime("%Y-%m-%d %H:%M:%S")
-                message = '{}: {} Encountered. CP: {} ({}/{}/{}) Shiny: {}'.format(
-                    str_now, self.pokemon.name, self.pokemon.cp, self.pokemon.atk_iv, self.pokemon.def_iv, self.pokemon.sta_iv, self.pokemon.shiny)
-                webhook_url = self.config['discord'].get('webhook_url', '')
-                if webhook_url and message:
-                    send_to_discord(webhook_url, 'RAB Encounter Reporter ({})'.format(self.device_id), message)
+                self.report_encounter()
             if self.pokemon.shiny:
                 save_screenshot(im_rgb, sub_dir='shiny', save=self.config['screenshot'].get('shiny'))
             pokemon_caught = await catch_pokemon(self.p, self.d, self.pokemon, is_shadow=True, rab_runtime_status=rab_runtime_status, pgsharp_client=pgsharp_client, mad_client=mad_client, device_id=self.device_id)
@@ -1919,13 +1897,7 @@ class Main:
                             return 'on_pokemon'
 
                     if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                        now = datetime.now()
-                        str_now = now.strftime("%Y-%m-%d %H:%M:%S")
-                        message = '{}: {} Encountered. CP: {} ({}/{}/{}) Shiny: {}'.format(
-                            str_now, self.pokemon.name, self.pokemon.cp, self.pokemon.atk_iv, self.pokemon.def_iv, self.pokemon.sta_iv, self.pokemon.shiny)
-                        webhook_url = self.config['discord'].get('webhook_url ({})'.format(self.device_id), '')
-                        if webhook_url and message:
-                            send_to_discord(webhook_url, 'RAB Encounter Reporter ({})'.format(self.device_id), message)
+                        self.report_encounter()
 
                     if self.pokemon.shiny:
                         save_screenshot(im_rgb, sub_dir='shiny', save=self.config['screenshot'].get('shiny'))
@@ -2117,13 +2089,7 @@ class Main:
                                                   last_active_location.get('longitude', 0),
                                                   current_check['latitude'], current_check['longitude'])
                 if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                    now = datetime.now()
-                    str_now = now.strftime("%Y-%m-%d %H:%M:%S")
-                    message = '{}: {} Encountered. CP: {} ({}/{}/{}) Shiny: {}'.format(
-                        str_now, self.pokemon.name, self.pokemon.cp, self.pokemon.atk_iv, self.pokemon.def_iv, self.pokemon.sta_iv, self.pokemon.shiny)
-                    webhook_url = self.config['discord'].get('webhook_url', '')
-                    if webhook_url and message:
-                        send_to_discord(webhook_url, 'RAB Encounter Reporter ({})'.format(self.device_id), message)
+                    self.report_encounter()
 
                 if self.config['snipe'].get('auto_catch', False):
                     if cd_total_sec >= 0:
@@ -2341,13 +2307,7 @@ class Main:
                     self.no_spawn_count = 0
 
                 if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                    now = datetime.now()
-                    str_now = now.strftime("%Y-%m-%d %H:%M:%S")
-                    message = '{}: {} Encountered. CP: {} ({}/{}/{}) Shiny: {}'.format(
-                        str_now, self.pokemon.name, self.pokemon.cp, self.pokemon.atk_iv, self.pokemon.def_iv, self.pokemon.sta_iv, self.pokemon.shiny)
-                    webhook_url = self.config['discord'].get('webhook_url', '')
-                    if webhook_url and message:
-                        send_to_discord(webhook_url, 'RAB Encounter Reporter ({})'.format(self.device_id), message)
+                    self.report_encounter()
 
                 if self.player_level >= 30 and pgsharp_client:
                     await self.check_and_send(self.pokemon, pgsharp_client)
@@ -3025,13 +2985,7 @@ class Main:
                     incensePokeData = localnetwork.incense_pokemon_encounter.pop()
                     self.pokemon.update_stats_from_polygon(incensePokeData)
                     if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                        now = datetime.now()
-                        str_now = now.strftime("%Y-%m-%d %H:%M:%S")
-                        message = '{}: {} Encountered. CP: {} ({}/{}/{}) Shiny: {}'.format(
-                            str_now, self.pokemon.name, self.pokemon.cp, self.pokemon.atk_iv, self.pokemon.def_iv, self.pokemon.sta_iv, self.pokemon.shiny)
-                        webhook_url = self.config['discord'].get('webhook_url', '')
-                        if webhook_url and message:
-                            send_to_discord(webhook_url, 'RAB Encounter Reporter ({})'.format(self.device_id), message)
+                        self.report_encounter()
                     if self.config['catch'].get('only_shiny', False) and not self.pokemon.shiny:
                         await asyncio.sleep(1)
                         self.d.press("back")  # Flee
@@ -3060,13 +3014,7 @@ class Main:
                         wildPokeData = localnetwork.wild.pop(wildEncounterIndex)
                         self.pokemon.update_stats_from_polygon(encounterPokeData)
                         if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                            now = datetime.now()
-                            str_now = now.strftime("%Y-%m-%d %H:%M:%S")
-                            message = '{}: {} Encountered. CP: {} ({}/{}/{}) Shiny: {}'.format(
-                                str_now, self.pokemon.name, self.pokemon.cp, self.pokemon.atk_iv, self.pokemon.def_iv, self.pokemon.sta_iv, self.pokemon.shiny)
-                            webhook_url = self.config['discord'].get('webhook_url', '')
-                            if webhook_url and message:
-                                send_to_discord(webhook_url, 'RAB Encounter Reporter ({})'.format(self.device_id), message)
+                            self.report_encounter()
                         if self.config['catch'].get('only_shiny', False) and not self.pokemon.shiny:
                             await asyncio.sleep(1)
                             self.d.press("back")  # Flee
@@ -3087,13 +3035,7 @@ class Main:
                         if is_catch_pokemon_page(im_rgb):
                             self.trivial_page_count = 0
                             if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                                now = datetime.now()
-                                str_now = now.strftime("%Y-%m-%d %H:%M:%S")
-                                message = '{}: {} Encountered. CP: {} ({}/{}/{}) Shiny: {}'.format(
-                                    str_now, self.pokemon.name, self.pokemon.cp, self.pokemon.atk_iv, self.pokemon.def_iv, self.pokemon.sta_iv, self.pokemon.shiny)
-                                webhook_url = self.config['discord'].get('webhook_url', '')
-                                if webhook_url and message:
-                                    send_to_discord(webhook_url, 'RAB Encounter Reporter ({})'.format(self.device_id), message)
+                                self.report_encounter()
                             if not priorityPoke:
                                 logger.info('Wrong Pokemon')
                                 wildPokeData = localnetwork.encounter.pop()
@@ -3180,14 +3122,7 @@ class Main:
                                 save_screenshot(im_rgb, sub_dir='shiny', save=self.config['screenshot'].get('shiny'))
                             if is_catch_pokemon_page(im_rgb, is_shadow=True):
                                 if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                                    now = datetime.now()
-                                    str_now = now.strftime("%Y-%m-%d %H:%M:%S")
-                                    message = '{}: {} Encountered. CP: {} ({}/{}/{}) Shiny: {}'.format(
-                                        str_now, self.pokemon.name, self.pokemon.cp, self.pokemon.atk_iv, self.pokemon.def_iv, self.pokemon.sta_iv, self.pokemon.shiny)
-                                    webhook_url = self.config['discord'].get('webhook_url', '')
-                                    if webhook_url and message:
-                                        send_to_discord(webhook_url, 'RAB Encounter Reporter ({})'.format(
-                                            self.device_id), message)
+                                    self.report_encounter()
                                 pokemon_caught = await catch_pokemon(self.p, self.d, self.pokemon, rab_runtime_status=rab_runtime_status, device_id=self.device_id)
                                 if pokemon_caught == 'No Ball':
                                     localnetwork.total_ball_count = 0
@@ -3303,13 +3238,7 @@ class Main:
                     self.trivial_page_count = 0
                     self.pokemon.update_stats_from_catch_screen(im_rgb)
                     if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                        now = datetime.now()
-                        str_now = now.strftime("%Y-%m-%d %H:%M:%S")
-                        message = '{}: {} Encountered. CP: {} ({}/{}/{}) Shiny: {}'.format(
-                            str_now, self.pokemon.name, self.pokemon.cp, self.pokemon.atk_iv, self.pokemon.def_iv, self.pokemon.sta_iv, self.pokemon.shiny)
-                        webhook_url = self.config['discord'].get('webhook_url', '')
-                        if webhook_url and message:
-                            send_to_discord(webhook_url, 'RAB Encounter Reporter ({})'.format(self.device_id), message)
+                        self.report_encounter()
                     if self.config['catch'].get('only_shiny', False) and not self.pokemon.shiny:
                         await asyncio.sleep(1)
                         self.d.press("back")  # Flee
@@ -3364,13 +3293,7 @@ class Main:
                         im_rgb = await screen_cap(self.d)
                         self.pokemon.update_stats_from_catch_screen(im_rgb)
                         if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                            now = datetime.now()
-                            str_now = now.strftime("%Y-%m-%d %H:%M:%S")
-                            message = '{}: {} Encountered. CP: {} ({}/{}/{}) Shiny: {}'.format(
-                                str_now, self.pokemon.name, self.pokemon.cp, self.pokemon.atk_iv, self.pokemon.def_iv, self.pokemon.sta_iv, self.pokemon.shiny)
-                            webhook_url = self.config['discord'].get('webhook_url', '')
-                            if webhook_url and message:
-                                send_to_discord(webhook_url, 'RAB Encounter Reporter ({})'.format(self.device_id), message)
+                            self.report_encounter()
                         if self.config['catch'].get('only_shiny', False) and not self.pokemon.shiny:
                             await asyncio.sleep(1)
                             self.d.press("back")  # Flee
@@ -3630,13 +3553,7 @@ class Main:
             im_rgb = await screen_cap(self.d)  # Manual in case didn't get data from network
             if is_catch_pokemon_page(im_rgb):
                 if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                    now = datetime.now()
-                    str_now = now.strftime("%Y-%m-%d %H:%M:%S")
-                    message = '{}: {} Encountered. CP: {} ({}/{}/{}) Shiny: {}'.format(
-                        str_now, self.pokemon.name, self.pokemon.cp, self.pokemon.atk_iv, self.pokemon.def_iv, self.pokemon.sta_iv, self.pokemon.shiny)
-                    webhook_url = self.config['discord'].get('webhook_url', '')
-                    if webhook_url and message:
-                        send_to_discord(webhook_url, 'RAB Encounter Reporter ({})'.format(self.device_id), message)
+                    self.report_encounter()
                 self.trivial_page_count = 0
                 self.pokemon.update_stats_from_catch_screen(im_rgb)
                 if self.config['catch'].get('only_shiny', False) and not self.pokemon.shiny:
