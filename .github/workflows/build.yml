@@ -1,0 +1,28 @@
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: 'windows-latest'
+    strategy:
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.10
+
+    - run: |
+      pip install -r requirements.txt pyinstaller
+      cd rab/
+      pyinstaller --onefile --icon=icon.png run.py
+      cp ./dist/run.exe .
+      rm *.py
+      rm -r rpc
+      rm -r dist
+      rm -r build
+      rm -r __pycache__
+    - uses: actions/upload-artifact@v2
+      with:
+        path: rab/*
