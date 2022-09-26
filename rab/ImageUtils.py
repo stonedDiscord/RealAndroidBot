@@ -12,7 +12,7 @@ from pathlib import Path
 import pytesseract
 if sys.platform == 'win32':
     if Path('Tesseract-OCR/tesseract.exe').is_file():
-        pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\tesseract.exe'
+        pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\\tesseract.exe'
         tool = pytesseract
     else:
         #tools = pyocr.get_available_tools()
