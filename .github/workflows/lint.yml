@@ -1,6 +1,6 @@
 name: Python lint
 
-on: [push]
+on: push
 
 jobs:
   build:
