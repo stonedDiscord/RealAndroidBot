@@ -601,7 +601,7 @@ def is_team_rocket_page(im):
             matched.append(x)
 
     if len(matched) > 0:
-        logger.info('YES: found key word: {}'.format(matched))
+        logger.debug('YES: found key word: {}'.format(matched))
         if 'grunt' in matched or 'runt' in matched:
             return 'rocket_grunt'
         if any(x in matched for x in ['leader', 'cliff', 'sierra', 'arlo']):
@@ -859,7 +859,7 @@ def is_main_menu_page(im):
     im_cropped = im.crop([70, 790, 965, 1515])
     matched = match_key_word_wrapper(im_cropped, ['shop', 'items', 'pokémon', 'pokemon', 'exit'])
     if len(matched) > 0 and 'exit' not in matched:
-        logger.info('YES: found key word: {}'.format(matched))
+        logger.debug('YES: found key word: {}'.format(matched))
         return matched
     logger.debug('NO: key word not found')
     return False
