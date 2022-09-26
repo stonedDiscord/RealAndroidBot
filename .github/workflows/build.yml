@@ -22,7 +22,6 @@ jobs:
         rm -r rpc
         rm -r dist
         rm -r build
-        rm -r __pycache__
     - uses: actions/upload-artifact@v2
       with:
         path: rab/*
