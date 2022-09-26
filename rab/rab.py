@@ -5210,12 +5210,14 @@ def call_main(event=None, telegram_client=None, frm_telegram_id=None, frm_donor_
                         help='For over wifi. Default port is 5555.')
     parser.add_argument('--config-filename', type=str, default=None,
                         help='Config file location.')
-    # parser.add_argument('--log-level', default='ERROR',
-    #                    help='Log level')
+    parser.add_argument('--log-level', default='INFO',
+                        help='Log level')
     parser.add_argument('--develop-mode', type=str, default=None,
                         help='Developer Mode')
     parser.add_argument('--map-mode', type=str, default=None,
                         help='Map Mode')
+    parser.add_argument('--headless', type=str, default=None,
+                        help='Headless Mode')
     args = parser.parse_args()
 
     signal.signal(signal.SIGINT, signal_handler)

@@ -3158,12 +3158,14 @@ parser.add_argument('--wifi-port', type=str, default='5555',
                     help='For over wifi. Default port is 5555.')
 parser.add_argument('--config-filename', type=str, default=None,
                     help='Config file location.')
-# parser.add_argument('--log-level', default='ERROR',
-#                    help='Log level')
+parser.add_argument('--log-level', default='INFO',
+                    help='Log level')
 parser.add_argument('--develop-mode', type=str, default=None,
                     help='Developer Mode')
 parser.add_argument('--map-mode', type=str, default=None,
                     help='Map Mode')
+parser.add_argument('--headless', type=str, default=None,
+                    help='Headless Mode')
 args = parser.parse_args()
 
 # Comment these off after deployment
@@ -3190,15 +3192,14 @@ if not os.path.exists(config_path):
 
 with open(config_path, "r", encoding='utf8') as f:
     config = yaml.load(f, Loader)
-with open('lang.yaml', "r", encoding='utf8') as f:
-    lang = yaml.load(f, Loader)
 
-root = tk.Tk()
-rabwindow = RABGui(config, lang, config_path, args.device_id)
-rabwindow.start_win(root)
-# def refresh():
-#    #rabwindow.destory()
-#    global root, rabwindow
-#    root.destroy()
-#    rabwindow.start_win(root)
-root.mainloop()
+if args.headless:
+    rab.call_main()
+else:
+    with open('lang.yaml', "r", encoding='utf8') as f:
+        lang = yaml.load(f, Loader)
+    root = tk.Tk()
+    rabwindow = RABGui(config, lang, config_path, args.device_id)
+    rabwindow.start_win(root)
+
+    root.mainloop()
