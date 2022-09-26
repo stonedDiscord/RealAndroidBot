@@ -1,0 +1,31 @@
+name: PyInstaller build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    - name: Build EXE
+    - run: |
+        pip install -r requirements.txt pyinstaller
+        cd rab/
+        pyinstaller --onefile --icon=icon.png run.py
+        cp ./dist/run.exe .
+        rm *.py
+        rm run.spec
+        rm -r rpc
+        rm -r dist
+        rm -r build
+
+    - uses: actions/upload-artifact@v2
+      with:
+        path: rab/*
