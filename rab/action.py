@@ -2,17 +2,13 @@ import asyncio
 import logging
 import random
 import time
-import datetime
 import sys
 import re
 
 import numpy as np
 
-import yaml
 from pathlib import Path
 from PIL import Image
-from PIL import ImageFont
-from PIL import ImageDraw
 
 from ImageUtils import extract_text_from_image, crop_horizontal_piece, crop_top_half, crop_bottom_half
 from page_detection import is_catch_pokemon_page, is_mon_caught_page, save_screenshot, \

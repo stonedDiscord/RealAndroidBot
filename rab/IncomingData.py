@@ -2,12 +2,9 @@ import socket
 import sys
 import struct
 import time
-import signal
 import logging
 import threading
-import traceback
 from datetime import datetime  # to be removed
-from flask import jsonify
 from math import sqrt
 from utils import calculate_cooldown, POKEMON
 
