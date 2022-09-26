@@ -1,22 +1,14 @@
 import asyncio
 import logging
-import os
 import re
 import subprocess
 from csv import reader
 from io import BytesIO
 
 from PIL import Image
-from colorlog import ColoredFormatter
 
 logger = logging.getLogger('PokemonGo')
 logger.setLevel(logging.INFO)
-ch = logging.StreamHandler()
-ch.setLevel(logging.INFO)
-formatter = ColoredFormatter('%(log_color)s[%(asctime)s] %(log_color)s%(levelname)-7s%(reset)s '
-                             '| %(log_color)s%(message)s%(reset)s', datefmt='%I:%M:%S %p')
-ch.setFormatter(formatter)
-logger.addHandler(ch)
 
 RE_CLIPBOARD_TEXT = re.compile(r"^./ClipboardReceiver\(\s*\d+\): Clipboard text: (.+)$")
 
