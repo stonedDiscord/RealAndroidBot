@@ -1,15 +1,10 @@
 Pillow
 telethon
-colorlog==4.0.2
 SQLAlchemy>=1.2.12
 requests>=2.20.0
-flask>=1.0.2
-cython
-geopy>=1.22.0
 s2sphere>=0.2.5
 Shapely>=1.7.0
-pynput>=1.7.1
-PyYAML>=5.1
+PyYAML
 opencv-python>=4.4.0.42
 numpy>=1.19.1
 imutils==0.5.3
