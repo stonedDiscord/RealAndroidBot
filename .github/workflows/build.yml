@@ -5,8 +5,6 @@ on: [push]
 jobs:
   build:
     runs-on: 'windows-latest'
-    strategy:
-      fail-fast: false
 
     steps:
     - uses: actions/checkout@v2
@@ -23,9 +21,11 @@ jobs:
         pyinstaller --onefile --icon=icon.png run.py
         cp ./dist/run.exe .
         rm *.py
+        rm run.spec
         rm -r rpc
         rm -r dist
         rm -r build
+
     - uses: actions/upload-artifact@v2
       with:
         path: rab/*
