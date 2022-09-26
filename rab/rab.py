@@ -1075,7 +1075,7 @@ class Main:
                                         gym_status = is_gym_page(im_rgb)
                                         if gym_status:
                                             logger.info('Gym found: {}'.format(gym_status))
-                                            await tap_screen(self.p, 940, 1750)
+                                            await tap_screen(self.p, 920, 1790)
                                             await spin_pokestop(self.p)
                                             im_rgb = await screen_cap(self.d)
                                             if is_gym_badge(im_rgb):
