@@ -375,6 +375,11 @@ def is_gym_page(im):
         logger.debug('YES: found {}'.format(os.path.basename(template_path)))
         return 'gym_spinnable'
 
+    matched = match_key_word_wrapper(im_cropped, ['battle', 'private group', 'remote', 'raid pass'])
+    if len(matched) > 0:
+        logger.debug('YES: found key word: {}'.format(matched))
+        return 'gym_raid'
+
     th_question_button = 15000000
     template_path = 'assets/btn_question_03_normal_white.png'
     has_gym_question_btn = match_template_wrapper(template_path, im_cropped, threshold=th_question_button)
@@ -389,7 +394,7 @@ def is_gym_page(im):
         logger.debug('YES: found {}'.format(os.path.basename(template_path)))
         return True
 
-    matched = match_key_word_wrapper(im_cropped, ['walk closer', 'interact', 'with this', 'gym', 'private group'])
+    matched = match_key_word_wrapper(im_cropped, ['walk closer', 'interact', 'with this', 'gym'])
     if len(matched) > 0:
         logger.debug('YES: found key word: {}'.format(matched))
         return matched
