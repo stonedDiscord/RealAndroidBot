@@ -1,6 +1,5 @@
-name: PyInstaller build
-
-on: push
+on:
+  push:
 
 jobs:
   build:
@@ -14,7 +13,6 @@ jobs:
       with:
         python-version: 3.9
 
-    - name: Build EXE
     - run: |
         pip install -r requirements.txt pyinstaller
         cd rab/
