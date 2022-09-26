@@ -50,11 +50,10 @@ poke_location = [{'x': 190, 'y':  650}, {'x': 540, 'y':  650}, {'x': 880, 'y':  
                 { 'x': 190, 'y': 1040}, {'x': 540, 'y': 1040}, {'x': 880, 'y': 1040},
                 { 'x': 190, 'y': 1460}, {'x': 540, 'y': 1460}, {'x': 880, 'y': 1460}]
 
+
 async def set_config(main_config):
     global config
     config = main_config
-
-# @timer
 
 
 async def screen_cap(p, border_width=80):
