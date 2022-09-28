@@ -139,7 +139,7 @@ async def check_item(p, d, config):
                 logger.debug("Text: {}".format(text_ITEM1))
                 if config['item_config_use'].get(text_ITEM1, 0) and text_ITEM1 not in track_item:
                     logger.info(f'Using {text_ITEM1}')
-                    if await delete_item(p, d, 1, config['item_config_use'].get(text_ITEM1, 0), config):
+                    if await use_item(p, d, 1, config['item_config_use'].get(text_ITEM1, 0), config):
                         track_item.append(text_ITEM1)
                         break
                 if config['item_config'].get(text_ITEM1, 0) and text_ITEM1 not in track_item:
