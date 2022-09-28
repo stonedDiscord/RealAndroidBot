@@ -159,6 +159,12 @@ item_management:
     last_item_quit: '' # Name of item that will trigger RAB to quit scrolling item page. This will save time.
 
 ## Item Options
+# Use these
+item_config_use:
+    Revive: 9
+    Hyper Potion: 9
+
+# Throw these away
 item_config:
     Potion: true
     Super Potion: true
