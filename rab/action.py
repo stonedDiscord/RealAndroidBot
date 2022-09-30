@@ -2184,15 +2184,15 @@ async def fight_team_rocket(p, d, rocket_type='rocket_grunt'):
 
 @timer
 async def check_player_level(p, d):
+    offset = config['client'].get('screen_offset', 0)
     player_level = []
-    await tap_screen(p, 135, 1755, 3.0)  # Profile
-    await tap_screen(p, 350, 250, 1.0)  # Me tab, prevent users skip level check by going to friend tab
+    await tap_screen(p, 135, 1755+offset, 3.0)  # Profile
+    await tap_screen(p, 350, 250+offset, 1.0)  # Me tab
     im_rgb = await screen_cap(d)
-    im_cropped = im_rgb.crop([35, 1170, 1130, 1535])
+    im_cropped = im_rgb.crop([20, 1240, 200, 1325+offset])
     text = extract_text_from_image(im_cropped, binary=False, threshold=150).replace("\n", " ")
-    #print(f'Text: {text}')
+    logger.debug(f'Level text: {text}')
     player_level[:] = [int(s) for s in text.split() if s.isdigit()]
-    #print(f'Formatted result: {player_level}')
     d.press("back")
     return player_level
 
