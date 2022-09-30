@@ -577,6 +577,12 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
                     await asyncio.sleep(1)
                 im_rgb = await screen_cap(d)
 
+            if is_pokemon_full(im_rgb) and config.get('poke_management'):
+                if config['poke_management'].get('enable_poke_management', False):
+                    await tap_caught_ok_btn(p, im_rgb=im_rgb)
+                    await clear_pokemon_inventory(p, d)
+                    return False
+
             if is_catch_pokemon_page(im_rgb, is_shadow=False, map_check=True):
                 pokemon.update_stats_from_catch_screen(im_rgb)
 
