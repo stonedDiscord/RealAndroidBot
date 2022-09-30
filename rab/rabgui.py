@@ -328,12 +328,6 @@ class RABGui(object):
         logger.info('Your Telegram ID: {}'.format(self.telegram_id))
         with session_scope() as session:
             donor_until = vaild_subscription(session, self.telegram_id)
-        if donor_until > 0:
-            self.donor_until = donor_until
-            date_time = datetime.fromtimestamp(self.donor_until)
-            logger.info('Your Donor Status till: {}'.format(date_time.strftime("%d %B %Y, %H:%M:%S")))
-        if donor_until == -1:
-            logger.info('Your Donor Status has expired')
 
     def disableChildren(self, parent):
         for child in parent.winfo_children():
@@ -1129,14 +1123,12 @@ class RABGui(object):
             if self.client:
                 self.shutdown_telegram()
 
-        if self.donor_until:
-            if int(time.time()) < self.donor_until:
-                self.tab5Frame2Feed100IVShiny.config(state=tk.NORMAL)
-                self.tab5Frame2Feed82IVShiny.config(state=tk.NORMAL)
-                self.tab5Frame2FeedRare100IV.config(state=tk.NORMAL)
-                self.tab5Frame3Feed100IVShiny.config(state=tk.NORMAL)
-                self.tab5Frame3Feed82IVShiny.config(state=tk.NORMAL)
-                self.tab5Frame3FeedRare100IV.config(state=tk.NORMAL)
+        self.tab5Frame2Feed100IVShiny.config(state=tk.NORMAL)
+        self.tab5Frame2Feed82IVShiny.config(state=tk.NORMAL)
+        self.tab5Frame2FeedRare100IV.config(state=tk.NORMAL)
+        self.tab5Frame3Feed100IVShiny.config(state=tk.NORMAL)
+        self.tab5Frame3Feed82IVShiny.config(state=tk.NORMAL)
+        self.tab5Frame3FeedRare100IV.config(state=tk.NORMAL)
 
     def telegramApiID_entry(self, event):
         try:
@@ -2760,47 +2752,10 @@ class RABGui(object):
                                                       text=self.lang[self.gui_lang]['tab5Frame2FeedRare100IV'].replace('\\n', '\n').replace('\\t', '\t'))
         self.tab5Frame2FeedRare100IV.grid(row=0, column=4, sticky="W")
 
-        if self.donor_until:
-            if int(time.time()) < self.donor_until:
-                self.tab5Frame2Feed100IVShiny.config(state=tk.NORMAL)
-                self.tab5Frame2Feed82IVShiny.config(state=tk.NORMAL)
-                self.tab5Frame2PVPShiny.config(state=tk.NORMAL)
-                self.tab5Frame2FeedRare100IV.config(state=tk.NORMAL)
-            else:
-                self.boolFeed100IVShiny.set(0)
-                self.boolFeed82IVShiny.set(0)
-                self.boolFeedPVP.set(0)
-                self.boolFeedRare100IV.set(0)
-                self.tab5Frame2Feed100IVShiny.config(state=tk.DISABLED)
-                self.tab5Frame2Feed82IVShiny.config(state=tk.DISABLED)
-                self.tab5Frame2PVPShiny.config(state=tk.DISABLED)
-                self.tab5Frame2FeedRare100IV.config(state=tk.DISABLED)
-                if '100IV Shiny' in self.config['shiny_check']['src_telegram']:
-                    self.config['shiny_check']['src_telegram'].remove('100IV Shiny')
-                if '82IV Shiny' in self.config['shiny_check']['src_telegram']:
-                    self.config['shiny_check']['src_telegram'].remove('82IV Shiny')
-                if 'Rare 100IV' in self.config['shiny_check']['src_telegram']:
-                    self.config['shiny_check']['src_telegram'].remove('Rare 100IV')
-                if 'PVP' in self.config['shiny_check']['src_telegram']:
-                    self.config['shiny_check']['src_telegram'].remove('PVP')
-
-        else:
-            self.boolFeed100IVShiny.set(0)
-            self.boolFeed82IVShiny.set(0)
-            self.boolFeedPVP.set(0)
-            self.boolFeedRare100IV.set(0)
-            self.tab5Frame2Feed100IVShiny.config(state=tk.DISABLED)
-            self.tab5Frame2Feed82IVShiny.config(state=tk.DISABLED)
-            self.tab5Frame2PVPShiny.config(state=tk.DISABLED)
-            self.tab5Frame2FeedRare100IV.config(state=tk.DISABLED)
-            if '100IV Shiny' in self.config['shiny_check']['src_telegram']:
-                self.config['shiny_check']['src_telegram'].remove('100IV Shiny')
-            if '82IV Shiny' in self.config['shiny_check']['src_telegram']:
-                self.config['shiny_check']['src_telegram'].remove('82IV Shiny')
-            if 'Rare 100IV' in self.config['shiny_check']['src_telegram']:
-                self.config['shiny_check']['src_telegram'].remove('Rare 100IV')
-            if 'PVP' in self.config['shiny_check']['src_telegram']:
-                self.config['shiny_check']['src_telegram'].remove('PVP')
+        self.tab5Frame2Feed100IVShiny.config(state=tk.NORMAL)
+        self.tab5Frame2Feed82IVShiny.config(state=tk.NORMAL)
+        self.tab5Frame2PVPShiny.config(state=tk.NORMAL)
+        self.tab5Frame2FeedRare100IV.config(state=tk.NORMAL)
 
         tempShinyMon2Catch = tk.Frame(self.tab5Frame2)
         tempShinyMon2Catch.grid(row=2, column=1, columnspan=3, sticky="NSEW")
@@ -2921,47 +2876,10 @@ class RABGui(object):
                                                       text=self.lang[self.gui_lang]['tab5Frame3FeedSnipeRare100IV'].replace('\\n', '\n').replace('\\t', '\t'))
         self.tab5Frame3FeedRare100IV.grid(row=0, column=4, sticky="W")
 
-        if self.donor_until:
-            if int(time.time()) < self.donor_until:
-                self.tab5Frame3Feed100IVShiny.config(state=tk.NORMAL)
-                self.tab5Frame3Feed82IVShiny.config(state=tk.NORMAL)
-                self.tab5Frame3PVP.config(state=tk.NORMAL)
-                self.tab5Frame3FeedRare100IV.config(state=tk.NORMAL)
-            else:
-                self.boolSnipeFeed100IVShiny.set(0)
-                self.boolSnipeFeed82IVShiny.set(0)
-                self.boolSnipeFeedPVP.set(0)
-                self.boolSnipeFeedRare100IV.set(0)
-                self.tab5Frame3Feed100IVShiny.config(state=tk.DISABLED)
-                self.tab5Frame3Feed82IVShiny.config(state=tk.DISABLED)
-                self.tab5Frame3PVP.config(state=tk.DISABLED)
-                self.tab5Frame3FeedRare100IV.config(state=tk.DISABLED)
-                if '100IV Shiny' in self.config['snipe']['src_telegram']:
-                    self.config['snipe']['src_telegram'].remove('100IV Shiny')
-                if '82IV Shiny' in self.config['snipe']['src_telegram']:
-                    self.config['snipe']['src_telegram'].remove('82IV Shiny')
-                if 'Rare 100IV' in self.config['snipe']['src_telegram']:
-                    self.config['snipe']['src_telegram'].remove('Rare 100IV')
-                if 'PVP' in self.config['snipe']['src_telegram']:
-                    self.config['snipe']['src_telegram'].remove('PVP')
-
-        else:
-            self.boolSnipeFeed100IVShiny.set(0)
-            self.boolSnipeFeed82IVShiny.set(0)
-            self.boolSnipeFeedPVP.set(0)
-            self.boolSnipeFeedRare100IV.set(0)
-            self.tab5Frame3Feed100IVShiny.config(state=tk.DISABLED)
-            self.tab5Frame3Feed82IVShiny.config(state=tk.DISABLED)
-            self.tab5Frame3PVP.config(state=tk.DISABLED)
-            self.tab5Frame3FeedRare100IV.config(state=tk.DISABLED)
-            if '100IV Shiny' in self.config['snipe']['src_telegram']:
-                self.config['snipe']['src_telegram'].remove('100IV Shiny')
-            if '82IV Shiny' in self.config['snipe']['src_telegram']:
-                self.config['snipe']['src_telegram'].remove('82IV Shiny')
-            if 'Rare 100IV' in self.config['snipe']['src_telegram']:
-                self.config['snipe']['src_telegram'].remove('Rare 100IV')
-            if 'PVP' in self.config['snipe']['src_telegram']:
-                self.config['snipe']['src_telegram'].remove('PVP')
+        self.tab5Frame3Feed100IVShiny.config(state=tk.NORMAL)
+        self.tab5Frame3Feed82IVShiny.config(state=tk.NORMAL)
+        self.tab5Frame3PVP.config(state=tk.NORMAL)
+        self.tab5Frame3FeedRare100IV.config(state=tk.NORMAL)
 
         tab5Frame3SnipeFrame = tk.Frame(self.tab5Frame3)
         tab5Frame3SnipeFrame.grid(row=2, column=1, columnspan=3, sticky="NSEW")
