@@ -100,6 +100,7 @@ async def use_item(p, d, section, val, config=None):
     im_rgb = await screen_cap(d)
     im_rgb = im_rgb.crop([170, 275, 280, 330])
     s = tool.image_to_string(im_rgb)
+    logger.debug(f'Have {s}')
     s = ''.join(i for i in s if i.isdigit())
     s = int(s)
     if val > s:
