@@ -170,6 +170,8 @@ english:
     tab3Frame3: "Pokeball Selection"
     tab3Frame3SelectBall: "Select Pokeball"
     tab3Frame3SelectBallMsg: "Do you want RAB to auto select Pokeball for you?"
+    tab3Frame3takeSnapshot: "Take Snapshot"
+    tab3Frame3takeSnapshotMsg: "Do you want RAB to take snapshots of pokemon?"
     tab3Frame3SelectBallP1: "Shiny/High Level:"
     tab3Frame3SelectBallP2: "Mid Level: "
     tab3Frame3SelectBallP3: "Low Level: "
@@ -287,7 +289,7 @@ german:
     tab1text1: "Einrichten der Option für den USB-Debugging-Modus"
     tab1text2: '1. Starten Sie die Einstellungen auf Ihrem Smartphone.\n2. Tippen Sie auf die Option "Über das Telefon", welche sich in der Regel unten in der Liste befindet.\n3. Tippen Sie 7 Mal auf die Option "Build-Nummer", um den Entwicklermodus zu aktivieren. Sie kriegen eine Pop-Up Benachrichtigung, wenn es funktioniert hat.\n4. Gehen Sie nun zurück zu den Haupteinstellungen und Sie sollten ein neues Menü "Entwickleroptionen" sehen, auf das Sie zugreifen können.\n5. Wählen Sie diese aus und aktivieren Sie die Option "USB-Debugging-Modus".'
     tab1text3: "\nXiaomi-Benutzer, um USB-Debugging zu aktivieren, müssen die folgenden Schritte zusätzlich aktivieren:"
-    samsungInstructions: "\nSamsung Users: You will need to be in full screen Gesture mode.\nSettings -> Display -> Navigation bar -> select 'Full screen gesture' and turn-off 'gesture hints'\n\nRealme Users: Under Developer options, Enable 'Disable permission monitoring"
+    samsungInstructions: "\nSamsung Nutzer: You will need to be in full screen Gesture mode.\nSettings -> Display -> Navigation bar -> select 'Full screen gesture' and turn-off 'gesture hints'\n\nRealme Users: Under Developer options, Enable 'Disable permission monitoring"
     tab1text4: "\nBevor Sie RAB starten"
     tab1text5: '1. Konfigurieren Sie RAB entsprechend der Drittanbieter-App, die Sie verwenden wollen, auf der Registerkarte Konfiguration und speichern Sie diese.\n2. Ihre Pokemon Go App muss auf Englisch sein. Wenn dies nicht der Fall ist, ändern Sie Ihre Systemsprache auf Englisch.\n3. Starten Sie alle erforderlichen Apps (GPX Joystick für Autoroute) auf Ihrem Smartphone mit Pokemon Go auf der maximal vergrößerten Karte.\n4. Verbinden Sie Ihr Smartphone mit Ihrem PC und klicken Sie unten auf RAB starten.\n5. Wenn Sie RAB zum ersten Mal ausführen, werden Sie aufgefordert, einige Apps auf Ihrem Smartphone zu installieren. Lassen Sie dies zu.'
     tab1text6: "RAB starten"
@@ -304,6 +306,8 @@ german:
     tab2Frame1: "Client-Einstellungen - Match it with your client's setting"
     tab2Frame1Label1: "Client-Voreinstellung:"
     tab2Frame1OptionsMsg: "Wählen Sie aus der Liste aus, welche Drittanbieter-App Sie mit RAB verwenden möchten"
+    tab2Frame1Label2: "Typ:"
+    tab2Frame1Option2Msg: "Wählen Sie die Art des Geräts aus"
     tab2Frame1TeamRocket: "Auto Team Rocket" # New Onwards
     tab2Frame1TeamRocketMsg: "Team Rocket automatisch gewinnen lassen. (Aktivieren / Deaktivieren in Ihrer Drittanbieter-App)"
     tab2Frame1InstantSpin: "Auto Spin Pokestop"
@@ -331,9 +335,9 @@ german:
     tab2Frame2ZoomOutMethod: 'Zoom Out Method'
     tab2Frame2ZoomOutMethodMsg: 'RAB will auto zoom out when Pokemon Go restarts. Select which method of pinching will zoom out the map. Default: Pinch In'
     tab2Frame2PGSharpShunoHunt: 'PGSharp 100IV Shiny Hunt'
-    tab2Frame2PGSharpShunoHuntMsg: 'RAB will use the sniper feed from PGSharp to do Shuno Hunting. Please ensure only sniper feed is enabled and nearby feed is disabled.'
-    tab2Frame2DisableAutoRestart: 'Disable Auto Restart'
-    tab2Frame2DisableAutoRestartMsg: 'RAB will attempt to restart if it believes it get stucks. Enable this option to disable it.'
+    tab2Frame2PGSharpShunoHuntMsg: 'RAB wird den 100IV Feed von PGSharp benutzen um Shiny Pokemon zu fangen. Der Sniper Feed muss eingeschaltet und in der Nähe ausgeschaltet sein'
+    tab2Frame2DisableAutoRestart: 'Automatischen Neustart deaktiveren'
+    tab2Frame2DisableAutoRestartMsg: 'RAB wird Pokemon Go neu starten wenn es denkt dass es sich aufgehangen hat. Haken setzen um das zu deaktivieren'
 
     tab2FrameRAB: "RAB Settings"
     tab2Frame2: "Smartphoneeinstellung"
@@ -452,6 +456,8 @@ german:
     tab3Frame3: "Pokeball-Auswahl"
     tab3Frame3SelectBall: "Pokeball auswählen"
     tab3Frame3SelectBallMsg: "Möchten Sie, dass RAB automatisch einen Pokeball für Sie auswählt?"
+    tab3Frame3takeSnapshot: "Fotos machen"
+    tab3Frame3takeSnapshotMsg: "Möchten Sie, dass RAB automatisch Fotos von Pokemon macht?"
     tab3Frame3SelectBallP1: "Glänzend/Hohes Niveau:"
     tab3Frame3SelectBallP2: "Mittlerer Level: "
     tab3Frame3SelectBallP3: "Niedriges Level: "

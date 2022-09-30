@@ -753,7 +753,7 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
 
 def quest_can_be_completed(text):
     can_complete_list = ['spin', 'hatch', 'catch', 'throw', 'transfer', 'power up', 'visit', 'field research']
-    non_complete_list = ['scan', 'buddy', 'raid', 'evolve', 'snapshot', 'gift', 'trade', 'grunt']
+    non_complete_list = ['scan', 'buddy', 'raid', 'evolve', 'gift', 'trade', 'grunt']
 
     if config['client'].get('team_rocket_blastoff', False):
         if 'grunt' not in can_complete_list:
@@ -788,21 +788,16 @@ def quest_can_be_completed(text):
         if 'buddy' not in non_complete_list:
             non_complete_list.append('buddy')
 
-    # if config['client'].get('transfer_on_catch', False) or config['quest'].get('power_up_lvl', 5)==0:
-
-    #    if config['client'].get('team_rocket_blastoff', False):
-    #        non_complete_list = ['scan','buddy','raid','evolve','snapshot','gift','trade','power up','grunt']
-    #        can_complete_list = ['spin','hatch','catch','throw','transfer']
-    #    else:
-    #        non_complete_list = ['scan','buddy','raid','evolve','snapshot','gift','trade','power up']
-    #        can_complete_list = ['spin','hatch','catch','throw','transfer','grunt']
-    # else:
-    #    if config['client'].get('team_rocket_blastoff', False):
-    #        non_complete_list = ['scan','buddy','raid','evolve','snapshot','gift','trade']
-    #        can_complete_list = ['spin','hatch','catch','throw','transfer','grunt','power up']
-    #    else:
-    #        non_complete_list = ['scan','buddy','raid','evolve','snapshot','gift','trade','grunt']
-    #        can_complete_list = ['spin','hatch','catch','throw','transfer','power up']
+    if config['ball_selection'].get('take_snapshot', False):
+        if 'snapshot' not in can_complete_list:
+            can_complete_list.append('snapshot')
+        if 'snapshot' in non_complete_list:
+            non_complete_list.remove('snapshot')
+    else:
+        if 'snapshot' in can_complete_list:
+            can_complete_list.remove('snapshot')
+        if 'snapshot' not in non_complete_list:
+            non_complete_list.append('snapshot')
 
     for each_task in non_complete_list:
         if each_task in text:
@@ -1312,6 +1307,13 @@ async def catch_pokemon(p, d, pokemon, localnetwork=None, displayID=None, is_sha
                 if rab_runtime_status:
                     rab_runtime_status.pokemon_no_ball_encounter += 1
                 break
+
+        if config['ball_selection'].get('take_snapshot', False):
+            logger.info('Taking snapshot...')
+            await tap_screen(p, 540,  160, 1.0)
+            await tap_screen(p, 540, 1700, 1.0)
+            await tap_screen(p, 940, 1700, 1.0)
+            await tap_screen(p, 140, 1700, 1.0)
 
         if berry_selectable and config['berry_selection'].get('use_berry', True):
             if not localnetwork:

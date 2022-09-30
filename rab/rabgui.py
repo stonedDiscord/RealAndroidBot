@@ -1027,6 +1027,9 @@ class RABGui(object):
     def selectBall_checkbox(self):
         self.config['ball_selection']['select_ball'] = bool(self.boolSelectBall.get())
 
+    def takeSnapshot_checkbox(self):
+        self.config['ball_selection']['take_snapshot'] = bool(self.booltakeSnapshot.get())
+
     def selectBallP1_entry(self, event):
         self.config['ball_selection']['shiny_or_high_lvl'] = self.text2list(self.txtSelectBallP1.get("1.0", tk.END))
 
@@ -2227,6 +2230,15 @@ class RABGui(object):
         tab3Frame3SelectBall.bind('<Enter>', lambda event: self.on_enter(
             event, msg=self.lang[self.gui_lang]['tab3Frame3SelectBallMsg'].replace('\\n', '\n').replace('\\t', '\t')))
         tab3Frame3SelectBall.bind('<Leave>', self.on_leave)
+
+        self.booltakeSnapshot = IntVar()
+        self.booltakeSnapshot.set(self.config['ball_selection'].get('take_snapshot', 0))
+        tab3Frame3takeSnapshot = tk.Checkbutton(tab3Frame3, variable=self.booltakeSnapshot, command=self.takeSnapshot_checkbox,
+                                              text=self.lang[self.gui_lang]['tab3Frame3takeSnapshot'].replace('\\n', '\n').replace('\\t', '\t'))
+        tab3Frame3takeSnapshot.grid(row=1, column=0, sticky="W")
+        tab3Frame3takeSnapshot.bind('<Enter>', lambda event: self.on_enter(
+            event, msg=self.lang[self.gui_lang]['tab3Frame3takeSnapshotMsg'].replace('\\n', '\n').replace('\\t', '\t')))
+        tab3Frame3takeSnapshot.bind('<Leave>', self.on_leave)
 
         tempSelectBallP1 = tk.Frame(tab3Frame3)
         tempSelectBallP1.grid(row=0, column=1, columnspan=3, sticky="NSEW")
