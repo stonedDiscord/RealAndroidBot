@@ -232,9 +232,7 @@ async def check_items(p, d, config):
                 break
 
             # let's shift the page down
-            x1, y1 = resize_coords(989, 1500)
-            x2, y2 = resize_coords(989, 347)
-            drag_screen(d, x1, y1, x2, y2, 4)  # test y = 383 or y = 384
+            drag_screen(d, 989, 1500, 989, 347, 4)  # test y = 383 or y = 384
             await asyncio.sleep(5)
 
             if not last_image:
