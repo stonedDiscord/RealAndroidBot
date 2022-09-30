@@ -8,7 +8,7 @@ import re
 
 
 from action import resize_coords, tap_close_btn, tap_screen, drag_screen, screen_cap, poke_location
-from ImageUtils import compare_image, crop_middle, extract_text_from_image
+from ImageUtils import compare_image, extract_text_from_image
 
 logger = logging.getLogger(__name__)
 logger.setLevel('INFO')
@@ -96,6 +96,14 @@ async def use_item(p, d, section, val, config=None):
 
     success = True
     await tap_screen(p, x, y, 2)
+
+    im_rgb = await screen_cap(d)
+    im_rgb = im_rgb.crop([170, 275, 280, 330])
+    s = tool.image_to_string(im_rgb)
+    s = ''.join(i for i in s if i.isdigit())
+    s = int(s)
+    if val > s:
+        val = s
 
     for chosen in range(val):
         await tap_screen(p, poke_location[chosen].get('x'), poke_location[chosen].get('y') + offset, 0.5)
