@@ -107,7 +107,7 @@ async def use_item(p, d, section, val, config=None):
     return success
 
 
-async def check_item(p, d, config):
+async def check_items(p, d, config):
     offset = config['client'].get('screen_offset', 0)
     #builder = MyBuilder()
     # lets cut up this image and get the text of each segment

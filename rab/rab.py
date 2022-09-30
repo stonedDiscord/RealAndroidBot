@@ -28,7 +28,7 @@ from action import select_vaild_pokemon, tap_screen, resize_coords, screen_cap, 
     tap_equip_radar, tap_gym_btn, fav_last_caught, check_player_level, poke_location
 from check_shiny import load_tap_pokemon, load_spawns
 from find_object import find_object_to_tap, walk_towards_pokestops, find_pokestop
-from item import check_item
+from item import check_items
 from page_detection import is_home_page, is_gym_page, is_pokestop_page, is_catch_pokemon_page, is_team_rocket_page, \
     is_egg_hatched_page, is_egg_hatched_oh, is_incubate_page, is_bag_full, is_mon_details_page, is_shop_page, is_nearby_page, \
     is_mon_caught_page, is_incubate_page2, is_warning_page, is_error_page, is_power_up_page, is_grunt_defeated_page, \
@@ -4063,7 +4063,7 @@ class Main:
             localnetwork.config = self.config
 
         if self.config['item_management'].get('clear_item_on_start', False) and self.config['item_management'].get('enable_item_management', False) and not self.config['client'].get('client', '').lower() in ['polygon farmer', 'polygonfarmer']:
-            await check_item(self.p, self.d, self.config)
+            await check_items(self.p, self.d, self.config)
 
         if self.config['telegram'].get('enabled') and self.config['shiny_check'].get('enabled') and not self.config['client'].get('client', '').lower() in ['polygon farmer', 'polygonfarmer']:
             logger.warning('SHINY CHECK IN PROGRESS, MAKE SURE INSTANT SPIN IS DISABLED (RAB & 3RD PARTY)')
@@ -4387,7 +4387,7 @@ class Main:
                     if time_diff >= self.config['item_management'].get('item_management_interval', 60) * 60:
                         self.track_time = int(time.time())
                         try:
-                            await check_item(self.p, self.d, self.config)
+                            await check_items(self.p, self.d, self.config)
                             self.bag_full = False
                         except Exception as e:
                             # Error occurs, tap x and exit
