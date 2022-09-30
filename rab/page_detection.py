@@ -676,6 +676,16 @@ def is_shiny_pokemon(im):
     return False
 
 
+def is_incense(im):
+    logger.debug('Checking: adventure incense')
+    matched = match_key_word_wrapper(im, ['incense', 'adevnture', 'share'])
+    if len(matched) > 0:
+        logger.debug('YES: found key word: {}'.format(matched))
+        return matched
+    logger.debug('NO: key word not found')
+    return False
+
+
 def is_egg_hatched_oh(im):
     logger.debug('Checking: oh?')
     im_cropped = crop_top_half(im)
