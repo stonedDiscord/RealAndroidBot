@@ -7,11 +7,11 @@ import sys
 import re
 
 
-from action import tap_close_btn, tap_screen, drag_screen, screen_cap, poke_location
+from action import resize_coords, tap_close_btn, tap_screen, drag_screen, screen_cap, poke_location
 from ImageUtils import compare_image, crop_middle, extract_text_from_image
 
 logger = logging.getLogger(__name__)
-logger.setLevel('DEBUG')
+logger.setLevel('INFO')
 if sys.platform == 'win32':
     if Path('Tesseract-OCR/tesseract.exe').is_file():
         pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\\tesseract.exe'
@@ -58,9 +58,7 @@ async def delete_item(p, d, section, val, auto_max=False, config=None):
     if int(val) > 1:
         # if we want to keep up to certain value
         # get total number
-        im_cropped = crop_middle(im_rgb)
         s = extract_text_from_image(im_rgb, binary=True, threshold=220, reverse=False)
-        #s1 = extract_text_from_image(im_rgb, binary=False, threshold=180, reverse=False)
         m = re.search(r'(\d+).+cancel', s)
         if m:
             total_items = abs(int(m.group(1)))
@@ -225,7 +223,9 @@ async def check_items(p, d, config):
                 break
 
             # let's shift the page down
-            drag_screen(d, 989, 1500, 989, 347, 4)  # test y = 383 or y = 384
+            x1, y1 = resize_coords(989, 1500)
+            x2, y2 = resize_coords(989, 347)
+            drag_screen(d, x1, y1, x2, y2, 4)  # test y = 383 or y = 384
             await asyncio.sleep(5)
 
             if not last_image:
