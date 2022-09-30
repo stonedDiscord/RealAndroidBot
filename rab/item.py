@@ -147,11 +147,7 @@ async def check_items(p, d, config):
                     if await delete_item(p, d, 1, config['item_config'].get(text_ITEM1, 0), auto_max, config):
                         track_item.append(text_ITEM1)
                         break
-                if last_item_quit in text_ITEM1.lower() and last_item_quit != '':
-                    await tap_screen(p, 540, 1780, 2)  # Close Item Page
-                    continue_loop = False
-                    break
-                if len(text_ITEM1) >= 25 or text_ITEM1 == "":
+                if (last_item_quit in text_ITEM1.lower() and last_item_quit != '') or len(text_ITEM1) >= 25 or text_ITEM1 == "":
                     await tap_screen(p, 540, 1780, 2)  # Close Item Page
                     continue_loop = False
                     break
@@ -177,11 +173,7 @@ async def check_items(p, d, config):
                     if await delete_item(p, d, 2, config['item_config'].get(text_ITEM2, 0), auto_max, config):
                         track_item.append(text_ITEM2)
                         break
-                if last_item_quit in text_ITEM2.lower() and last_item_quit != '':
-                    await tap_screen(p, 540, 1780, 2)  # Close Item Page
-                    continue_loop = False
-                    break
-                if len(text_ITEM2) >= 26 or text_ITEM2 == "":
+                if (last_item_quit in text_ITEM2.lower() and last_item_quit != '') or len(text_ITEM2) >= 26 or text_ITEM2 == "":
                     await tap_screen(p, 540, 1780, 2)  # Close Item Page
                     continue_loop = False
                     break
@@ -207,11 +199,7 @@ async def check_items(p, d, config):
                     if await delete_item(p, d, 3, config['item_config'].get(text_ITEM3, 0), auto_max, config):
                         track_item.append(text_ITEM3)
                         break
-                if last_item_quit in text_ITEM3.lower() and last_item_quit != '':
-                    await tap_screen(p, 540, 1780, 2)  # Close Item Page
-                    continue_loop = False
-                    break
-                if len(text_ITEM3) >= 26 or text_ITEM3 == "":
+                if (last_item_quit in text_ITEM3.lower() and last_item_quit != '') or len(text_ITEM3) >= 26 or text_ITEM3 == "":
                     await tap_screen(p, 540, 1780, 2)  # Close Item Page
                     continue_loop = False
                     break
@@ -227,11 +215,7 @@ async def check_items(p, d, config):
             if text_ITEM4:
                 text_ITEM4 = text_ITEM4.splitlines()[0].replace('|', '').strip().replace('poke', 'poké').strip()
                 logger.debug("Text: {}".format(text_ITEM4))
-                if last_item_quit in text_ITEM4.lower() and last_item_quit != '':
-                    await tap_screen(p, 540, 1780, 2)  # Close Item Page
-                    continue_loop = False
-                    break
-                if len(text_ITEM4) >= 26 or text_ITEM4 == "":
+                if (last_item_quit in text_ITEM4.lower() and last_item_quit != '') or len(text_ITEM4) >= 26 or text_ITEM4 == "":
                     await tap_screen(p, 540, 1780, 2)  # Close Item Page
                     continue_loop = False
                     break
