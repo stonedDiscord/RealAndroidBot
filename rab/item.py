@@ -113,7 +113,8 @@ async def use_item(p, d, section, val, config=None):
     for chosen in range(val):
         await tap_screen(p, poke_location[chosen].get('x'), poke_location[chosen].get('y') + offset, 0.5)
 
-    await tap_close_btn(p)
+    if val != s:
+        await tap_close_btn(p)
 
     return success
 
