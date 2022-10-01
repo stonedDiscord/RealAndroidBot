@@ -102,7 +102,11 @@ async def use_item(p, d, section, val, config=None):
     s = tool.image_to_string(im_rgb)
     logger.debug(f'Have {s}')
     s = ''.join(i for i in s if i.isdigit())
-    s = int(s)
+    try:
+        s = int(s)
+    except ValueError:
+        s = 1
+
     if val > s:
         val = s
 
