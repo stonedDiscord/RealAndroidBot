@@ -186,6 +186,7 @@ class RABGui(object):
         self.boolDiscordCaughtOrFled = None
         self.boolDiscord100IV = None
         self.boolDiscordPVP = None
+        self.boolDiscordRestart = None
 
         # Tab 2 Fram 4
         self.boolQuestEnabled = None
@@ -919,6 +920,9 @@ class RABGui(object):
 
     def manualDiscordPVP_checkbox(self):
         self.config['discord']['notify_pvp_iv'] = bool(self.boolDiscordPVP.get())
+
+    def manualDiscordRestart_checkbox(self):
+        self.config['discord']['restart'] = bool(self.boolDiscordRestart.get())
 
     # Tab 2 Frame 4
     def questEnabled_checkbox(self):
@@ -1816,6 +1820,16 @@ class RABGui(object):
         tab2Frame3DiscordPVPIV.bind('<Enter>', lambda event: self.on_enter(
             event, msg=self.lang[self.gui_lang]['tab2Frame3DiscordPVPIVMsg'].replace('\\n', '\n').replace('\\t', '\t')))
         tab2Frame3DiscordPVPIV.bind('<Leave>', self.on_leave)
+
+        # Notify Restart
+        self.boolDiscordRestart = IntVar()
+        self.boolDiscordRestart.set(self.config['discord'].get('restart', 0))
+        tab2Frame3DiscordRestart = tk.Checkbutton(tab2Frame3, variable=self.boolDiscordRestart, command=self.manualDiscordRestart_checkbox,
+                                                text=self.lang[self.gui_lang]['tab2Frame3DiscordRestart'].replace('\\n', '\n').replace('\\t', '\t'))
+        tab2Frame3DiscordRestart.grid(row=2, column=2, sticky="W")
+        tab2Frame3DiscordRestart.bind('<Enter>', lambda event: self.on_enter(
+            event, msg=self.lang[self.gui_lang]['tab2Frame3DiscordRestartMsg'].replace('\\n', '\n').replace('\\t', '\t')))
+        tab2Frame3DiscordRestart.bind('<Leave>', self.on_leave)
 
         # Frame 4
         # Quest Settings

@@ -27,6 +27,7 @@ discord:
     notify_max_iv: true
     notify_pvp_iv: true
     notify_all_caught: false
+    restart: true
 
 ## Setting for Polygon (Paid Enchancer) to connect to the computer
 ## Under Polygon Advance settings, set Send data to custom backend to true

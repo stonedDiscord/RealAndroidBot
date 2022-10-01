@@ -3899,7 +3899,7 @@ class Main:
         webhook_url = self.config['discord'].get('webhook_url', '')
 
         logger.info('Attempt to restart Pokemon Go')
-        if webhook_url and self.config['discord'].get('enabled', False):
+        if webhook_url and self.config['discord'].get('enabled', False) and self.config['discord'].get('restart', True):
             send_to_discord(webhook_url, 'RAB Bot ({})'.format(self.device_id), 'Attempt to restart Pokemon Go...')
         self.d.app_stop("com.nianticlabs.pokemongo")
         await asyncio.sleep(10)
@@ -4257,7 +4257,7 @@ class Main:
                                 await asyncio.sleep(0.5)
 
                     if is_home_page(im_rgb):
-                        if webhook_url and self.config['discord'].get('enabled', False):
+                        if webhook_url and self.config['discord'].get('enabled', False) and self.config['discord'].get('restart', True):
                             send_to_discord(webhook_url, 'RAB Bot ({})'.format(self.device_id),
                                             'Pokemon Go restarted. Resume scanning...')
                         im_rgb = await screen_cap(self.d)
@@ -4623,7 +4623,7 @@ class Main:
                                         i += 1
                                         await asyncio.sleep(0.5)
                             if is_home_page(im_rgb):
-                                if webhook_url and self.config['discord'].get('enabled', False):
+                                if webhook_url and self.config['discord'].get('enabled', False) and self.config['discord'].get('restart', True):
                                     send_to_discord(webhook_url, 'RAB Bot ({})'.format(self.device_id),
                                                     'Pokemon Go restarted. Resume scanning...')
                                 im_rgb = await screen_cap(self.d)
@@ -4648,31 +4648,6 @@ class Main:
                                         pgsharp_client.feed_index = 1
                                         pgsharp_client.icon_index = 0
                                         pgsharp_client.joystick_index = 2
-
-                            #i = 0
-                            # while True:
-                            #    im_rgb = await screen_cap(self.d)
-                            #    if is_home_page(im_rgb):
-                            #        if webhook_url:
-                            #            send_to_discord(webhook_url, 'RAB Bot', 'Pokemon Go restarted. Resume scanning...')
-                            #        im_rgb = await screen_cap(self.d)
-                            #        if not is_home_page(im_rgb):
-                            #            self.d.press("back")
-                            #            await asyncio.sleep(1)
-                            #        self.d(packageName='com.nianticlabs.pokemongo').pinch_in(percent=90, steps=10)
-                                    #self.zoomout = False
-                            #        break
-                            #    elif i >= 30:
-                                    #i = 0
-                                    # await self.reset_app()
-                            #        im_rgb = await screen_cap(self.d)
-                            #        if not is_home_page(im_rgb):
-                            #            self.d.press("back")
-                            #            await asyncio.sleep(1)
-                            #        self.d.app_wait("com.nianticlabs.pokemongo", front=True)
-                            #    else:
-                            #        i += 1
-                            #        await asyncio.sleep(1)
 
                             self.no_spawn_count = 0
 
@@ -4858,7 +4833,7 @@ class Main:
                                     i += 1
                                     await asyncio.sleep(0.5)
                         if is_home_page(im_rgb):
-                            if webhook_url and self.config['discord'].get('enabled', False):
+                            if webhook_url and self.config['discord'].get('enabled', False) and self.config['discord'].get('restart', True):
                                 send_to_discord(webhook_url, 'RAB Bot ({})'.format(self.device_id),
                                                 'Pokemon Go restarted. Resume scanning...')
                             im_rgb = await screen_cap(self.d)

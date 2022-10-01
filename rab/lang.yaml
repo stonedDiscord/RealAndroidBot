@@ -93,6 +93,8 @@ english:
     tab2Frame3Discord100IVMsg: "Do you want to be notified when RAB encounter 100 IV?"
     tab2Frame3DiscordPVPIV: "Notify PVP IV"
     tab2Frame3DiscordPVPIVMsg: "Do you want to be notified when RAB encounter PvP eligible Pokemon?"
+    tab2Frame3DiscordRestart: "Notify Restart"
+    tab2Frame3DiscordRestartMsg: "Do you want to be notified when RAB restarts Pokemon Go?"
 
     tab2Frame4: "Quest Settings"
     tab2Frame4QuestEnabled: "Enable"
@@ -379,6 +381,8 @@ german:
     tab2Frame3Discord100IVMsg: "Möchten Sie benachrichtigt werden, wenn RAB auf 100 IV trifft?"
     tab2Frame3DiscordPVPIV: "PVP IV benachrichtigen"
     tab2Frame3DiscordPVPIVMsg: "Möchten Sie benachrichtigt werden, wenn RAB auf PvP-fähige Pokémon trifft?"
+    tab2Frame3DiscordRestart: "Neustart benachrichtigen"
+    tab2Frame3DiscordRestartMsg: "Möchten Sie benachrichtigt werden, wenn RAB Pokemon Go neu startet?"
 
     tab2Frame4: "Quest-Einstellungen"
     tab2Frame4QuestEnabled: "Aktivieren"
