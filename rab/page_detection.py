@@ -335,7 +335,17 @@ def is_catch_pokemon_page(im, is_shadow=False, map_check=False):
     logger.debug('NO: Pokemon Catch Page')
     return False
 
-# to-do: exclude the popped up notification of raid nearby
+
+def is_trainer_battle(im):
+    logger.debug("Checking: trainer battle?")
+    im_cropped = crop_bottom_half(im)
+
+    th_btn_exit = 40000000
+    template_path = 'assets/btn_exit.png'
+    has_exit_btn = match_template_wrapper(template_path, im_cropped, threshold=th_btn_exit)
+    if has_exit_btn:
+        logger.debug('YES: found {}'.format(os.path.basename(template_path)))
+        return True
 
 
 def is_gym_badge(im):
