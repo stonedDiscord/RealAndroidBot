@@ -338,7 +338,7 @@ def is_catch_pokemon_page(im, is_shadow=False, map_check=False):
 
 def is_trainer_battle(im):
     logger.debug("Checking: trainer battle?")
-    im_cropped = crop_bottom_half(im)
+    im_cropped = crop_top_half(im)
 
     th_btn_exit = 40000000
     template_path = 'assets/btn_exit.png'
