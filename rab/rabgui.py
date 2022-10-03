@@ -398,7 +398,7 @@ class RABGui(object):
         self.config['client']['gui_language'] = self.gui_lang
         self.save_config()
         messagebox.showinfo(title='Command Send', message='Closing RAB, please restart to change language')
-        sys.exit(0)
+        sys.exit(1)
         # refresh()
 
     def set_lang_ger(self):
@@ -406,7 +406,7 @@ class RABGui(object):
         self.config['client']['gui_language'] = self.gui_lang
         self.save_config()
         messagebox.showinfo(title='Command Send', message='Closing RAB, please restart to change language')
-        sys.exit(0)
+        sys.exit(1)
         # refresh()
 
     def start_rab(self):

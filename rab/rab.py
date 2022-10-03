@@ -369,15 +369,19 @@ class Main:
                     self.device_id = await self.p.get_device()
         except PhoneNotConnectedError:
             logger.exception("RAB is unable to detect any phone attached to your system.")
-            sys.exit(0)
+            input("Press <ENTER> key to continue...")
+            sys.exit(1)
         except Exception as e:
             # Change exception to error for deployment (so client wont see chunks of errors during exit)
-            logger.exception("An error occured while trying to get your device(s): {}".format(e))
-            sys.exit(0)
+            logger.error("An error occured while trying to get your device(s)")
+            logger.error("Please check device type and connection")
+            input("Press <ENTER> key to continue...")
+            sys.exit(1)
 
         if not self.device_id:
             logger.warning("Cannot get devices, please ensure you have connected your device.")
-            sys.exit(0)
+            input("Press <ENTER> key to continue...")
+            sys.exit(1)
         device_id = self.device_id
 
         # load config
@@ -4990,7 +4994,7 @@ def cleanup():
     print('{}'.format(rab_runtime_status.__dict__()))
     print('-------------------')
     input("Press any key to continue to exit...")
-    sys.exit(0)
+    sys.exit(1)
 
 
 def signal_handler(sig, frame):
@@ -5208,7 +5212,7 @@ def call_main(event=None, telegram_client=None, frm_telegram_id=None, frm_donor_
         logger.info('Please ensure that you have copied config.example.yaml to rab folder and renamed it to config.yaml')
         logger.info('Also ensure that you have edited the file according to what 3rd party app that you are using.')
         logger.info('Check through the options of the config file and ensure it works for your 3rd party app.')
-        sys.exit(0)
+        sys.exit(1)
 
     if client:
         logger.info('TELEGRAM CLIENT IS ACTIVE')
