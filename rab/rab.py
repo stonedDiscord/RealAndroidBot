@@ -4880,6 +4880,8 @@ class Main:
 def get_adb(devicetype):
     if(devicetype.lower() == "nox"):
         return "C:\\Program Files (x86)\\Nox\\bin\\nox_adb.exe"
+    elif(devicetype.lower() == "mumu"):
+        return "C:\\Program Files\\MuMu\\emulator\\nemu\\vmonitor\\bin\\adb_server.exe"
     else:
         return "adb"
 

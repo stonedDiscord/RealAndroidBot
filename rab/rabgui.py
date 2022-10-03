@@ -1397,7 +1397,7 @@ class RABGui(object):
 
         # Client type
         self.typeVar = StringVar()
-        typeChoices = ['Real', 'Nox']
+        typeChoices = ['Real', 'Nox', 'MuMu']
         tab2Frame1Label2 = tk.Label(
             tempF1ClientOption, text=self.lang[self.gui_lang]['tab2Frame1Label2'].replace('\\n', '\n').replace('\\t', '\t'))
 
