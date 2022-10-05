@@ -174,10 +174,16 @@ async def tap_caught_ok_btn(p, duration=1.0, im_rgb=None):
         for i in range(860, 1690):
             r, g, b = im_rgb.getpixel((x, i))
             if is_ok_btn_color(r, g, b):
-                y = i + 15
-                break
-    logger.debug('Tap Ok button: {},{}'.format(x, y))
-    await tap_screen(p, x, y, duration=duration)
+                y = i + 20
+                r, g, b = im_rgb.getpixel((x, y))
+                if is_ok_btn_color(r, g, b):
+                    break
+    logger.debug('Tap Ok button: {},{}'.format(x, i+10))
+    if y < 1690:
+        await tap_screen(p, x, y, duration=duration)
+        return True
+    else:
+        return False
 
 
 async def tap_poke_management(p, duration=1.0, im_rgb=None):
@@ -2206,6 +2212,62 @@ async def check_player_level(p, d):
     player_level[:] = [int(s) for s in text.split() if s.isdigit()]
     d.press("back")
     return player_level
+
+
+async def check_gift(p, d):
+    im_rgb = await screen_cap(d)
+    bag_full = False
+    r, g, b = get_average_color(485, 1588, 3, im_rgb)
+    print(get_average_color(485, 1588, 3, im_rgb))
+    if (200 <= r <= 230) and (15 <= g <= 20) and (200 <= b <= 220):
+        logger.info("Opening gift")
+        await tap_screen(p, 540, 1400, 2)
+        im_rgb = await screen_cap(d)
+        await tap_caught_ok_btn(p, im_rgb=im_rgb)
+        await asyncio.sleep(1)
+        im_rgb = await screen_cap(d)
+        bag_full = is_bag_full(im_rgb)
+        if bag_full:
+            logger.info("Bag is full...")
+            d.press("back")
+            await asyncio.sleep(1)
+            d.press("back")
+            await asyncio.sleep(1)
+        else:
+            await asyncio.sleep(9)  # showing rewards
+    # should be friends profile now
+    await tap_screen(p, 210, 1630, 1)
+    im_rgb = await screen_cap(d)
+    text = extract_text_from_image(im_rgb)
+    print(text)
+    # Your friend still has an unopened Gift from you.    
+    if any(x in text for x in ['which gift', 'gift do you', 'want to send']):
+        logger.info("Sending gift")
+        await tap_screen(p, 540, 600, 1)
+        im_rgb = await screen_cap(d)
+        await tap_caught_ok_btn(p, im_rgb=im_rgb)
+        await asyncio.sleep(3)
+    d.press("back")
+
+
+async def manage_gifts(p, d):
+    offset = config['client'].get('screen_offset', 0)
+    await tap_screen(p, 135, 1755+offset, 3.0)  # Profile
+    await tap_screen(p, 750, 250+offset, 1.0)  # Friends tab
+
+    # Open sort
+    await tap_screen(p, 930, 1770 + offset, 1)
+    # Tap gift
+    await tap_screen(p, 930, 1380 + offset, 1)
+    # Open sort
+    await tap_screen(p, 930, 1770 + offset, 1)
+    # Tap receive gift
+    await tap_screen(p, 930, 1575 + offset, 1)
+
+    for entry in range(3):
+        await tap_screen(p, 540, 810 + 345*entry + offset, 1)
+        await check_gift(p, d)
+    d.press("back")
 
 
 @timer
