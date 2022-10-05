@@ -71,7 +71,7 @@ config = None  # Set global config
 
 logging.basicConfig(format='%(asctime)s.%(msecs)03d %(levelname)-7s | %(message)s', level='INFO', datefmt='%H:%M:%S')
 logger = logging.getLogger(__name__)
-logger.setLevel('INFO')
+logger.setLevel('DEBUG')
 
 client = None
 pgsharp_client = None
@@ -839,9 +839,7 @@ class Main:
                             self.trivial_page_count = 0
                             if self.track_bag_time == 0:
                                 if self.config['spin_pokestop']:
-                                    await spin_pokestop(self.p)
-                                im_rgb = await screen_cap(self.d)
-                                self.bag_full = is_bag_full(im_rgb)
+                                    self.bag_full = await spin_pokestop(self.p, self.d)
 
                                 team_go_rocket = is_team_selection(im_rgb)
                                 if not team_go_rocket:
@@ -1026,9 +1024,7 @@ class Main:
                                             if pokestop_status in ['pokestop_spinnable', 'pokestop_invaded']:
                                                 self.trivial_page_count = 0
                                                 if self.track_bag_time == 0:
-                                                    await spin_pokestop(self.p)
-                                                    im_rgb = await screen_cap(self.d)
-                                                    self.bag_full = is_bag_full(im_rgb)
+                                                    self.bag_full = await spin_pokestop(self.p, self.d)
 
                                                     team_go_rocket = is_team_selection(im_rgb)
                                                     if not team_go_rocket:
@@ -1080,12 +1076,11 @@ class Main:
                                         if gym_status:
                                             logger.info('Gym found: {}'.format(gym_status))
                                             await tap_screen(self.p, 920, 1790)
-                                            await spin_pokestop(self.p)
+                                            self.bag_full = await spin_pokestop(self.p, self.d)
                                             im_rgb = await screen_cap(self.d)
                                             if is_gym_badge(im_rgb):
                                                 await tap_close_btn(self.p)
                                                 await asyncio.sleep(0.5)
-                                            self.bag_full = is_bag_full(im_rgb)
                                             await tap_close_btn(self.p)
                                             return 'on_gym'
                                         else:
@@ -1167,9 +1162,7 @@ class Main:
                     self.trivial_page_count = 0
                     if self.track_bag_time == 0:
                         if self.config['spin_pokestop']:
-                            await spin_pokestop(self.p)
-                        im_rgb = await screen_cap(self.d)
-                        self.bag_full = is_bag_full(im_rgb)
+                            self.bag_full = await spin_pokestop(self.p, self.d)
 
                         team_go_rocket = is_team_selection(im_rgb)
                         if not team_go_rocket:
@@ -1495,7 +1488,7 @@ class Main:
                     self.trivial_page_count = 0
                     if self.track_bag_time == 0:
                         if pokestop_status != 'pokestop_spinned':
-                            await spin_pokestop(self.p)
+                            await spin_pokestop(self.p, self.d)
                         im_rgb = await screen_cap(self.d)
                         self.bag_full = is_bag_full(im_rgb)
                         # tap more buttons after spinning
@@ -3156,7 +3149,7 @@ class Main:
                         if not self.config['spin_pokestop']:
                             await tap_close_btn(self.p)
                             return
-                        await spin_pokestop(self.p)
+                        await spin_pokestop(self.p, self.d)
                     return 'on_pokestop'
                     # await tap_close_btn(self.p)
                     #self.d.swipe(1040, 960 - 100, 1040, 960 + 100, 0.5)
@@ -3550,7 +3543,7 @@ class Main:
                 if not self.config['client'].get('instant_spin'):
                     if not self.config['spin_pokestop']:
                         await tap_close_btn(self.p)
-                    await spin_pokestop(self.p)
+                    await spin_pokestop(self.p, self.d)
 
                 return 'on_pokestop'
 

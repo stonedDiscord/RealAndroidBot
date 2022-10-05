@@ -16,7 +16,7 @@ from page_detection import is_catch_pokemon_page, is_mon_caught_page, save_scree
     is_quest_page, is_caught_flee, is_zero_ball, is_mon_details_page, is_mysterious_pokemon, \
     is_razz_berry_page, is_nanab_berry_page, is_pinap_berry_page, is_golden_berry_page, \
     is_silver_berry_page, is_team_selection_vaild, is_pokemon_full, is_pokemon_inventory_page, \
-    is_transfer_menu, is_power_up_page, selection_contains, encounter_position
+    is_transfer_menu, is_power_up_page, selection_contains, encounter_position, is_bag_full
 from utils import Loader, Unknown, timer, get_average_color
 from Pokemon import Pokemon
 from PokemonUtils import get_pokemon_name_from_text
@@ -2105,13 +2105,16 @@ async def find_cp(p, d):
 
 
 @timer
-async def spin_pokestop(p):
+async def spin_pokestop(p, d):
     logger.info('Action: spin pokestop')
     x1, y1 = resize_coords(240, 1020)
     x2, y2 = resize_coords(930, 1020)
     await p.swipe(x1, y1, x2, y2, 200)   # swipe left to right
+    im_rgb = await screen_cap(d)
+    bag = is_bag_full(im_rgb)
     await asyncio.sleep(1)
     await tap_close_btn(p)  # Close Pokestop
+    return bag
 
 
 @timer
