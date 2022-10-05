@@ -254,12 +254,12 @@ class RABGui(object):
         # Tab 4 Frame 2
         self.boolEnableItemManagement = None
         self.boolClearItemOnStart = None
+        self.boolManageGiftsOnStart = None
         self.boolAutoMax = None
         self.intItemInterval = None
         self.intBagFullInterval = None
         self.strItem2Quit = None
         self.itemEntries = []
-        #self.itemAction = None
 
         # Tab 5 Frame 1
         self.boolEnableTelegramFeed = None
@@ -1091,6 +1091,9 @@ class RABGui(object):
 
     def clearItemOnStart_checkbox(self):
         self.config['item_management']['clear_item_on_start'] = bool(self.boolClearItemOnStart.get())
+
+    def manageGiftsOnStart_checkbox(self):
+        self.config['item_management']['manage_gifts_on_start'] = bool(self.boolManageGiftsOnStart.get())
 
     def autoMax_checkbox(self):
         self.config['item_management']['auto_max'] = bool(self.boolAutoMax.get())
@@ -2485,13 +2488,22 @@ class RABGui(object):
             event, msg=self.lang[self.gui_lang]['tab4Frame2ClearItemOnStartMsg'].replace('\\n', '\n').replace('\\t', '\t')))
         tab4Frame2ClearItemOnStart.bind('<Leave>', self.on_leave)
 
+        self.boolManageGiftsOnStart = IntVar()
+        self.boolManageGiftsOnStart.set(self.config['item_management'].get('manage_gifts_on_start', 0))
+        tab4Frame2ManageGiftsOnStart = tk.Checkbutton(tab4Frame2, variable=self.boolManageGiftsOnStart, command=self.manageGiftsOnStart_checkbox,
+                                                    text=self.lang[self.gui_lang]['tab4Frame2ManageGiftsOnStart'].replace('\\n', '\n').replace('\\t', '\t'))
+        tab4Frame2ManageGiftsOnStart.grid(row=0, column=2, sticky="W")
+        tab4Frame2ManageGiftsOnStart.bind('<Enter>', lambda event: self.on_enter(
+            event, msg=self.lang[self.gui_lang]['tab4Frame2ManageGiftsOnStartMsg'].replace('\\n', '\n').replace('\\t', '\t')))
+        tab4Frame2ManageGiftsOnStart.bind('<Leave>', self.on_leave)
+
         self.boolAutoMax = IntVar()
         self.boolAutoMax.set(self.config['item_management'].get('auto_max', 0))
         self.tab4Frame2AutoMax = tk.Checkbutton(tab4Frame2, variable=self.boolAutoMax, command=self.autoMax_checkbox,
                                                 text=self.lang[self.gui_lang]['tab4Frame2AutoMax'].replace('\\n', '\n').replace('\\t', '\t'))
         if self.config['client'].get('client', 'None').lower() not in ['HAL']:
             self.tab4Frame2AutoMax.config(state=tk.DISABLED)
-        self.tab4Frame2AutoMax.grid(row=0, column=2, sticky="W")
+        self.tab4Frame2AutoMax.grid(row=0, column=3, sticky="W")
         self.tab4Frame2AutoMax.bind('<Enter>', lambda event: self.on_enter(
             event, msg=self.lang[self.gui_lang]['tab4Frame2AutoMaxMsg'].replace('\\n', '\n').replace('\\t', '\t')))
         self.tab4Frame2AutoMax.bind('<Leave>', self.on_leave)
