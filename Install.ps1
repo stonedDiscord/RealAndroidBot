@@ -4,4 +4,6 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 
 cup -y python tesseract adb
 
+refreshenv
+
 pip install -r requirements.txt
