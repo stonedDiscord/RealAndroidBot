@@ -2234,13 +2234,13 @@ async def check_gift(p, d):
         else:
             await asyncio.sleep(9)  # showing rewards
     # should be friends profile now
-    await tap_screen(p, 210, 1630, 1)
+    await tap_screen(p, 210, 1630, 2)
     im_rgb = await screen_cap(d)
     text = extract_text_from_image(im_rgb)
     # Your friend still has an unopened Gift from you.    
     if any(x in text for x in ['which gift', 'gift do you', 'want to send']):
         logger.info("Sending gift")
-        await tap_screen(p, 540, 600, 1)
+        await tap_screen(p, 540, 600, 2)
         im_rgb = await screen_cap(d)
         await tap_caught_ok_btn(p, im_rgb=im_rgb)
         await asyncio.sleep(3)
@@ -2262,7 +2262,7 @@ async def manage_gifts(p, d):
     await tap_screen(p, 930, 1575 + offset, 1)
 
     for entry in range(3):
-        await tap_screen(p, 540, 810 + 345*entry + offset, 1)
+        await tap_screen(p, 540, 810 + 345*entry + offset, 2)
         await check_gift(p, d)
     d.press("back")
 
