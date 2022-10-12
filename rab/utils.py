@@ -18,7 +18,7 @@ from s2sphere import Cell as S2Cell, LatLng, CellId as S2CellId
 import sanitized as conf
 from names import POKEMON
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('rab')
 
 # iPhones 5 + 5C (4S is really not playable)
 IPHONES = {'iPhone5,1': 'N41AP',

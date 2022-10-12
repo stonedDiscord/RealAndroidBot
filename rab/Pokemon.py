@@ -11,7 +11,7 @@ from utils import get_id_from_names, Unknown
 from pathlib import Path
 import pytesseract
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('rab')
 
 if (sys.platform == 'win32' and Path('Tesseract-OCR/tesseract.exe').is_file()):
     pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\tesseract.exe'

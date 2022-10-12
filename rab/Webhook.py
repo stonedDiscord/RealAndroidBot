@@ -4,7 +4,7 @@ import requests
 import time
 import traceback
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('rab')
 
 
 def get_server_time():

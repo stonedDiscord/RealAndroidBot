@@ -2,7 +2,7 @@ from math import sqrt
 import utils
 import logging
 
-log = logging.getLogger('PvpUtils')
+log = logging.getLogger('rab')
 
 
 def calculate_cp(monster, atk, de, sta, lvl):

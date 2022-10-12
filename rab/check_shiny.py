@@ -12,7 +12,7 @@ from page_detection import is_catch_pokemon_page, is_pokestop_page, is_gym_page,
     is_join_raid_battle, is_weather_warning_page, is_warning_page
 from utils import Unknown
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('rab')
 
 
 async def start_apps(d):

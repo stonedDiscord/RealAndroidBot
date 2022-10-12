@@ -3,7 +3,7 @@ import random
 
 from utils import get_average_color
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('rab')
 
 
 def walk_towards_pokestops(im_rgb, min_x=90, max_x=980, x_steps=8, min_y=200, max_y=750, y_steps=8):

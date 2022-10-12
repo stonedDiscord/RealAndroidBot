@@ -23,7 +23,7 @@ from Webhook import get_server_time
 
 import sanitized as config
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('rab')
 
 rab_dir = Path(__file__).resolve().parents[1]
 sys.path.append(str(rab_dir))

@@ -5,9 +5,7 @@ from action import tap_screen
 logging.basicConfig(
     format='%(asctime)s.%(msecs)03d %(levelname)-7s | %(message)s',
     level='INFO', datefmt='%H:%M:%S')
-logger = logging.getLogger(__name__)
-logger.setLevel('INFO')
-
+logger = logging.getLogger('rab')
 
 class MapUIError(Exception):
     pass

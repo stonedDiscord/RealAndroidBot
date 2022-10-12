@@ -98,7 +98,7 @@ class Config:
     __slots__ = tuple(_valid_types.keys()) + ('log',)
 
     def __init__(self):
-        self.log = getLogger('sanitizer')
+        self.log = getLogger('rab')
         for key, value in (x for x in vars(oldconfig).items() if x[0].isupper()):
             try:
                 if isinstance(value, _valid_types[key]):

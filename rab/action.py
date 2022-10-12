@@ -37,8 +37,7 @@ else:
     tool = pytesseract
     #tool = tools[0]
 
-logger = logging.getLogger(__name__)
-logger.setLevel('INFO')
+logger = logging.getLogger('rab')
 
 #path = "config.yaml"
 # with open(path, "r") as f:
@@ -2218,7 +2217,6 @@ async def check_gift(p, d):
     im_rgb = await screen_cap(d)
     bag_full = False
     r, g, b = get_average_color(485, 1588, 3, im_rgb)
-    print(get_average_color(485, 1588, 3, im_rgb))
     if (200 <= r <= 230) and (15 <= g <= 20) and (200 <= b <= 220):
         logger.info("Opening gift")
         await tap_screen(p, 540, 1400, 2)
@@ -2239,7 +2237,6 @@ async def check_gift(p, d):
     await tap_screen(p, 210, 1630, 1)
     im_rgb = await screen_cap(d)
     text = extract_text_from_image(im_rgb)
-    print(text)
     # Your friend still has an unopened Gift from you.    
     if any(x in text for x in ['which gift', 'gift do you', 'want to send']):
         logger.info("Sending gift")

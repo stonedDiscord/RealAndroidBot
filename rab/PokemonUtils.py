@@ -9,7 +9,7 @@ from names import POKEMON
 from page_detection import is_shiny_pokemon
 from utils import Unknown, get_level_to_cpm, get_base_stats
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('rab')
 
 if sys.platform == 'win32':
     if Path('Tesseract-OCR/tesseract.exe').is_file():

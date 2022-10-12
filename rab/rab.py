@@ -70,8 +70,7 @@ donor_until = None
 config = None  # Set global config
 
 logging.basicConfig(format='%(asctime)s.%(msecs)03d %(levelname)-7s | %(message)s', level='INFO', datefmt='%H:%M:%S')
-logger = logging.getLogger(__name__)
-logger.setLevel('DEBUG')
+logger = logging.getLogger('rab')
 
 client = None
 pgsharp_client = None
@@ -5191,6 +5190,8 @@ def call_main(event=None, telegram_client=None, frm_telegram_id=None, frm_donor_
     args = parser.parse_args()
 
     signal.signal(signal.SIGINT, signal_handler)
+
+    logger.setLevel(args.log_level)
 
     try:
         if args.config_filename:

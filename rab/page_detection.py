@@ -10,8 +10,7 @@ from ImageUtils import match_template, save_screenshot, crop_bottom_half, crop_t
 from utils import get_average_color, Unknown
 from names import POKEMON
 
-logger = logging.getLogger(__name__)
-logger.setLevel('INFO')
+logger = logging.getLogger('rab')
 
 if sys.platform == 'win32':
     if Path('Tesseract-OCR/tesseract.exe').is_file():

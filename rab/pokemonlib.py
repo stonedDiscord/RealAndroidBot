@@ -7,8 +7,7 @@ from io import BytesIO
 
 from PIL import Image
 
-logger = logging.getLogger('PokemonGo')
-logger.setLevel(logging.INFO)
+logger = logging.getLogger('rab')
 
 RE_CLIPBOARD_TEXT = re.compile(r"^./ClipboardReceiver\(\s*\d+\): Clipboard text: (.+)$")
 

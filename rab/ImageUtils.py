@@ -24,7 +24,7 @@ else:
     tool = pytesseract
     #tool = tools[0]
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('rab')
 
 screenshot_dir = 'screenshots'
 

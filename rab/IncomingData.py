@@ -30,7 +30,7 @@ import base64
 import json
 import s2sphere
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('rab')
 
 socket.setdefaulttimeout(150)
 SOCKSIZE = 8192
@@ -701,12 +701,3 @@ class LocalNetworkHandler(object):
 
     def close_connection(self):
         self.conn.close()
-        # sys.exit()
-
-# There are the methods to call in rab.py, remove them once testing over
-#logging.basicConfig(format='%(asctime)s.%(msecs)03d %(levelname)-7s | %(message)s', level='INFO', datefmt='%H:%M:%S')
-#logger = logging.getLogger(__name__)
-# logger.setLevel('DEBUG')
-#localnetwork = LocalNetworkHandler()
-#input("Press Enter to continue...")
-# localnetwork.close_connection()

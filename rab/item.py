@@ -10,8 +10,8 @@ import re
 from action import resize_coords, tap_close_btn, tap_screen, drag_screen, screen_cap, poke_location
 from ImageUtils import compare_image, extract_text_from_image
 
-logger = logging.getLogger(__name__)
-logger.setLevel('INFO')
+logger = logging.getLogger('rab')
+
 if sys.platform == 'win32':
     if Path('Tesseract-OCR/tesseract.exe').is_file():
         pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\\tesseract.exe'

@@ -22,8 +22,7 @@ import subprocess
 from functools import partial
 
 logging.basicConfig(format='%(asctime)s.%(msecs)03d %(levelname)-7s | %(message)s', level='INFO', datefmt='%H:%M:%S')
-logger = logging.getLogger(__name__)
-logger.setLevel('INFO')
+logger = logging.getLogger('rab')
 
 
 class ScrollableFrame(ttk.Frame):
@@ -3126,6 +3125,8 @@ args = parser.parse_args()
 
 # Comment these off after deployment
 Loader.add_constructor('!include', Loader.include)
+
+logger.setLevel(args.log_level)
 
 # load config
 default_config_path = "config.yaml"
