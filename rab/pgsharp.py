@@ -26,8 +26,8 @@ class PGSharp:
         self.menu_position = None
 
     async def get_nearby_count(self, p, d):
-        if d(resourceId='me.underworld.helaplugin:id/hl_sri_icon', packageName='com.nianticlabs.pokemongo').exists:
-            return d(resourceId='me.underworld.helaplugin:id/hl_sri_icon', packageName='com.nianticlabs.pokemongo').count
+        if d(resourceId='me.underw.hp:id/hl_sri_icon', packageName='com.nianticlabs.pokemongo').exists:
+            return d(resourceId='me.underw.hp:id/hl_sri_icon', packageName='com.nianticlabs.pokemongo').count
         else:
             return 0
 
@@ -58,7 +58,7 @@ class PGSharp:
                                 packageName='com.nianticlabs.pokemongo', clickable=True).count
         if floating_icon_count == 2:
             # Assuming it's just feed and main
-            if d(resourceId='me.underworld.helaplugin:id/hl_cd_text', packageName='com.nianticlabs.pokemongo').exists:
+            if d(resourceId='me.underw.hp:id/hl_cd_text', packageName='com.nianticlabs.pokemongo').exists:
                 cd_timer = True
             info0 = d(className='android.widget.FrameLayout',
                       packageName='com.nianticlabs.pokemongo', clickable=True)[1].info  # menu
@@ -66,7 +66,7 @@ class PGSharp:
                       packageName='com.nianticlabs.pokemongo', clickable=True)[0].info  # feed
 
         elif floating_icon_count == 3:
-            if d(resourceId='me.underworld.helaplugin:id/hl_cd_text', packageName='com.nianticlabs.pokemongo').exists:
+            if d(resourceId='me.underw.hp:id/hl_cd_text', packageName='com.nianticlabs.pokemongo').exists:
                 cd_timer = True
 
             if not cd_timer:
@@ -137,18 +137,18 @@ class PGSharp:
             await asyncio.sleep(1.0)
             if counter >= 60:
                 return False
-            if d(resourceId='me.underworld.helaplugin:id/hl_sri_icon', packageName='com.nianticlabs.pokemongo').exists:
+            if d(resourceId='me.underw.hp:id/hl_sri_icon', packageName='com.nianticlabs.pokemongo').exists:
                 return True
             counter += 1
 
     async def teleport(self, p, d, x, y, resized=False):
 
-        if not d(resourceId="me.underworld.helaplugin:id/hl_shortcut_menu_item_txt", text="Teleport").exists:
+        if not d(resourceId="me.underw.hp:id/hl_shortcut_menu_item_txt", text="Teleport").exists:
             d.xpath('//*[@resource-id="android:id/content"]/android.widget.FrameLayout[3]').click()
 
         # Open Teleport
-        if d(resourceId="me.underworld.helaplugin:id/hl_shortcut_menu_item_txt", text="Teleport").exists:
-            d(resourceId="me.underworld.helaplugin:id/hl_shortcut_menu_item_txt", text="Teleport").click()
+        if d(resourceId="me.underw.hp:id/hl_shortcut_menu_item_txt", text="Teleport").exists:
+            d(resourceId="me.underw.hp:id/hl_shortcut_menu_item_txt", text="Teleport").click()
             await asyncio.sleep(0.5)
 
         text = str(x) + ', ' + str(y)
@@ -166,42 +166,42 @@ class PGSharp:
 
         await asyncio.sleep(0.5)
 
-        if d(resourceId="me.underworld.helaplugin:id/hl_shortcut_menu_item_txt", text="Teleport").exists:
+        if d(resourceId="me.underw.hp:id/hl_shortcut_menu_item_txt", text="Teleport").exists:
             d.xpath('//*[@resource-id="android:id/content"]/android.widget.FrameLayout[3]').click()
 
     async def get_location(self, p, d, method2=False):
         x_location, y_location = 0.0, 0.0
 
-        if not d(resourceId="me.underworld.helaplugin:id/hl_shortcut_menu_item_txt", text="Map").exists:
+        if not d(resourceId="me.underw.hp:id/hl_shortcut_menu_item_txt", text="Map").exists:
             d.xpath('//*[@resource-id="android:id/content"]/android.widget.FrameLayout[3]').click()
 
         # Open map
-        if d(resourceId="me.underworld.helaplugin:id/hl_shortcut_menu_item_txt", text="Map").exists:
-            d(resourceId="me.underworld.helaplugin:id/hl_shortcut_menu_item_txt", text="Map").click()
+        if d(resourceId="me.underw.hp:id/hl_shortcut_menu_item_txt", text="Map").exists:
+            d(resourceId="me.underw.hp:id/hl_shortcut_menu_item_txt", text="Map").click()
             await asyncio.sleep(0.5)
 
         # Click Home 1x
-        if d(resourceId="me.underworld.helaplugin:id/hl_mbmap_home").exists:
-            d(resourceId="me.underworld.helaplugin:id/hl_mbmap_home").click()
+        if d(resourceId="me.underw.hp:id/hl_mbmap_home").exists:
+            d(resourceId="me.underw.hp:id/hl_mbmap_home").click()
             await asyncio.sleep(0.5)
 
         # Get map view
-        if d(resourceId='me.underworld.helaplugin:id/hl_mbmap_mapview', packageName='com.nianticlabs.pokemongo', clickable=True).exists:
+        if d(resourceId='me.underw.hp:id/hl_mbmap_mapview', packageName='com.nianticlabs.pokemongo', clickable=True).exists:
             await tap_screen(p, 540, 920)
             await asyncio.sleep(0.5)
 
-        if d(resourceId='me.underworld.helaplugin:id/hl_mapbox_popup_latlng', packageName='com.nianticlabs.pokemongo').exists:
-            info = d(resourceId='me.underworld.helaplugin:id/hl_mapbox_popup_latlng',
+        if d(resourceId='me.underw.hp:id/hl_mapbox_popup_latlng', packageName='com.nianticlabs.pokemongo').exists:
+            info = d(resourceId='me.underw.hp:id/hl_mapbox_popup_latlng',
                      packageName='com.nianticlabs.pokemongo').info
             coords = info.get('text').split(',')
             x_location = float(coords[0])
             y_location = float(coords[1])
 
-        if d(resourceId='me.underworld.helaplugin:id/hl_mbmap_close', packageName='com.nianticlabs.pokemongo').exists:
-            d(resourceId='me.underworld.helaplugin:id/hl_mbmap_close', packageName='com.nianticlabs.pokemongo').click()
+        if d(resourceId='me.underw.hp:id/hl_mbmap_close', packageName='com.nianticlabs.pokemongo').exists:
+            d(resourceId='me.underw.hp:id/hl_mbmap_close', packageName='com.nianticlabs.pokemongo').click()
             await asyncio.sleep(0.5)
 
-        if d(resourceId="me.underworld.helaplugin:id/hl_shortcut_menu_item_txt", text="Map").exists:
+        if d(resourceId="me.underw.hp:id/hl_shortcut_menu_item_txt", text="Map").exists:
             d.xpath('//*[@resource-id="android:id/content"]/android.widget.FrameLayout[3]').click()
 
         return x_location, y_location
@@ -219,14 +219,14 @@ class PGSharp:
 
     async def close_pgsharp_menu(self, p, d):
         try:
-            if d(resourceId='me.underworld.helaplugin:id/hl_floatmenu_map', packageName='com.nianticlabs.pokemongo').exists:
+            if d(resourceId='me.underw.hp:id/hl_floatmenu_map', packageName='com.nianticlabs.pokemongo').exists:
                 d(className='android.widget.FrameLayout', packageName='com.nianticlabs.pokemongo',
                   clickable=True)[self.menu_index].click()
         except:
             pass
 
     async def pokemon_encountered(self, p, d, pokemon):
-        if d(resourceId='me.underworld.helaplugin:id/hl_ec_sum_lvv', packageName='com.nianticlabs.pokemongo').exists:
+        if d(resourceId='me.underw.hp:id/hl_ec_sum_lvv', packageName='com.nianticlabs.pokemongo').exists:
             pokemon.get_stats_from_pgsharp(p, d, detail=True)
             return True
         else:

@@ -944,7 +944,7 @@ class Main:
                     return 'not found'  # return if nothing is found
             # all okay, let's move
             try:
-                x, y = await pgsharp_client.get_item_position(self.d(resourceId='me.underworld.helaplugin:id/hl_sri_icon', packageName='com.nianticlabs.pokemongo')[pgsharp_client.current_index].info, self.config.get('resize', False))
+                x, y = await pgsharp_client.get_item_position(self.d(resourceId='me.underw.hp:id/hl_sri_icon', packageName='com.nianticlabs.pokemongo')[pgsharp_client.current_index].info, self.config.get('resize', False))
             except:
                 return 'on_error'
             logger.info("Moving to next Pokemon...")
@@ -2219,7 +2219,7 @@ class Main:
             # all okay, let's move
             try:
                 # Let's try always tap first one
-                x, y = await pgsharp_client.get_item_position(self.d(resourceId='me.underworld.helaplugin:id/hl_sri_icon', packageName='com.nianticlabs.pokemongo')[0].info, self.config.get('resize', False))
+                x, y = await pgsharp_client.get_item_position(self.d(resourceId='me.underw.hp:id/hl_sri_icon', packageName='com.nianticlabs.pokemongo')[0].info, self.config.get('resize', False))
             except:
                 return 'on_error'
 

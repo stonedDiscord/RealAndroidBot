@@ -233,33 +233,33 @@ class Pokemon(object):
         # only works when nearby is enabled
         try:
             if detail:
-                d(resourceId='me.underworld.helaplugin:id/hl_ec', packageName='com.nianticlabs.pokemongo').click()
+                d(resourceId='me.underw.hp:id/hl_ec', packageName='com.nianticlabs.pokemongo').click()
             if Unknown.is_not(self.name):
                 self.dex = get_id_from_names(self.name)
             else:
                 if detail:
-                    if d(resourceId='me.underworld.helaplugin:id/hl_ec_pvp_name', packageName='com.nianticlabs.pokemongo').exists:
-                        self.name = d(resourceId='me.underworld.helaplugin:id/hl_ec_pvp_name', packageName='com.nianticlabs.pokemongo').child(
+                    if d(resourceId='me.underw.hp:id/hl_ec_pvp_name', packageName='com.nianticlabs.pokemongo').exists:
+                        self.name = d(resourceId='me.underw.hp:id/hl_ec_pvp_name', packageName='com.nianticlabs.pokemongo').child(
                             packageName='com.nianticlabs.pokemongo')[0].info.get('text', '')
                         self.dex = get_id_from_names(self.name)
-            self.level = int(d(resourceId='me.underworld.helaplugin:id/hl_ec_sum_lvv',
+            self.level = int(d(resourceId='me.underw.hp:id/hl_ec_sum_lvv',
                              packageName='com.nianticlabs.pokemongo').info.get('text', '0').replace('½', '.5'))
-            raw_iv = d(resourceId='me.underworld.helaplugin:id/hl_ec_sum_ads',
+            raw_iv = d(resourceId='me.underw.hp:id/hl_ec_sum_ads',
                        packageName='com.nianticlabs.pokemongo').info.get('text', '0/0/0')
             raw_iv_list = raw_iv.split('/')
-            self.iv = int(d(resourceId='me.underworld.helaplugin:id/hl_ec_sum_ivv',
+            self.iv = int(d(resourceId='me.underw.hp:id/hl_ec_sum_ivv',
                           packageName='com.nianticlabs.pokemongo').info.get('text', '0'))
             self.atk_iv = int(raw_iv_list[0])
             self.def_iv = int(raw_iv_list[1])
             self.sta_iv = int(raw_iv_list[2])
-            if d(resourceId='me.underworld.helaplugin:id/hl_ec_sum_shiny', packageName='com.nianticlabs.pokemongo').exists:
+            if d(resourceId='me.underw.hp:id/hl_ec_sum_shiny', packageName='com.nianticlabs.pokemongo').exists:
                 self.shiny = True
             if detail:
-                if d(resourceId='me.underworld.helaplugin:id/hl_ec_detail_gender', packageName='com.nianticlabs.pokemongo').exists:
-                    gender = d(resourceId='me.underworld.helaplugin:id/hl_ec_detail_gender',
+                if d(resourceId='me.underw.hp:id/hl_ec_detail_gender', packageName='com.nianticlabs.pokemongo').exists:
+                    gender = d(resourceId='me.underw.hp:id/hl_ec_detail_gender',
                                packageName='com.nianticlabs.pokemongo').info.get('text', '').strip()
                     self.gender = check_pm_gender(gender)
-                d(resourceId='me.underworld.helaplugin:id/hl_ec', packageName='com.nianticlabs.pokemongo').click()
+                d(resourceId='me.underw.hp:id/hl_ec', packageName='com.nianticlabs.pokemongo').click()
             if Unknown.is_not(self.atk_iv) and Unknown.is_not(self.def_iv) and Unknown.is_not(self.sta_iv):
                 if Unknown.is_not(self.dex):
                     level = self.level if Unknown.is_not(self.level) else 1.0
