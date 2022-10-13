@@ -6,4 +6,6 @@ cup -y python tesseract adb
 
 refreshenv
 
+cd $PSScriptRoot
+
 pip install -r requirements.txt
