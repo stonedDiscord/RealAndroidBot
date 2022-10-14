@@ -1,3 +1,4 @@
-cd %~dp0\rab\
-python .\run.py
+cd %~dp0
+cd rab
+python3 ./run.py
 pause

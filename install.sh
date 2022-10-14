@@ -1,0 +1,1 @@
+sudo apt-get install adb python3-pil.imagetk python3-pip python3-tk
