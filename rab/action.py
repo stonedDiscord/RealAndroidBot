@@ -757,8 +757,8 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
 
 
 def quest_can_be_completed(text):
-    can_complete_list = ['spin', 'hatch', 'catch', 'throw', 'transfer', 'power up', 'visit', 'field research']
-    non_complete_list = ['scan', 'buddy', 'raid', 'evolve', 'gift', 'trade', 'grunt']
+    can_complete_list = ['spin', 'hatch', 'catch', 'throw', 'transfer', 'visit', 'field research']
+    non_complete_list = ['scan', 'raid', 'evolve', 'trade']
 
     if config['client'].get('team_rocket_blastoff', False):
         if 'grunt' not in can_complete_list:
@@ -770,17 +770,6 @@ def quest_can_be_completed(text):
             can_complete_list.remove('grunt')
         if 'grunt' not in non_complete_list:
             non_complete_list.append('grunt')
-
-    if config['client'].get('transfer_on_catch', False) or config['quest'].get('power_up_lvl', 5) == 0:
-        if 'power up' in can_complete_list:
-            can_complete_list.remove('power up')
-        if 'power up' not in non_complete_list:
-            non_complete_list.append('power up')
-    else:
-        if 'power up' not in can_complete_list:
-            can_complete_list.append('power up')
-        if 'power up' in non_complete_list:
-            can_complete_list.remove('power up')
 
     if config['client'].get('client', 'none').lower() == 'hal':
         if 'buddy' not in can_complete_list:
@@ -803,6 +792,29 @@ def quest_can_be_completed(text):
             can_complete_list.remove('snapshot')
         if 'snapshot' not in non_complete_list:
             non_complete_list.append('snapshot')
+
+    if config['item_management'].get('gift_interval', False):
+        if 'gift' not in can_complete_list:
+            can_complete_list.append('gift')
+        if 'gift' in non_complete_list:
+            non_complete_list.remove('gift')
+    else:
+        if 'gift' in can_complete_list:
+            can_complete_list.remove('gift')
+        if 'gift' not in non_complete_list:
+            non_complete_list.append('gift')
+
+    # this one has the logic reversed
+    if config['client'].get('transfer_on_catch', False) or config['quest'].get('power_up_lvl', 5) == 0:
+        if 'power up' in can_complete_list:
+            can_complete_list.remove('power up')
+        if 'power up' not in non_complete_list:
+            non_complete_list.append('power up')
+    else:
+        if 'power up' not in can_complete_list:
+            can_complete_list.append('power up')
+        if 'power up' in non_complete_list:
+            can_complete_list.remove('power up')
 
     for each_task in non_complete_list:
         if each_task in text:
