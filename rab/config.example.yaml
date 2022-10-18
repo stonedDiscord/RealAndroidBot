@@ -154,6 +154,8 @@ poke_management:
 item_management:
     enable_item_management: true
     item_management_interval: 60 # In mins
+    manage_gifts_on_start: false
+    gift_interval: 60 # In mins
     clear_item_on_start: false
     reset_bagfull_interval: 20 # In mins
     auto_max: false # New HAL Feature, items are auto maxed, just need to confirm delete without press and hold
