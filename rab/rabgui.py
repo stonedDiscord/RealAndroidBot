@@ -1094,6 +1094,9 @@ class RABGui(object):
     def manageGiftsOnStart_checkbox(self):
         self.config['item_management']['manage_gifts_on_start'] = bool(self.boolManageGiftsOnStart.get())
 
+    def giftInterval_scale(self, *args):
+        self.config['item_management']['gift_interval'] = self.intGiftInterval.get()
+
     def autoMax_checkbox(self):
         self.config['item_management']['auto_max'] = bool(self.boolAutoMax.get())
 
@@ -2495,6 +2498,15 @@ class RABGui(object):
         tab4Frame2ManageGiftsOnStart.bind('<Enter>', lambda event: self.on_enter(
             event, msg=self.lang[self.gui_lang]['tab4Frame2ManageGiftsOnStartMsg'].replace('\\n', '\n').replace('\\t', '\t')))
         tab4Frame2ManageGiftsOnStart.bind('<Leave>', self.on_leave)
+
+        self.intGiftInterval = IntVar()
+        self.intGiftInterval.set(self.config['item_management'].get('gift_interval', 60))
+        tab4Frame2GiftInterval = tk.Scale(tab4Frame2, orient=tk.HORIZONTAL, variable=self.intGiftInterval, from_=0, to=120, resolution=10, length=150,
+                                          command=self.itemInterval_scale, label=self.lang[self.gui_lang]['tab4Frame2GiftInterval'].replace('\\n', '\n').replace('\\t', '\t'))
+        tab4Frame2GiftInterval.grid(row=1, column=2, sticky="W")
+        tab4Frame2GiftInterval.bind('<Enter>', lambda event: self.on_enter(
+            event, msg=self.lang[self.gui_lang]['tab4Frame2GiftIntervalMsg'].replace('\\n', '\n').replace('\\t', '\t')))
+        tab4Frame2GiftInterval.bind('<Leave>', self.on_leave)
 
         self.boolAutoMax = IntVar()
         self.boolAutoMax.set(self.config['item_management'].get('auto_max', 0))
