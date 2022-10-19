@@ -22,7 +22,7 @@ from Pokemon import Pokemon
 from PokemonUtils import get_pokemon_name_from_text
 from action import manage_gifts, select_vaild_pokemon, tap_screen, resize_coords, screen_cap, spin_pokestop, \
     tap_close_btn, catch_pokemon, tap_exit_trainer, close_team_rocket, fight_team_rocket, \
-    after_pokemon_caught, tap_incubate, tap_caught_ok_btn, tap_warning_ok_btn, select_egg, \
+    after_pokemon_caught, tap_incubate, tap_caught_ok_btn, select_egg, \
     tap_exit_btn, tap_remove_quest_ok_btn, clear_quest, set_config, check_quest, \
     clear_pokemon_inventory, tap_pokeball_btn, tap_open_pokemon_btn, tap_collect_component, \
     tap_equip_radar, tap_gym_btn, fav_last_caught, check_player_level, poke_location
@@ -694,8 +694,7 @@ class Main:
             im_rgb = await screen_cap(self.d)
             if not is_home_page(im_rgb):
                 if is_warning_page(im_rgb):
-                    # await tap_caught_ok_btn(self.p, im_rgb=im_rgb)
-                    await tap_warning_ok_btn(self.p)
+                    await tap_caught_ok_btn(self.p, im_rgb=im_rgb)
                     await asyncio.sleep(3)
                 im_rgb = await screen_cap(self.d)
                 if not is_home_page(im_rgb):
@@ -1703,7 +1702,7 @@ class Main:
 
         if is_warning_page(im_rgb):
             self.trivial_page_count = 0
-            await tap_warning_ok_btn(self.p)
+            await tap_caught_ok_btn(self.p, im_rgb=im_rgb)
             return 'on_warning'
 
         if is_main_menu_page(im_rgb) or is_shop_page(im_rgb) or is_nearby_page(im_rgb) or is_incense(im_rgb):
@@ -4222,8 +4221,7 @@ class Main:
                     im_rgb = await screen_cap(self.d)
                     if not is_home_page(im_rgb):
                         if is_warning_page(im_rgb):
-                            # await tap_caught_ok_btn(self.p, im_rgb=im_rgb)
-                            await tap_warning_ok_btn(self.p)
+                            await tap_caught_ok_btn(self.p, im_rgb=im_rgb)
                             await asyncio.sleep(3)
                         im_rgb = await screen_cap(self.d)
                         if not is_home_page(im_rgb):
@@ -4460,12 +4458,12 @@ class Main:
 
                     if is_weather_warning_page(im_rgb):
                         self.trivial_page_count = 0
-                        await tap_warning_ok_btn(self.p)
+                        await tap_caught_ok_btn(self.p, im_rgb=im_rgb)
 
                     if not is_home_page(im_rgb):
                         if is_warning_page(im_rgb):
                             self.trivial_page_count = 0
-                            await tap_warning_ok_btn(self.p)
+                            await tap_caught_ok_btn(self.p, im_rgb=im_rgb)
 
                         if is_exit_trainer_dialog(im_rgb):
                             await tap_exit_trainer(self.p)
@@ -4567,7 +4565,7 @@ class Main:
 
                         if is_warning_page(im_rgb):
                             self.trivial_page_count = 0
-                            await tap_warning_ok_btn(self.p)
+                            await tap_caught_ok_btn(self.p, im_rgb=im_rgb)
                             await asyncio.sleep(0.75)
                             im_rgb = await screen_cap(self.d)
                             if not is_home_page(im_rgb):
@@ -4590,8 +4588,7 @@ class Main:
                             im_rgb = await screen_cap(self.d)
                             if not is_home_page(im_rgb):
                                 if is_warning_page(im_rgb):
-                                    # await tap_caught_ok_btn(self.p, im_rgb=im_rgb)
-                                    await tap_warning_ok_btn(self.p)
+                                    await tap_caught_ok_btn(self.p, im_rgb=im_rgb)
                                     await asyncio.sleep(3)
                                 im_rgb = await screen_cap(self.d)
                                 if not is_home_page(im_rgb):
@@ -4800,8 +4797,7 @@ class Main:
                         im_rgb = await screen_cap(self.d)
                         if not is_home_page(im_rgb):
                             if is_warning_page(im_rgb):
-                                # await tap_caught_ok_btn(self.p, im_rgb=im_rgb)
-                                await tap_warning_ok_btn(self.p)
+                                await tap_caught_ok_btn(self.p, im_rgb=im_rgb)
                                 await asyncio.sleep(3)
                             im_rgb = await screen_cap(self.d)
                             if not is_home_page(im_rgb):

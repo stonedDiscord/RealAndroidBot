@@ -7,7 +7,7 @@ import numpy as np
 from PIL import Image
 
 from ImageUtils import save_screenshot
-from action import tap_screen, swipe_screen, screen_cap, tap_close_btn, tap_exit_btn, tap_caught_ok_btn, tap_warning_ok_btn
+from action import tap_screen, swipe_screen, screen_cap, tap_close_btn, tap_exit_btn, tap_caught_ok_btn
 from page_detection import is_catch_pokemon_page, is_pokestop_page, is_gym_page, is_home_page, is_team_rocket_page, is_team_selection, \
     is_join_raid_battle, is_weather_warning_page, is_warning_page
 from utils import Unknown
@@ -87,7 +87,7 @@ async def load_spawns(p, d, target_pokemon, timeout=90, config=None, zoomout=Tru
 
         if is_weather_warning_page(im_rgb):
             logger.info('Weather warning detected')
-            await tap_warning_ok_btn(p)
+            await tap_caught_ok_btn(p, im_rgb=im_rgb)
     return success_load
 
 
@@ -272,11 +272,11 @@ async def load_tap_pokemon(p, d, pokemon, target_pokemon, timeout=90, config=Non
 
         if is_weather_warning_page(im_rgb):
             logger.info('Weather warning detected')
-            await tap_warning_ok_btn(p)
+            await tap_caught_ok_btn(p, im_rgb=im_rgb)
             continue
         if is_warning_page(im_rgb):
             logger.info('Travel too fast warning detected')
-            await tap_warning_ok_btn(p)
+            await tap_caught_ok_btn(p, im_rgb=im_rgb)
             continue
 
         pokestop_status = is_pokestop_page(im_rgb)

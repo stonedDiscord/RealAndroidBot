@@ -246,10 +246,6 @@ async def tap_incubate_btn(p, duration=1.0):
     await tap_screen(p, 540, 1400, duration=duration)
 
 
-async def tap_warning_ok_btn(p, duration=1.0):
-    await tap_screen(p, 540, 1440, duration=duration)
-
-
 async def tap_free_incubator(p, duration=1.0):
     await tap_screen(p, 165, 1400, duration=duration)
 
@@ -783,15 +779,15 @@ def quest_can_be_completed(text):
             non_complete_list.append('buddy')
 
     if config['ball_selection'].get('take_snapshot', False):
-        if 'snapshot' not in can_complete_list:
-            can_complete_list.append('snapshot')
-        if 'snapshot' in non_complete_list:
-            non_complete_list.remove('snapshot')
+        if 'snapshots' not in can_complete_list:
+            can_complete_list.append('snapshots')
+        if 'snapshots' in non_complete_list:
+            non_complete_list.remove('snapshots')
     else:
-        if 'snapshot' in can_complete_list:
-            can_complete_list.remove('snapshot')
-        if 'snapshot' not in non_complete_list:
-            non_complete_list.append('snapshot')
+        if 'snapshots' in can_complete_list:
+            can_complete_list.remove('snapshots')
+        if 'snapshots' not in non_complete_list:
+            non_complete_list.append('snapshots')
 
     if config['item_management'].get('gift_interval', False):
         if 'gift' not in can_complete_list:
@@ -2244,7 +2240,7 @@ async def check_gift(p, d):
             d.press("back")
             await asyncio.sleep(1)
         else:
-            await asyncio.sleep(9)  # showing rewards
+            await asyncio.sleep(15)  # showing rewards
     # should be friends profile now
     await tap_screen(p, 210, 1630, 2)
     im_rgb = await screen_cap(d)
@@ -2274,7 +2270,7 @@ async def manage_gifts(p, d):
     await tap_screen(p, 930, 1575 + offset, 1)
 
     for entry in range(3):
-        await tap_screen(p, 540, 810 + 345*entry + offset, 2)
+        await tap_screen(p, 350, 810 + 345*entry + offset, 2)
         await check_gift(p, d)
     d.press("back")
 
