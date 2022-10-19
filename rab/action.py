@@ -1269,6 +1269,14 @@ async def catch_pokemon(p, d, pokemon, localnetwork=None, displayID=None, is_sha
 
     await report_encounter(p, d, pokemon, device_id)
 
+    if config['ball_selection'].get('take_snapshot', False):
+        offset = config['client'].get('screen_offset', 0)
+        logger.info('Taking snapshot...')
+        await tap_screen(p, 540,  160+offset, 1.0)
+        await tap_screen(p, 540, 1700+offset, 1.0)
+        await tap_screen(p, 940, 1700+offset, 1.0)
+        await tap_screen(p, 140, 1700+offset, 1.0)
+
     logger.info('Action: catch pokemon')
     is_caught = False
     need_wait = False
@@ -1320,13 +1328,6 @@ async def catch_pokemon(p, d, pokemon, localnetwork=None, displayID=None, is_sha
                 if rab_runtime_status:
                     rab_runtime_status.pokemon_no_ball_encounter += 1
                 break
-
-        if config['ball_selection'].get('take_snapshot', False):
-            logger.info('Taking snapshot...')
-            await tap_screen(p, 540,  160, 1.0)
-            await tap_screen(p, 540, 1700, 1.0)
-            await tap_screen(p, 940, 1700, 1.0)
-            await tap_screen(p, 140, 1700, 1.0)
 
         if berry_selectable and config['berry_selection'].get('use_berry', True):
             if not localnetwork:
@@ -1886,7 +1887,6 @@ async def appraisal(p, d, pokemon):
 @timer
 async def transfer_pokemon(p, d, pokemon, keep_shiny=True):
     logger.info('Action: transfer pokemon')
-    offset = config['client'].get('screen_offset', 0)
 
     await tap_mon_menu_btn(p, duration=1.5)  # menu button
     i = 0
