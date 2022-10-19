@@ -4383,6 +4383,17 @@ class Main:
                             # Error occurs, tap x and exit
                             await tap_screen(self.p, 540, 1780, 2)  # Close Item Page
 
+                if self.config['item_management'].get('manage_gifts_on_start', False) and not self.config['client'].get('client', '').lower() in ['polygon farmer', 'polygonfarmer']:
+                    time_diff = int(time.time()) - self.track_time
+                    # logger.info("Time different: {}".format(time_diff))
+                    if time_diff >= self.config['item_management'].get('gift_interval', 60) * 60:
+                        self.track_time = int(time.time())
+                        try:
+                            await manage_gifts(self.p, self.d)
+                        except Exception as e:
+                            # Error occurs, tap x and exit
+                            await tap_screen(self.p, 540, 1780, 2)  # Close Page
+
                 if not self.config['client'].get('client', '').lower() in ['polygon farmer', 'polygonfarmer']:
                     logger.info('')
                     logger.info('Trivial page #{}'.format(self.trivial_page_count))
