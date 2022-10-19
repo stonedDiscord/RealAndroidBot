@@ -1247,7 +1247,7 @@ class Main:
                     if is_gym_page(im_rgb) == 'gym_deployable':
                         logger.info("Deploying to gym")
                         await tap_gym_btn(self.p, offset)
-                        await tap_screen(self.p, 190, 1040 + offset)
+                        await tap_screen(self.p, 190, 1040)
                         await tap_remove_quest_ok_btn(self.p)
                     self.d.press("back")
                     # while True:
@@ -1394,7 +1394,7 @@ class Main:
             if is_gym_page(im_rgb) == 'gym_deployable':
                 logger.info("Deploying to gym")
                 await tap_gym_btn(self.p, offset)
-                await tap_screen(self.p, 190, 1040 + offset)
+                await tap_screen(self.p, 190, 1040)
                 await tap_remove_quest_ok_btn(self.p)
             self.d.press("back")
             self.no_action_count = 0
@@ -1640,7 +1640,7 @@ class Main:
             if is_gym_page(im_rgb) == 'gym_deployable':
                 logger.info("Deploying to gym")
                 await tap_gym_btn(self.p, offset)
-                await tap_screen(self.p, 190, 1040 + offset)
+                await tap_screen(self.p, 190, 1040)
                 await tap_remove_quest_ok_btn(self.p)
             self.d.press("back")
             if self.pgsharpv2:
@@ -1794,7 +1794,7 @@ class Main:
                     break
                 if not is_plus_disconnected(im_rgb, offset):
                     logger.info("Go Plus is connected, attempt to disconnect now....")
-                    await tap_screen(self.p, 990, 450 + offset, 1.0)
+                    await tap_screen(self.p, 990, 450, 1.0)
                     logger.info("Please wait... Go Plus disconnecting...")
                     await asyncio.sleep(7.0)
                     counter += 1
@@ -1822,7 +1822,7 @@ class Main:
                     break
                 if is_plus_disconnected(im_rgb, offset):
                     logger.info("Go Plus is disconnected, attempt to connect now....")
-                    await tap_screen(self.p, 990, 450 + offset, 1.0)
+                    await tap_screen(self.p, 990, 450, 1.0)
                     logger.info("Please wait... Go Plus connecting...")
                     await asyncio.sleep(7.0)
                     counter += 1
@@ -1956,7 +1956,7 @@ class Main:
                         return False
                     if not is_plus_disconnected(im_rgb, offset):
                         logger.info("Go Plus is connected, attempt to disconnect now....")
-                        await tap_screen(self.p, 990, 450 + offset, 1.0)
+                        await tap_screen(self.p, 990, 450, 1.0)
                         logger.info("Please wait... Go Plus disconnecting...")
                         await asyncio.sleep(7.0)
                         counter += 1
@@ -2031,7 +2031,7 @@ class Main:
                                     break
                                 if is_plus_disconnected(im_rgb, offset):
                                     logger.info("Go Plus is disconnected, attempt to connect now....")
-                                    await tap_screen(self.p, 990, 450 + offset, 1.0)
+                                    await tap_screen(self.p, 990, 450, 1.0)
                                     logger.info("Please wait... Go Plus connecting...")
                                     await asyncio.sleep(7.0)
                                     counter += 1
@@ -2064,7 +2064,7 @@ class Main:
                                 break
                             if is_plus_disconnected(im_rgb, offset):
                                 logger.info("Go Plus is disconnected, attempt to connect now....")
-                                await tap_screen(self.p, 990, 450 + offset, 1.0)
+                                await tap_screen(self.p, 990, 450, 1.0)
                                 logger.info("Please wait... Go Plus connecting...")
                                 await asyncio.sleep(7.0)
                                 counter += 1
@@ -2140,7 +2140,7 @@ class Main:
                             break
                         if is_plus_disconnected(im_rgb, offset):
                             logger.info("Go Plus is disconnected, attempt to connect now....")
-                            await tap_screen(self.p, 990, 450 + offset, 1.0)
+                            await tap_screen(self.p, 990, 450, 1.0)
                             logger.info("Please wait... Go Plus connecting...")
                             await asyncio.sleep(7.0)
                             counter += 1
@@ -2176,7 +2176,7 @@ class Main:
                             break
                         if is_plus_disconnected(im_rgb, offset):
                             logger.info("Go Plus is disconnected, attempt to connect now....")
-                            await tap_screen(self.p, 990, 450 + offset, 1.0)
+                            await tap_screen(self.p, 990, 450, 1.0)
                             logger.info("Please wait... Go Plus connecting...")
                             await asyncio.sleep(7.0)
                             counter += 1
@@ -2667,7 +2667,7 @@ class Main:
             await tap_screen(self.p, 955, 1570, 1)
 
             # First Pokemon in list position
-            await tap_screen(self.p, poke_location[self.poke_in_gym].get('x'), poke_location[self.poke_in_gym].get('y') + offset, 2)
+            await tap_screen(self.p, poke_location[self.poke_in_gym].get('x'), poke_location[self.poke_in_gym].get('y'), 2)
             # await tap_screen(self.p, 540, 980, 1.5) #okay
             im_rgb = await screen_cap(self.d)
             await tap_caught_ok_btn(self.p, im_rgb=im_rgb)
@@ -4066,7 +4066,7 @@ class Main:
             logger.info("Checking Go Plus status...")
             if is_plus_disconnected(im_rgb, offset):
                 logger.info("Go Plus Disconnected, attempt to connect now....")
-                await tap_screen(self.p, 990, 450 + offset, 1.0)
+                await tap_screen(self.p, 990, 450, 1.0)
                 logger.info("Go Plus Reconnecting...")
 
         # limited time features
@@ -4194,7 +4194,7 @@ class Main:
                         await asyncio.sleep(0.5)
             logger.info("Checking and clearing quest....")
             await tap_screen(self.p, 986, 1592, 3.0)
-            await tap_screen(self.p, 540, 390 + offset, 3.0)
+            await tap_screen(self.p, 540, 390, 3.0)
             await clear_quest(self.d, self.p, pokemon)
             await tap_close_btn(self.p)
             await asyncio.sleep(1)
@@ -4366,7 +4366,7 @@ class Main:
                                 await asyncio.sleep(0.5)
                     logger.info("Checking and clearing quest....")
                     await tap_screen(self.p, 986, 1592, 3.0)
-                    await tap_screen(self.p, 540, 390 + offset, 3.0)
+                    await tap_screen(self.p, 540, 390, 3.0)
                     await clear_quest(self.d, self.p, pokemon)
                     await tap_close_btn(self.p)
                     self.track_quest_time = int(time.time())
@@ -4408,17 +4408,17 @@ class Main:
                             if self.config['client'].get('client', '').lower() == 'hal':
                                 if is_plus_disconnected(im_rgb, offset):
                                     logger.info("Go Plus Disconnected...")
-                                    await tap_screen(self.p, 990, 450 + offset, 1.0)
+                                    await tap_screen(self.p, 990, 450, 1.0)
                                     logger.info("Go Plus Reconnecting...")
                             else:
                                 if is_plus_disconnected(im_rgb, offset):
                                     logger.info("Go Plus Disconnected...")
-                                    await tap_screen(self.p, 990, 450 + offset, 1.0)
+                                    await tap_screen(self.p, 990, 450, 1.0)
                                     logger.info("Attempting to reconnect...")
                                 else:
                                     logger.info(
                                         "Go Plus is still connecting. Attempt to disconnect and reconnect to prolong Go Plus connection...")
-                                    await tap_screen(self.p, 990, 450 + offset, 1.0)
+                                    await tap_screen(self.p, 990, 450, 1.0)
                                     i = 0
                                     while True:
                                         if i == 7:
@@ -4426,7 +4426,7 @@ class Main:
                                         await asyncio.sleep(1)
                                         im_rgb = await screen_cap(self.d)
                                         if is_plus_disconnected(im_rgb, offset):
-                                            await tap_screen(self.p, 990, 450 + offset, 1.0)
+                                            await tap_screen(self.p, 990, 450, 1.0)
                                             logger.info("Attempting to reconnect...")
                                             break
                                         i += 1
@@ -4444,17 +4444,17 @@ class Main:
                             if self.config['client'].get('client', '').lower() in ['pgsharppaid', 'pgsharp paid', 'hal']:
                                 if is_plus_disconnected(im_rgb, offset):
                                     logger.info("Go Plus Disconnected...")
-                                    await tap_screen(self.p, 990, 450 + offset, 1.0)
+                                    await tap_screen(self.p, 990, 450, 1.0)
                                     logger.info("Go Plus Reconnecting...")
                             else:
                                 if is_plus_disconnected(im_rgb, offset):
                                     logger.info("Go Plus Disconnected...")
-                                    await tap_screen(self.p, 990, 450 + offset, 1.0)
+                                    await tap_screen(self.p, 990, 450, 1.0)
                                     logger.info("Attempting to reconnect...")
                                 else:
                                     logger.info(
                                         "Go Plus is still connecting. Attempt to disconnect and reconnect to prolong Go Plus connection...")
-                                    await tap_screen(self.p, 990, 450 + offset, 1.0)
+                                    await tap_screen(self.p, 990, 450, 1.0)
                                     i = 0
                                     while True:
                                         if i == 7:
@@ -4462,7 +4462,7 @@ class Main:
                                         await asyncio.sleep(1)
                                         im_rgb = await screen_cap(self.d)
                                         if is_plus_disconnected(im_rgb, offset):
-                                            await tap_screen(self.p, 990, 450 + offset, 1.0)
+                                            await tap_screen(self.p, 990, 450, 1.0)
                                             logger.info("Attempting to reconnect...")
                                             break
                                         i += 1

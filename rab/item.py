@@ -44,9 +44,9 @@ async def delete_item(p, d, section, val, auto_max=False, config=None):
 
     x, y = 990, 345
     if section == 2:
-        y = 725 + offset
+        y = 725
     elif section == 3:
-        y = 1115 + offset
+        y = 1115
 
     success = True
     await tap_screen(p, x, y, 2)
@@ -90,9 +90,9 @@ async def use_item(p, d, section, val, config=None):
 
     x, y = 150, 345
     if section == 2:
-        y = 725 + offset
+        y = 725
     elif section == 3:
-        y = 1115 + offset
+        y = 1115
 
     success = True
     await tap_screen(p, x, y, 2)
@@ -111,7 +111,7 @@ async def use_item(p, d, section, val, config=None):
         val = s
 
     for chosen in range(val):
-        await tap_screen(p, poke_location[chosen].get('x'), poke_location[chosen].get('y') + offset, 0.5)
+        await tap_screen(p, poke_location[chosen].get('x'), poke_location[chosen].get('y'), 0.5)
 
     if val != s:
         await tap_close_btn(p)

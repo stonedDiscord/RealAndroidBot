@@ -108,7 +108,8 @@ def resize_coords(x, y):
     if config.get('resize', False):
         x = int((x* 720)/1080)  # Yes, this would make more sense as x / 1080 and then * 720
         y = int((y*1280)/1920)  # But this way it is more accurate because bigger numbers are easier for computers
-    return x, y
+    offset = config['client'].get('screen_offset', 0)
+    return x, y+offset
 
 
 async def swipe_screen(p, x1, y1, x2, y2, duration=0.5):
@@ -267,11 +268,11 @@ async def tap_power_up_plus(p, duration=0.5):
 
 
 async def tap_fav_icon(p, offset, duration=1):
-    await tap_screen(p, 974, 188 + offset, duration=duration)
+    await tap_screen(p, 974, 188, duration=duration)
 
 
 async def tap_gym_btn(p, offset, duration=1):
-    await tap_screen(p, 945, 1560 + offset, duration=duration)
+    await tap_screen(p, 945, 1560, duration=duration)
 
 
 def check_if_requires_highthrow(pokemon):
@@ -477,7 +478,7 @@ async def clear_quest(d, p, pokemon):
         im_cropped = im_rgb.crop((80, 935 + offset, 795, 1170 + offset1))
         text = extract_text_from_image(im_cropped)
         if not quest_can_be_completed(text):
-            await tap_screen(p, 995, 990 + offset, 1.0)
+            await tap_screen(p, 995, 990, 1.0)
             logger.debug('tapped box 1')
             await tap_remove_quest_ok_btn(p)
             item_removed = True
@@ -491,7 +492,7 @@ async def clear_quest(d, p, pokemon):
         im_cropped = im_rgb.crop((80, 1225 + offset, 795, 1450 + offset))
         text = extract_text_from_image(im_cropped)
         if not quest_can_be_completed(text):
-            await tap_screen(p, 995, 1260 + offset, 1.0)
+            await tap_screen(p, 995, 1260, 1.0)
             logger.debug('tapped box 2')
             await tap_remove_quest_ok_btn(p)
             item_removed = True
@@ -505,7 +506,7 @@ async def clear_quest(d, p, pokemon):
         im_cropped = im_rgb.crop((80, 1510 + offset, 795, 1740 + offset))
         text = extract_text_from_image(im_cropped)
         if not quest_can_be_completed(text):
-            await tap_screen(p, 995, 1550 + offset, 1.0)
+            await tap_screen(p, 995, 1550, 1.0)
             logger.debug('tapped box 3')
             await tap_remove_quest_ok_btn(p)
             item_removed = True
@@ -522,7 +523,7 @@ async def clear_quest(d, p, pokemon):
 async def check_quest(d, p, pokemon, rab_runtime_status=None):
     offset = config['client'].get('screen_offset', 0)
     # Tap quest icon
-    await tap_screen(p, 986, 1595 + offset, 2.0)
+    await tap_screen(p, 986, 1595, 2.0)
     await asyncio.sleep(0.5)
     im_rgb = await screen_cap(d)
     if not is_quest_page(im_rgb):
@@ -553,7 +554,7 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
             i += 1
         return False
 
-    await tap_screen(p, 200, 325 + offset, 1.5)
+    await tap_screen(p, 200, 325, 1.5)
     logger.info("Checking and clearing TODAY Quest....")
     i = 0
     while True:
@@ -615,18 +616,18 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
         if len(matched) > 0:
             logger.debug('YES: found key word: {}'.format(matched))
             await tap_screen(p, 540, 1185, 4)
-        drag_screen(d, 800, 1825, 800, 300 + offset, 4)
+        drag_screen(d, 800, 1825, 800, 300, 4)
         i += 1
 
     # Check Field Page
     logger.info("Checking and clearing FIELD Quest....")
-    await tap_screen(p, 540, 225 + offset, 1.5)
+    await tap_screen(p, 540, 225, 1.5)
     # if i == 0:
-    #    await tap_screen(p, 540, 390 + offset, 1.5)
+    #    await tap_screen(p, 540, 390, 1.5)
     # else:
-    #    await tap_screen(p, 540, 220 + offset, 1.5)
+    #    await tap_screen(p, 540, 220, 1.5)
 
-    drag_screen(d, 540, 740 + offset, 540, 940 + offset, 1.5)  # Drag down a bit first
+    drag_screen(d, 540, 740, 540, 940, 1.5)  # Drag down a bit first
     await asyncio.sleep(1)
     # Clear quest
     # Check first 3 box, delete quest if the quest can't be complete by bot
@@ -685,7 +686,7 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
 
     # Check Special Page
     logger.info("Checking and clearing SPECIAL Quest....")
-    await tap_screen(p, 880, 325 + offset, 2.0)
+    await tap_screen(p, 880, 325, 2.0)
     # Page Shift
     last_iteration = int(time.time())
     while True:
@@ -742,9 +743,9 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
                                 pokemon = await after_pokemon_caught(p, d, pokemon, config)
                         return 'on_pokemon'
             else:
-                drag_screen(d, 800, 1825, 800, 300 + offset, 4)
+                drag_screen(d, 800, 1825, 800, 300, 4)
                 break
-            drag_screen(d, 800, 1825, 800, 300 + offset, 4)
+            drag_screen(d, 800, 1825, 800, 300, 4)
 
     await tap_close_btn(p, 1)
     return
@@ -847,7 +848,7 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
     # await tap_pokeball_btn(p)
     # await tap_open_pokemon_btn(p,2)
     # Prevent transferring of strong pokemon, clear using search
-    await tap_screen(p, 540, 350 + offset, 1)
+    await tap_screen(p, 540, 350, 1)
     text = config['poke_management'].get('poke_search_string', "age0-1")  # Most recent 2 day, we will make this configurable
     # await asyncio.sleep(30)
     #xml = d.dump_hierarchy()
@@ -888,13 +889,13 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
     no_pokemon_inventory_found = False
 
     # Open sort
-    await tap_screen(p, 930, 1770 + offset, 1)
+    await tap_screen(p, 930, 1770, 1)
     # Tap combat power
-    await tap_screen(p, 930, 1575 + offset, 1)
+    await tap_screen(p, 930, 1575, 1)
     # Open sort
-    await tap_screen(p, 930, 1770 + offset, 1)
+    await tap_screen(p, 930, 1770, 1)
     # Tap recent
-    await tap_screen(p, 930, 607 + offset, 1)
+    await tap_screen(p, 930, 607, 1)
 
     # Ensure search text has been entered before using mass transfer
     if config['poke_management'].get('mass_transfer', False) and text_entry:
@@ -902,13 +903,13 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
             config['poke_management'].get('poke_search_string', "age0-1")))
         # long tap
         x = poke_location[0].get('x')
-        y = poke_location[0].get('y') + offset
+        y = poke_location[0].get('y')
 
         x, y = resize_coords(x, y)
 
         d.long_click(x, y)
         await asyncio.sleep(1)
-        await tap_screen(p, 880, 215 + offset, 1)
+        await tap_screen(p, 880, 215, 1)
 
         im_rgb = await screen_cap(d)
         r, g, b = im_rgb.getpixel((900, 1800))
@@ -928,13 +929,13 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
             if chosen == 0:
                 # long tap
                 x = poke_location[chosen].get('x')
-                y = poke_location[chosen].get('y') + offset
+                y = poke_location[chosen].get('y')
 
                 x, y = resize_coords(x, y)
 
                 d.long_click(x, y)
             else:
-                await tap_screen(p, poke_location[chosen].get('x'), poke_location[chosen].get('y') + offset, 0.5)
+                await tap_screen(p, poke_location[chosen].get('x'), poke_location[chosen].get('y'), 0.5)
             chosen += 1
             if chosen == 9 or i == (no_of_pokemons - 1):
                 im_rgb = await screen_cap(d)
@@ -983,7 +984,7 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
                 logger.info("There's nothing more to transfer...")
                 break
             # First Pokemon in list position
-            await tap_screen(p, poke_location[current_kept].get('x'), poke_location[current_kept].get('y') + offset, 1.5)
+            await tap_screen(p, poke_location[current_kept].get('x'), poke_location[current_kept].get('y'), 1.5)
             if mad_client:
                 try:
                     pokemon.update_stats_from_mad(p, d)
@@ -1018,8 +1019,8 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
             if not pokemon.status:
                 pokemon = await after_pokemon_caught(p, d, pokemon, config, from_appraisal=True)
 
-            y1 = 1430 + offset
-            y2 = 650 + offset
+            y1 = 1430
+            y2 = 650
 
             if pokemon.status:
                 current_kept += 1
@@ -1028,14 +1029,14 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
                     current_kept = 0
                     await asyncio.sleep(2)
                     # First Pokemon in list position
-                    await tap_screen(p, poke_location[current_kept].get('x'), poke_location[current_kept].get('y') + offset, 1)
-                    y1 = 1040 + offset
-                    y2 = 650 + offset
+                    await tap_screen(p, poke_location[current_kept].get('x'), poke_location[current_kept].get('y'), 1)
+                    y1 = 1040
+                    y2 = 650
 
                     drag_screen(d, 190, y1, 190, y2, 1)
                     await asyncio.sleep(2)
                     # First Pokemon in list position
-                    await tap_screen(p, poke_location[current_kept].get('x'), poke_location[current_kept].get('y') + offset, 1)
+                    await tap_screen(p, poke_location[current_kept].get('x'), poke_location[current_kept].get('y'), 1)
                 # break
 
     if not no_pokemon_inventory_found:
@@ -1272,10 +1273,10 @@ async def catch_pokemon(p, d, pokemon, localnetwork=None, displayID=None, is_sha
     if config['ball_selection'].get('take_snapshot', False):
         offset = config['client'].get('screen_offset', 0)
         logger.info('Taking snapshot...')
-        await tap_screen(p, 540,  160+offset, 1.0)
-        await tap_screen(p, 540, 1700+offset, 1.0)
-        await tap_screen(p, 940, 1700+offset, 1.0)
-        await tap_screen(p, 140, 1700+offset, 1.0)
+        await tap_screen(p, 540,  160, 1.0)
+        await tap_screen(p, 540, 1700, 1.0)
+        await tap_screen(p, 940, 1700, 1.0)
+        await tap_screen(p, 140, 1700, 1.0)
 
     logger.info('Action: catch pokemon')
     is_caught = False
@@ -2210,10 +2211,10 @@ async def fight_team_rocket(p, d, rocket_type='rocket_grunt'):
 async def check_player_level(p, d):
     offset = config['client'].get('screen_offset', 0)
     player_level = []
-    await tap_screen(p, 135, 1755+offset, 3.0)  # Profile
-    await tap_screen(p, 350, 250+offset, 1.0)  # Me tab
+    await tap_screen(p, 135, 1755, 3.0)  # Profile
+    await tap_screen(p, 350, 250, 1.0)  # Me tab
     im_rgb = await screen_cap(d)
-    im_cropped = im_rgb.crop([20, 1240, 200, 1325+offset])
+    im_cropped = im_rgb.crop([20, 1240, 200, 1325 + offset])
     text = extract_text_from_image(im_cropped, binary=False, threshold=150).replace("\n", " ")
     logger.debug(f'Level text: {text}')
     player_level[:] = [int(s) for s in text.split() if s.isdigit()]
@@ -2257,20 +2258,20 @@ async def check_gift(p, d):
 
 async def manage_gifts(p, d):
     offset = config['client'].get('screen_offset', 0)
-    await tap_screen(p, 135, 1755+offset, 3.0)  # Profile
-    await tap_screen(p, 750, 250+offset, 1.0)  # Friends tab
+    await tap_screen(p, 135, 1755, 3.0)  # Profile
+    await tap_screen(p, 750, 250, 1.0)  # Friends tab
 
     # Open sort
-    await tap_screen(p, 930, 1770 + offset, 1)
+    await tap_screen(p, 930, 1770, 1)
     # Tap gift
-    await tap_screen(p, 930, 1380 + offset, 1)
+    await tap_screen(p, 930, 1380, 1)
     # Open sort
-    await tap_screen(p, 930, 1770 + offset, 1)
+    await tap_screen(p, 930, 1770, 1)
     # Tap receive gift
-    await tap_screen(p, 930, 1575 + offset, 1)
+    await tap_screen(p, 930, 1575, 1)
 
     for entry in range(3):
-        await tap_screen(p, 300, 810 + 345*entry + offset, 2)
+        await tap_screen(p, 300, 810 + 345*entry, 2)
         await check_gift(p, d)
     d.press("back")
 
@@ -2295,7 +2296,7 @@ async def fav_last_caught(p, d, pokemon):
         await tap_pokeball_btn(p)
         await tap_open_pokemon_btn(p, 2)
 
-        await tap_screen(p, poke_location[0].get('x'), poke_location[0].get('y') + offset, 1.5)
+        await tap_screen(p, poke_location[0].get('x'), poke_location[0].get('y'), 1.5)
         await tap_fav_icon(p, offset)
         d.press("back")
         await asyncio.sleep(1)
