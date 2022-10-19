@@ -2270,7 +2270,7 @@ async def manage_gifts(p, d):
     await tap_screen(p, 930, 1575 + offset, 1)
 
     for entry in range(3):
-        await tap_screen(p, 350, 810 + 345*entry + offset, 2)
+        await tap_screen(p, 300, 810 + 345*entry + offset, 2)
         await check_gift(p, d)
     d.press("back")
 
