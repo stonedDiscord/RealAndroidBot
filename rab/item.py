@@ -40,8 +40,6 @@ async def find_item(im_rgb, item_to_find, config, section):
 
 
 async def delete_item(p, d, section, val, auto_max=False, config=None):
-    offset = config['client'].get('screen_offset', 0)
-
     x, y = 990, 345
     if section == 2:
         y = 725
@@ -86,8 +84,6 @@ async def delete_item(p, d, section, val, auto_max=False, config=None):
 
 
 async def use_item(p, d, section, val, config=None):
-    offset = config['client'].get('screen_offset', 0)
-
     x, y = 150, 345
     if section == 2:
         y = 725

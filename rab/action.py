@@ -267,11 +267,11 @@ async def tap_power_up_plus(p, duration=0.5):
     await tap_screen(p, 830, 1370, duration=duration)
 
 
-async def tap_fav_icon(p, offset, duration=1):
+async def tap_fav_icon(p, duration=1):
     await tap_screen(p, 974, 188, duration=duration)
 
 
-async def tap_gym_btn(p, offset, duration=1):
+async def tap_gym_btn(p, duration=1):
     await tap_screen(p, 945, 1560, duration=duration)
 
 
@@ -464,10 +464,7 @@ async def clear_quest(d, p, pokemon):
             i += 1
         return 'home'
 
-    offset1 = config['client'].get('screen_offset', 0)
     offset = config['client'].get('screen_offset', 0)
-    if offset1 > 0:
-        offset1 += 15
 
     item_removed = False
 
@@ -475,7 +472,7 @@ async def clear_quest(d, p, pokemon):
         item_removed = False
         # Box 1
         im_rgb = await screen_cap(d)
-        im_cropped = im_rgb.crop((80, 935 + offset, 795, 1170 + offset1))
+        im_cropped = im_rgb.crop((80, 935 + offset, 795, 1170 + offset))
         text = extract_text_from_image(im_cropped)
         if not quest_can_be_completed(text):
             await tap_screen(p, 995, 990, 1.0)
@@ -521,7 +518,6 @@ async def clear_quest(d, p, pokemon):
 
 
 async def check_quest(d, p, pokemon, rab_runtime_status=None):
-    offset = config['client'].get('screen_offset', 0)
     # Tap quest icon
     await tap_screen(p, 986, 1595, 2.0)
     await asyncio.sleep(0.5)
@@ -647,7 +643,6 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
             y = 1185
         if y:
             await tap_screen(p, 400, y, 0.5)
-            #logger.info(f'tapped position: {y}')
 
             if not config['client'].get('skip_encounter_intro'):
                 await asyncio.sleep(3)
@@ -842,16 +837,13 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
     no_of_pokemons = config['poke_management'].get('stop_check_at', 50)  # No of times to loop
     offset = config['client'].get('screen_offset', 0)
     text_entry = True
-    is_empty = False
-    # if config.get('resize',False):
-    #    offset = int(offset/1920*1280)
     # await tap_pokeball_btn(p)
     # await tap_open_pokemon_btn(p,2)
     # Prevent transferring of strong pokemon, clear using search
     await tap_screen(p, 540, 350, 1)
     text = config['poke_management'].get('poke_search_string', "age0-1")  # Most recent 2 day, we will make this configurable
     # await asyncio.sleep(30)
-    #xml = d.dump_hierarchy()
+    # xml = d.dump_hierarchy()
     # with open('xml.txt', 'w') as f:
     #    f.write(xml)
     try:
@@ -2042,7 +2034,6 @@ async def check_keep(p, d, pokemon, keep_shiny=True, show_log=True, from_apprais
 
 @timer
 async def after_pokemon_caught(p, d, pokemon, config, keep_shiny=True, from_appraisal=False):
-    offset = config['client'].get('screen_offset', 0)
     logger.info('Action: transfer or keep pokemon')
     await asyncio.sleep(config['catch'].get('delay_before_appraisal', 1.0))
     # Conditions to do the appraisal:
@@ -2064,7 +2055,7 @@ async def after_pokemon_caught(p, d, pokemon, config, keep_shiny=True, from_appr
     if keep_mon:
         # fav it to prevent pokemon being transfer during mass transfer
         if config['poke_management'].get('mass_transfer', False):
-            await tap_fav_icon(p, offset)
+            await tap_fav_icon(p)
         await tap_mon_ok_btn(p)
     else:
         pokemon = await transfer_pokemon(p, d, pokemon, config['catch'].get('enable_keep_shiny', True))
@@ -2257,7 +2248,6 @@ async def check_gift(p, d):
 
 
 async def manage_gifts(p, d):
-    offset = config['client'].get('screen_offset', 0)
     await tap_screen(p, 135, 1755, 3.0)  # Profile
     await tap_screen(p, 750, 250, 1.0)  # Friends tab
 
@@ -2290,14 +2280,12 @@ async def fav_last_caught(p, d, pokemon):
     keep_mon = await check_keep(p, d, pokemon)
 
     if keep_mon:
-        offset = config['client'].get('screen_offset', 0)
-
         await asyncio.sleep(1)
         await tap_pokeball_btn(p)
         await tap_open_pokemon_btn(p, 2)
 
         await tap_screen(p, poke_location[0].get('x'), poke_location[0].get('y'), 1.5)
-        await tap_fav_icon(p, offset)
+        await tap_fav_icon(p)
         d.press("back")
         await asyncio.sleep(1)
         d.press("back")

@@ -807,7 +807,7 @@ class Main:
 
         r, g, b = 0, 0, 0  # to prevent errors
         # no ball, turn pokestop 50x
-        #logger.info(f'debug: {self.no_ball}, {self.pgsharpv2}')
+        logger.info(f'Ball and pgsharp status: {self.no_ball}, {self.pgsharpv2}')
         if self.no_ball and not self.pgsharpv2:
 
             while True:
@@ -1246,7 +1246,7 @@ class Main:
                         self.count_gym_count = 0
                     if is_gym_page(im_rgb) == 'gym_deployable':
                         logger.info("Deploying to gym")
-                        await tap_gym_btn(self.p, offset)
+                        await tap_gym_btn(self.p)
                         await tap_screen(self.p, 190, 1040)
                         await tap_remove_quest_ok_btn(self.p)
                     self.d.press("back")
@@ -1393,7 +1393,7 @@ class Main:
                 self.count_gym_count = 0
             if is_gym_page(im_rgb) == 'gym_deployable':
                 logger.info("Deploying to gym")
-                await tap_gym_btn(self.p, offset)
+                await tap_gym_btn(self.p)
                 await tap_screen(self.p, 190, 1040)
                 await tap_remove_quest_ok_btn(self.p)
             self.d.press("back")
@@ -1639,7 +1639,7 @@ class Main:
                 self.count_gym_count = 0
             if is_gym_page(im_rgb) == 'gym_deployable':
                 logger.info("Deploying to gym")
-                await tap_gym_btn(self.p, offset)
+                await tap_gym_btn(self.p)
                 await tap_screen(self.p, 190, 1040)
                 await tap_remove_quest_ok_btn(self.p)
             self.d.press("back")
@@ -2662,7 +2662,6 @@ class Main:
                     await tap_incubate(self.p)
                 return 'on_egg'
 
-            offset = self.config['client']['screen_offset']
             await tap_screen(self.p, 545, 1140, 5)
             await tap_screen(self.p, 955, 1570, 1)
 
