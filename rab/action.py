@@ -617,17 +617,12 @@ async def check_quest(d, p, pokemon, rab_runtime_status=None):
 
     # Check Field Page
     logger.info("Checking and clearing FIELD Quest....")
-    await tap_screen(p, 540, 225, 1.5)
-    # if i == 0:
-    #    await tap_screen(p, 540, 390, 1.5)
-    # else:
-    #    await tap_screen(p, 540, 220, 1.5)
+    await tap_screen(p, 540, 285, 1.5)
 
-    drag_screen(d, 540, 740, 540, 940, 1.5)  # Drag down a bit first
     await asyncio.sleep(1)
+
     # Clear quest
     # Check first 3 box, delete quest if the quest can't be complete by bot
-
     if await clear_quest(d, p, pokemon):
         return 'on_pokemon'
 
