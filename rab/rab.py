@@ -737,9 +737,6 @@ class Main:
         else:
             self.d(packageName='com.nianticlabs.pokemongo').pinch_out(percent=70, steps=40)
 
-        if self.config['item_management'].get('manage_gifts_on_start', False):
-            await manage_gifts(self.p, self.d)
-
 
     async def report_encounter(self):
         message = '{} Encountered. CP: {} ({}/{}/{}) Shiny: {}'.format(
@@ -4054,6 +4051,9 @@ class Main:
 
         if self.config['item_management'].get('clear_item_on_start', False) and self.config['item_management'].get('enable_item_management', False) and not self.config['client'].get('client', '').lower() in ['polygon farmer', 'polygonfarmer']:
             await check_items(self.p, self.d, self.config)
+
+        if self.config['item_management'].get('manage_gifts_on_start', False):
+            await manage_gifts(self.p, self.d)
 
         if self.config['telegram'].get('enabled') and self.config['shiny_check'].get('enabled') and not self.config['client'].get('client', '').lower() in ['polygon farmer', 'polygonfarmer']:
             logger.warning('SHINY CHECK IN PROGRESS, MAKE SURE INSTANT SPIN IS DISABLED (RAB & 3RD PARTY)')
