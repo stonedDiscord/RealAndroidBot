@@ -1,4 +1,3 @@
-import pytesseract
 from pathlib import Path
 import logging
 import os
@@ -11,20 +10,6 @@ from utils import get_average_color, Unknown
 from names import POKEMON
 
 logger = logging.getLogger('rab')
-
-if sys.platform == 'win32':
-    if Path('Tesseract-OCR/tesseract.exe').is_file():
-        pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\tesseract.exe'
-        tool = pytesseract
-    else:
-        #tools = pyocr.get_available_tools()
-        tool = pytesseract
-        #tool = tools[0]
-else:
-    #import pyocr
-    #tools = pyocr.get_available_tools()
-    tool = pytesseract
-    #tool = tools[0]
 
 # have to add 2 functions from PokemonUtils because cannot import
 

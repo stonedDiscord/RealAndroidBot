@@ -1,4 +1,3 @@
-import pytesseract
 from pathlib import Path
 import logging
 import re
@@ -10,20 +9,6 @@ from page_detection import is_shiny_pokemon
 from utils import Unknown, get_level_to_cpm, get_base_stats
 
 logger = logging.getLogger('rab')
-
-if sys.platform == 'win32':
-    if Path('Tesseract-OCR/tesseract.exe').is_file():
-        pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\tesseract.exe'
-        tool = pytesseract
-    else:
-        #tools = pyocr.get_available_tools()
-        tool = pytesseract
-        #tool = tools[0]
-else:
-    #import pyocr
-    #tools = pyocr.get_available_tools()
-    tool = pytesseract
-    #tool = tools[0]
 
 level_to_cpm = get_level_to_cpm()
 
