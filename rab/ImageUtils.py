@@ -67,6 +67,8 @@ def extract_text_from_image(im, binary=True, threshold=200, reverse=False):
     # save_screenshot(im_binary, sub_dir='binary', save=True)
     return tool.image_to_string(im_transformed).replace("\n", " ").lower().strip()
 
+def extract_line_from_image(im):
+    return tool.image_to_string(im)
 
 def crop_middle(im):
     w, h = im.size

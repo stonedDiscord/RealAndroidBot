@@ -6,7 +6,7 @@ import re
 
 
 from action import resize_coords, tap_close_btn, tap_screen, drag_screen, screen_cap, poke_location
-from ImageUtils import compare_image, extract_text_from_image
+from ImageUtils import compare_image, extract_text_from_image, extract_line_from_image
 
 logger = logging.getLogger('rab')
 
@@ -16,7 +16,7 @@ async def find_item(im_rgb, item_to_find, config, section):
     for y in range(300, 1620, 5):
         # Section 1
         text_ITEM = im_rgb.crop([340, y, 945, 70 + y])
-        text = extract_text_from_image(text_ITEM)
+        text = extract_line_from_image(text_ITEM)
 
         if text:
             text = text.splitlines()[0].replace('|', '').replace('poke', 'poké').strip()
@@ -83,7 +83,7 @@ async def use_item(p, d, section, val, config=None):
 
     im_rgb = await screen_cap(d)
     im_rgb = im_rgb.crop([170, 275, 280, 330])
-    s = extract_text_from_image(im_rgb, False)
+    s = extract_line_from_image(im_rgb)
     logger.debug(f'Have {s}')
     s = ''.join(i for i in s if i.isdigit())
     try:
@@ -128,7 +128,7 @@ async def check_items(p, d, config):
             im_rgb = await screen_cap(d)
             # Section 1
             text_ITEM1 = im_rgb.crop([340, 300 + offset, 925, 450 + offset])
-            text_ITEM1 = extract_text_from_image(text_ITEM1, False)
+            text_ITEM1 = extract_line_from_image(text_ITEM1)
 
             if text_ITEM1:
                 text_ITEM1 = text_ITEM1.splitlines()[0].replace('|', '').replace('poke', 'poké').strip()
@@ -154,7 +154,7 @@ async def check_items(p, d, config):
 
             # Section 2
             text_ITEM2 = im_rgb.crop([340, 680 + offset, 925, 850 + offset])
-            text_ITEM2 = extract_text_from_image(text_ITEM2, False)
+            text_ITEM2 = extract_line_from_image(text_ITEM2)
 
             if text_ITEM2:
                 text_ITEM2 = text_ITEM2.splitlines()[0].replace('|', '').strip().replace('poke', 'poké').strip()
@@ -180,7 +180,7 @@ async def check_items(p, d, config):
 
             # Section 3
             text_ITEM3 = im_rgb.crop([340, 1070 + offset, 925, 1230 + offset])
-            text_ITEM3 = extract_text_from_image(text_ITEM3, False)
+            text_ITEM3 = extract_line_from_image(text_ITEM3)
 
             if text_ITEM3:
                 text_ITEM3 = text_ITEM3.splitlines()[0].replace('|', '').strip().replace('poke', 'poké').strip()
@@ -206,7 +206,7 @@ async def check_items(p, d, config):
 
             # Section 4
             text_ITEM4 = im_rgb.crop([340, 1445 + offset, 925, 1610 + offset])
-            text_ITEM4 = extract_text_from_image(text_ITEM4, False)
+            text_ITEM4 = extract_line_from_image(text_ITEM4)
 
             if text_ITEM4:
                 text_ITEM4 = text_ITEM4.splitlines()[0].replace('|', '').strip().replace('poke', 'poké').strip()
