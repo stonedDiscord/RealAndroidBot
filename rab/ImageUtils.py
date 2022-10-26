@@ -9,15 +9,7 @@ import imutils
 import numpy as np
 from pathlib import Path
 
-import pytesseract
-if sys.platform == 'win32':
-    if Path('Tesseract-OCR/tesseract.exe').is_file():
-        pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\\tesseract.exe'
-        tool = pytesseract
-    else:
-        tool = pytesseract
-else:
-    tool = pytesseract
+import tesserocr
 
 logger = logging.getLogger('rab')
 
@@ -64,11 +56,17 @@ def extract_text_from_image(im, binary=True, threshold=200, reverse=False):
         im_transformed = binarize_image(im, threshold, reverse)
     else:
         im_transformed = im.convert('L')
-    # save_screenshot(im_binary, sub_dir='binary', save=True)
-    return tool.image_to_string(im_transformed).replace("\n", " ").lower().strip()
+
+    with tesserocr.PyTessBaseAPI(path='./data/tessdata/', lang='eng') as api:
+        api.SetImage(im_transformed)
+        return api.GetUTF8Text().replace("\n", " ").lower().strip()
+
 
 def extract_line_from_image(im):
-    return tool.image_to_string(im)
+    with tesserocr.PyTessBaseAPI(path='./data/tessdata/', lang='eng') as api:
+        api.SetImage(im)
+        return api.GetUTF8Text()
+
 
 def crop_middle(im):
     w, h = im.size
