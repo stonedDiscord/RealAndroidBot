@@ -815,7 +815,6 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
         return False
 
     no_of_pokemons = config['poke_management'].get('stop_check_at', 50)  # No of times to loop
-    offset = config['client'].get('screen_offset', 0)
     text_entry = True
     # await tap_pokeball_btn(p)
     # await tap_open_pokemon_btn(p,2)
@@ -883,8 +882,9 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
         await asyncio.sleep(1)
         await tap_screen(p, 880, 215, 1)
 
+        offset = config['client'].get('screen_offset', 0)
         im_rgb = await screen_cap(d)
-        r, g, b = im_rgb.getpixel((900, 1800))
+        r, g, b = im_rgb.getpixel((900, 1800 + offset))
         if not ((253 <= r <= 255) and (253 <= g <= 255) and (253 <= b <= 255)):
             logger.info("There's nothing more to transfer...")
             d.press("back")
@@ -911,7 +911,7 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
             chosen += 1
             if chosen == 9 or i == (no_of_pokemons - 1):
                 im_rgb = await screen_cap(d)
-                r, g, b = im_rgb.getpixel((900, 1800))
+                r, g, b = im_rgb.getpixel((900, 1800 + offset))
                 if not ((253 <= r <= 255) and (253 <= g <= 255) and (253 <= b <= 255)):
                     logger.info("There's nothing more to transfer...")
                     d.press("back")
@@ -966,7 +966,7 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
             im_rgb = await screen_cap(d)
             if not is_mon_details_page(im_rgb):
                 continue
-            r, g, b = im_rgb.getpixel((430, 1590))
+            r, g, b = im_rgb.getpixel((430, 1590 + offset))
             if ((230 <= r <= 235) and (125 <= g <= 130) and (180 <= b <= 185)) or ((253 <= r <= 255) and (200 <= g <= 205) and (230 <= b <= 235)):
                 logger.info('This is (most likely) a Shadow Pokemon.')
                 pokemon.type = 'shadow'

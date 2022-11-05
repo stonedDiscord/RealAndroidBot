@@ -522,7 +522,7 @@ def is_bag_full(im):
 
     if len(matched) > 0:
         logger.debug('YES: found key word: {}'.format(matched))
-        logger.info('Bag Full')
+        logger.warn('Bag Full')
         return matched
     logger.debug('NO: key word not found')
     return False
@@ -535,6 +535,7 @@ def is_pokemon_full(im):
                                      'transfer pokémon', 'transfer pokemon'], threshold=220)  # 'is full removed
     if len(matched) > 0:
         logger.debug('YES: found key word: {}'.format(matched))
+        logger.warn('Pokemon inventory full')
         return matched
     logger.debug('NO: key word not found')
     return False
