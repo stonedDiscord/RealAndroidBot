@@ -42,11 +42,11 @@ def walk_towards_pokestops(im_rgb, min_x=90, max_x=980, x_steps=8, min_y=200, ma
 def is_pokestop_color(r, g, b):
     if (( 28 <= r <= 110) and (233 <= g <= 255) and (250 <= b <= 255)):
         return 'bright'
-    if ((252 <= r <= 255) and (192 <= g <= 227) and ( 66 <= b <=  90)):
+    if ((252 <= r <= 255) and (200 <= g <= 255) and ( 25 <= b <=  35)):
         return 'bright'  # fall season
     if (( 28 <= r <=  40) and (100 <= g <= 110) and (215 <= b <= 225)):
         return 'dark'
-    if ((219 <= r <= 255) and (115 <= g <= 142) and ( 24 <= b <=  32)):
+    if ((219 <= r <= 255) and (170 <= g <= 175) and ( 30 <= b <=  35)):
         return 'dark'    # fall season
     return False
 
