@@ -1,19 +1,16 @@
 import sys
 from pathlib import Path
 import time
-import time
 import logging
 import json
 from contextlib import contextmanager
-from sqlalchemy import create_engine, Column, Boolean, Integer, String, Float, SmallInteger, \
-    BigInteger, create_engine, desc
-from sqlalchemy.orm import sessionmaker, relationship, eagerload, foreign, remote, scoped_session
-from sqlalchemy.types import TypeDecorator, Numeric, Text, TIMESTAMP, DATETIME
+from sqlalchemy import create_engine, Column, Integer, String, Float, SmallInteger, \
+    BigInteger, create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.types import TypeDecorator, Numeric, Text, DATETIME
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import func
-from sqlalchemy import and_, or_
-from logging import basicConfig, getLogger, FileHandler, StreamHandler, DEBUG, INFO, ERROR, Formatter
-from sys import argv
+from sqlalchemy import or_
+import logging
 from Webhook import get_server_time
 
 import sanitized as config
@@ -40,7 +37,7 @@ class DBCache:
 
 
 if config.DB_ENGINE.startswith('mysql'):
-    from sqlalchemy.dialects.mysql import TINYINT, MEDIUMINT, BIGINT, DOUBLE, LONGTEXT
+    from sqlalchemy.dialects.mysql import TINYINT, BIGINT, DOUBLE, LONGTEXT
 
     TINY_TYPE = TINYINT(unsigned=True)          # 0 to 255
     MEDIUM_TYPE = Integer                       # 0 to 4294967295
