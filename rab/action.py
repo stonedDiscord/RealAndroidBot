@@ -2199,9 +2199,10 @@ async def check_gift(p, d):
     r, g, b = get_average_color(485, 1588, 3, im_rgb)
     if (200 <= r <= 230) and (15 <= g <= 20) and (200 <= b <= 220):
         logger.info("Opening gift")
-        await tap_screen(p, 540, 1400, 2)
-        im_rgb = await screen_cap(d)
-        await tap_caught_ok_btn(p, im_rgb=im_rgb)
+        # Tap gift
+        await tap_screen(p, 540, 1440, 2)
+        # Tap open
+        await tap_screen(p, 540, 1485, 2)
         await asyncio.sleep(1)
         im_rgb = await screen_cap(d)
         bag_full = is_bag_full(im_rgb)
@@ -2221,8 +2222,8 @@ async def check_gift(p, d):
     if any(x in text for x in ['which gift', 'gift do you', 'want to send']):
         logger.info("Sending gift")
         await tap_screen(p, 540, 600, 2)
-        im_rgb = await screen_cap(d)
-        await tap_caught_ok_btn(p, im_rgb=im_rgb)
+        # Tap send
+        await tap_screen(p, 540, 1515, 2)
         await asyncio.sleep(3)
     d.press("back")
 
