@@ -1,5 +1,3 @@
-import asyncio
-import threading
 import tkinter as tk
 import argparse
 import os
@@ -12,11 +10,10 @@ import logging
 import json
 #from tkinter.filedialog import askopenfilename
 from utils import Loader
-from tkinter import ttk, tix, PhotoImage, StringVar, IntVar, DoubleVar, messagebox
+from tkinter import ttk, PhotoImage, StringVar, IntVar, DoubleVar, messagebox
 from PIL import Image, ImageTk
 from telethon import TelegramClient, events, errors
 from db import session_scope, vaild_subscription
-from datetime import datetime
 
 import subprocess
 from functools import partial
@@ -318,10 +315,6 @@ class RABGui(object):
         self.var13 = None
         self.var14 = None
 
-        #socket_thread = threading.Thread(target=self.start_win, name="rabgui")
-        #socket_thread.daemon = True
-        # socket_thread.start()
-
     async def print_id(self):
         me = await self.client.get_me()
         self.telegram_id = me.id
@@ -412,14 +405,9 @@ class RABGui(object):
         self.save_config()
         self.win_main.withdraw()
         if config['telegram'].get('enabled'):
-            #threading.Thread(target=rab.call_main, args= (self.client,self.telegram_id,self.donor_until))
-            # asyncio.run(rab.call_main(self.client,self.telegram_id,self.donor_until))
             rab.call_main(events, self.client, self.telegram_id, self.donor_until)
         else:
-            # threading.Thread(target=rab.call_main)
-            # asyncio.run(rab.call_main())
             rab.call_main()
-        #sys.stdout = StdoutRedirector(self.console_box)
 
     def close_win(self):
         self.win_main.destroy()
@@ -3109,11 +3097,6 @@ class RABGui(object):
                 '\\t', '\t') + '{} x {}'.format(self.win_main.winfo_screenwidth(), self.win_main.winfo_screenheight()))
 
         self.win_main.resizable(False, False)
-        # self.win_main.mainloop()
-
-# if sys.platform == 'win32':
-#    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
-
 
 parser = argparse.ArgumentParser(description='Real Android Bot')
 parser.add_argument('--device-id', type=str, default=None,

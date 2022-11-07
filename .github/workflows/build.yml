@@ -7,11 +7,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: recursive
 
     - name: Set up Python 3.9
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
-        python-version: 3.9
+        python-version: '3.9'
+        cache: 'pip'
 
     - run: |
         pip install -r requirements.txt pyinstaller
@@ -24,6 +27,19 @@ jobs:
         rm -r dist
         rm -r build
 
+    - uses: vimtor/action-zip@v1
+      with:
+        files: rab/
+        dest: windows.zip
+
     - uses: actions/upload-artifact@v2
       with:
-        path: rab/*
+        path: windows.zip
+
+    - name: Update release
+      uses: johnwbyrd/update-release@v1.0.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        files: windows.zip
+        name: v1.7.1
+        tag: v1.7.1
