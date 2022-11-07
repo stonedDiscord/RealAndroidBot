@@ -1,0 +1,3 @@
+[submodule "rab/tessdata"]
+	path = rab/tessdata
+	url = https://github.com/tesseract-ocr/tessdata
