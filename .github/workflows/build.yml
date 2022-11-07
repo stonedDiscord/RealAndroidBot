@@ -1,5 +1,6 @@
-on:
-  push:
+name: Build PyInstaller package
+
+on: push
 
 jobs:
   build:
@@ -41,5 +42,5 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         files: windows.zip
-        name: v1.7.1
+        release: v1.7.1
         tag: v1.7.1
