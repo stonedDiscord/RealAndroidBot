@@ -26,6 +26,17 @@ jobs:
         rm -r dist
         rm -r build
 
+    - uses: vimtor/action-zip@v1
+      with:
+        files: rab/*
+        dest: windows.zip
+
     - uses: actions/upload-artifact@v2
       with:
-        path: rab/*
+        path: windows.zip
+
+    - name: Update release
+      uses: johnwbyrd/update-release@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        files: windows.zip
