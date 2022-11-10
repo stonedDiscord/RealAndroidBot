@@ -2112,6 +2112,32 @@ async def close_team_rocket(p):
 
 
 @timer
+async def fight_trainer(p, d, trainer_type='rocket_grunt'):
+    if not trainer_type:
+        return
+    logger.info('Action: fight {}'.format(trainer_type))
+
+    t0 = time.time()
+    while True:
+        im_rgb = await screen_cap(d)
+        im_rgb = await screen_cap(d)
+        text = extract_text_from_image(im_rgb) 
+        # Get Ready! Swipe! 
+        if any(x in text for x in ['get', 'ready', 'swipe']):
+            for _ in range(50):
+                # 200-400,1200
+                swipe_screen(p, 200, 1000, 400, 1200, 0.1)
+                swipe_screen(p, 400, 1000, 200, 1200, 0.1)
+        # YOU WIN! GOOD EFFORT! NEXT BATTLE
+        elif any(x in text for x in ['you', 'win', 'good', 'effort', 'next', 'battle', 'hero', 'purifier', 'rescue']):
+            break
+
+        await tap_screen(p, 540, 1675, 0.1)  # Attack!
+
+    return True
+
+
+@timer
 async def fight_team_rocket(p, d, rocket_type='rocket_grunt'):
     if not rocket_type:
         return
