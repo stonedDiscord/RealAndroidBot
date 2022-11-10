@@ -110,7 +110,7 @@ class PGSharp:
 
         # Move feed
         feed_sx, feed_sy = await self.get_item_position(info2)
-        feed_ex, feed_ey = 0.98 * width, 0.4 * height
+        feed_ex, feed_ey = 0.98 * width, 0.45 * height
         d.drag(feed_sx, feed_sy, feed_ex, feed_ey, 1)
 
 
