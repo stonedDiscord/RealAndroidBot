@@ -2184,7 +2184,7 @@ async def fight_team_rocket(p, d, rocket_type='rocket_grunt'):
     t0 = time.time()
     while True:
         im_rgb = await screen_cap(d)
-        if config['client'].get('client').lower() != 'pgsharp paid':
+        if config['client'].get('client').lower() == 'pgsharp paid':
             if is_catch_pokemon_page(im_rgb, is_shadow=True) or i >= 10:
                 break
         else:
