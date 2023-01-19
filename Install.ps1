@@ -2,7 +2,7 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
-choco install python --version=3.10.0
+choco install -y python --version=3.10.0
 
 cup -y tesseract adb
 
@@ -10,4 +10,4 @@ refreshenv
 
 cd $PSScriptRoot
 
-pip install -r requirements.txt
+C:\Python310\Scripts\pip.exe install -r requirements.txt
