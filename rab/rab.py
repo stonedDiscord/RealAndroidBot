@@ -681,8 +681,8 @@ class Main:
                     return False
         except:
             logger.error('Unable to connect to server, some server features will be disabled...')
-        await self.p.start_logcat()
-
+        # await self.p.start_logcat()
+        logger.info("logcat cringe")
         if self.config['client'].get('lower_resolution', False):
             logger.error('Pokemon Go will now restart for the changes to take place')
             await self.reset_app()
