@@ -868,6 +868,8 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
     # Tap recent
     await tap_screen(p, 930, 607, 1)
 
+    offset = config['client'].get('screen_offset', 0)
+    
     # Ensure search text has been entered before using mass transfer
     if config['poke_management'].get('mass_transfer', False) and text_entry:
         logger.info("Mass transfer all pokemon caught using rule: {}".format(
@@ -882,7 +884,6 @@ async def clear_pokemon_inventory(p, d, pgsharp_client=None, mad_client=None):
         await asyncio.sleep(1)
         await tap_screen(p, 880, 215, 1)
 
-        offset = config['client'].get('screen_offset', 0)
         im_rgb = await screen_cap(d)
         r, g, b = im_rgb.getpixel((900, 1800 + offset))
         if not ((253 <= r <= 255) and (253 <= g <= 255) and (253 <= b <= 255)):
