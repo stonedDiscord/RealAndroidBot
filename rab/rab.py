@@ -4077,6 +4077,8 @@ class Main:
             if (int(time.time()) <= self.limited_time_feature) or self.subscriber:
                 pgsharp_client = PGSharp()
                 logger.info("Please wait.... Checking and readjusting icons...")
+                self.d.press("back")
+                self.d.press("back")
                 try:
                     if self.config['client'].get('pgsharp_reposition', True):
                         await pgsharp_client.reposition(self.p, self.d)
