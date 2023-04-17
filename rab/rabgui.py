@@ -1649,7 +1649,7 @@ class RABGui(object):
         # On Screen Offset
         self.intScreenOffset = IntVar()
         self.intScreenOffset.set(self.config['client'].get('screen_offset', 0))
-        tab2Frame2ScreenOffset = tk.Scale(tab2Frame2, orient=tk.HORIZONTAL, variable=self.intScreenOffset, from_=-200, to=200, length=150,
+        tab2Frame2ScreenOffset = tk.Scale(tab2Frame2, orient=tk.HORIZONTAL, variable=self.intScreenOffset, from_=-140, to=140, length=150,
                                           command=self.screenOffset_scale, label=self.lang[self.gui_lang]['tab2Frame2ScreenOffset'].replace('\\n', '\n').replace('\\t', '\t'))
         tab2Frame2ScreenOffset.grid(row=1, column=0, sticky="W")
         tab2Frame2ScreenOffset.bind('<Enter>', lambda event: self.on_enter(
