@@ -663,24 +663,7 @@ class Main:
             logger.info('Device Info: {}'.format(self.d.info))
 
         await set_config(self.config)
-        last_login = None
-        full_device_info = self.d.device_info
-        try:
-            with session_scope() as session:
-                first_login, last_login = device_checkin(session, full_device_info.get(
-                    'serial', self.d.serial), self.config['client'].get('client', 'None'))
 
-            if int(time.time() - first_login) < 259200:
-                self.limited_time_feature = first_login + 259200
-
-            if last_login > 0:
-                logger.info('Last Login: {}'.format(datetime.fromtimestamp(last_login).strftime("%d %b %Y, %H:%M:%S")))
-            else:
-                response = input('First time login detected. Ensure that you have read the instructions of RAB and you have configured RAB according to what your 3rd Party Client can do. Our github page has a YouTube link that demo how fast the bot will work for each different client. If the speed is unacceptable to you, DO NOT WASTE YOUR TIME using RAB. RAB is meant to extend your playing time hr, not designed to totally replace you! Enter Y if you agree to this term. (Y/N)')
-                if response.lower() != 'y':
-                    return False
-        except:
-            logger.error('Unable to connect to server, some server features will be disabled...')
         # await self.p.start_logcat()
         logger.info("logcat cringe")
         if self.config['client'].get('lower_resolution', False):
