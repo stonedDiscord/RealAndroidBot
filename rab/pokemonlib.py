@@ -170,7 +170,7 @@ class PokemonGo(object):
     async def get_devices(self):
         if("MuMu" in self.adb_path):
             code, stdout, stderr = await self.run([self.adb_path, "kill-server"])
-            code, stdout, stderr = await self.run([self.adb_path, "connect 127.0.0.1:7555"])
+            code, stdout, stderr = await self.run([self.adb_path, "connect","127.0.0.1:7555"])
         code, stdout, stderr = await self.run([self.adb_path, "devices"])
         devices = []
 
