@@ -1333,7 +1333,7 @@ class RABGui(object):
         img = Image.open("img/usb_debugging2.jpg")
         wpercent = (basewidth / float(img.size[0]))
         hsize = int((float(img.size[1]) * float(wpercent)))
-        img = img.resize((basewidth, hsize), Image.ANTIALIAS)
+        img = img.resize((basewidth, hsize), Image.LANCZOS)
         self.imgInstructions = ImageTk.PhotoImage(img)
         xiaomiImage = tk.Label(self.tab1, image=self.imgInstructions)
         xiaomiImage.pack(side=tk.TOP, anchor=tk.W)
