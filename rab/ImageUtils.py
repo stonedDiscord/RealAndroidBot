@@ -65,7 +65,9 @@ def extract_text_from_image(im, binary=True, threshold=200, reverse=False):
     else:
         im_transformed = im.convert('L')
     # save_screenshot(im_binary, sub_dir='binary', save=True)
-    return tool.image_to_string(im_transformed).replace("\n", " ").lower().strip()
+    text = tool.image_to_string(im_transformed).replace("\n", " ").lower().strip()
+    logger.debug(text)
+    return text
 
 def extract_line_from_image(im):
     return tool.image_to_string(im)

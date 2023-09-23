@@ -192,7 +192,7 @@ async def tap_mon_appraise_btn(p, duration=0.5):
 
 
 async def tap_transfer_yes_btn(p, duration=1.0):
-    await tap_screen(p, 540, 1136, duration=duration)
+    await tap_screen(p, 540, 1130, duration=duration)
 
 
 async def tap_transfer_shiny_no_btn(p, duration=0.75):

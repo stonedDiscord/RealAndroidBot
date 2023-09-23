@@ -476,7 +476,7 @@ def is_caught_flee(im):
     s2 = extract_text_from_image(im_cropped, binary=True, threshold=50, reverse=True)
     s3 = extract_text_from_image(im_cropped2, binary=True, threshold=220, reverse=False)
     s4 = extract_text_from_image(im_cropped2, binary=True, threshold=50, reverse=True)
-    text = re.sub('[^a-zA-Z]+', ' ', s1 + ' ' + s2 + ' ' + s3 + ' ' + s4)
+    text = s1 + ' ' + s2 + ' ' + s3 + ' ' + s4
     text = text.replace('cauaht', 'caught').replace('caraht', 'caught').replace('carnht', 'caught')
     logger.debug('Words: {}'.format(text))
 
@@ -512,7 +512,6 @@ def is_bag_full(im):
     logger.debug("Checking: bag full?")
     im_cropped = crop_horizontal_piece(im, 3, 2)
     text = extract_text_from_image(im_cropped, binary=True, threshold=200, reverse=True)
-    text = re.sub('[^a-zA-Z]+', ' ', text)
 
     key_word_list = ['item bag', 'bag is full']
     matched = []
@@ -591,7 +590,7 @@ def is_team_rocket_page(im):
     im_cropped = crop_horizontal_piece(im, 2, 2)
     s1 = extract_text_from_image(im_cropped, binary=True, threshold=220, reverse=False)
     s2 = extract_text_from_image(im_cropped, binary=True, threshold=200, reverse=True)
-    text = re.sub('[^a-zA-Z]+', ' ', s1 + ' ' + s2)
+    text = s1 + ' ' + s2
 
     key_word_list = ['grunt', 'runt' 'rocket', 'leader', 'cliff', 'sierra', 'arlo',
                      'collect', 'assembled', 'equip', 'jessie', 'james', 'giovanni', 'battle']
@@ -804,7 +803,7 @@ def is_mon_details_page(im):
     logger.debug("Checking: pokemon details?")
     s1 = extract_text_from_image(im, binary=True, threshold=220, reverse=False)
     s2 = extract_text_from_image(im, binary=True, threshold=200, reverse=True)
-    text = re.sub('[^a-zA-Z]+', ' ', s1 + ' ' + s2)
+    text = s1 + ' ' + s2
 
     key_word_list = ['weight', 'height', 'stardust', 'candy', 'raids', 'trainer']
     matched = []
@@ -885,13 +884,9 @@ def is_team_selection_vaild(im):
     im_poke2 = im.crop([385, 1525, 695, 1640])
     im_poke3 = im.crop([695, 1525, 1005, 1640])
 
-    s1 = extract_text_from_image(im_poke1, binary=True, threshold=220, reverse=False)
-    s2 = extract_text_from_image(im_poke2, binary=True, threshold=220, reverse=False)
-    s3 = extract_text_from_image(im_poke3, binary=True, threshold=220, reverse=False)
-
-    poke1_text = re.sub('[^a-zA-Z]+', ' ', s1).strip()
-    poke2_text = re.sub('[^a-zA-Z]+', ' ', s2).strip()
-    poke3_text = re.sub('[^a-zA-Z]+', ' ', s3).strip()
+    poke1_text = extract_text_from_image(im_poke1, binary=True, threshold=220, reverse=False)
+    poke2_text = extract_text_from_image(im_poke2, binary=True, threshold=220, reverse=False)
+    poke3_text = extract_text_from_image(im_poke3, binary=True, threshold=220, reverse=False)
 
     slot1_vaild = True if len(poke1_text) > 3 else False
     slot2_vaild = True if len(poke2_text) > 3 else False
@@ -919,7 +914,7 @@ def is_pokestop_scan_page(im):
     s1 = extract_text_from_image(im_cropped, binary=True, threshold=220, reverse=False)
     s2 = extract_text_from_image(im_cropped_bottom, binary=True, threshold=220, reverse=False)
 
-    text = re.sub('[^a-zA-Z]+', ' ', s1 + ' ' + s2)
+    text = s1 + ' ' + s2
 
     key_word_list = ['scanning', 'scan pokéstop', 'scan pokestop']
     matched = []
@@ -947,14 +942,14 @@ def is_exit_trainer_dialog(im):
 
 
 def is_profile_page(im):
-    logger.debug("Checking: quest page?")
+    logger.debug("Checking: profile page?")
 
     im_cropped = crop_top_half(im)
     im_cropped_bottom = crop_bottom_half(im)
     s1 = extract_text_from_image(im_cropped, binary=True, threshold=220, reverse=False)
     s2 = extract_text_from_image(im_cropped_bottom, binary=True, threshold=220, reverse=False)
 
-    text = re.sub('[^a-zA-Z]+', ' ', s1 + ' ' + s2)
+    text = s1 + ' ' + s2
 
     key_word_list = ['friend', 'play', 'online', 'gift', 'send', 'trade', 'bubby', 'together']
     matched = []
@@ -973,16 +968,16 @@ def is_quest_page(im):
     logger.debug("Checking: quest page?")
 
     im_cropped = crop_top_half(im)
-    th_quest_symbol = 6300000
+    th_quest_symbol = 5400000
     template_path = 'assets/QuestSymbol.png'
     has_quest_symbol = match_template_wrapper(template_path, im_cropped, threshold=th_quest_symbol, resize_template=True)
     if has_quest_symbol:
         logger.debug('YES: found {}'.format(os.path.basename(template_path)))
         return True
 
-    s1 = extract_text_from_image(im_cropped, binary=True, threshold=220, reverse=False)
-    s2 = extract_text_from_image(im_cropped, binary=True, threshold=200, reverse=True)
-    text = re.sub('[^a-zA-Z]+', ' ', s1 + ' ' + s2)
+    s1 = extract_text_from_image(im, binary=True, threshold=220, reverse=False)
+    s2 = extract_text_from_image(im, binary=True, threshold=200, reverse=True)
+    text = s1 + ' ' + s2
 
     key_word_list = ['today', 'field', 'special', 'research', 'progress', 'celebration']
     matched = []
@@ -1026,7 +1021,7 @@ def is_weather_warning_page(im):
 
     s1 = extract_text_from_image(im_cropped, binary=True, threshold=200, reverse=True)
 
-    text = re.sub('[^a-zA-Z]+', ' ', s1)
+    text = s1
 
     key_word_list = ['weather warning', 'weather conditions']
     matched = []
