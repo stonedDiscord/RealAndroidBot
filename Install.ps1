@@ -4,7 +4,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 
 choco install -y python --version=3.10.0
 
-cup -y tesseract adb
+choco upgrade -y tesseract adb
 
 refreshenv
 
