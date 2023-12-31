@@ -423,8 +423,6 @@ class Main:
             if orginal_x > orginal_y:
                 logger.info("RAB does not officially support emulator or tablet. RAB might not work as intented if you continue.")
                 logger.info("If you are using emulator, try set your emulator to phone mode instead of tablet and try again...")
-                logger.info("Exiting...")
-                return False
 
             elif (orginal_x < 1080 and orginal_y < 1920) or overwrite_y < 1920:
                 if orginal_x < 720 and orginal_y < 1280:
