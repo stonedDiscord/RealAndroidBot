@@ -2257,7 +2257,7 @@ async def check_gift(p, d):
 
 async def manage_gifts(p, d):
     await tap_screen(p, 135, 1755, 3.0)  # Profile
-    await tap_screen(p, 750, 250, 1.0)  # Friends tab
+    await tap_screen(p, 500, 250, 1.0)  # Friends tab
 
     # Open sort
     await tap_screen(p, 930, 1770, 1)

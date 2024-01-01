@@ -664,8 +664,6 @@ class Main:
 
         await set_config(self.config)
 
-        # await self.p.start_logcat()
-        logger.info("logcat cringe")
         if self.config['client'].get('lower_resolution', False):
             logger.error('Pokemon Go will now restart for the changes to take place')
             await self.reset_app()
@@ -4372,6 +4370,7 @@ class Main:
                     # logger.info("Time different: {}".format(time_diff))
                     if time_diff >= self.config['item_management'].get('gift_interval', 60) * 60:
                         self.track_time = int(time.time())
+                        logger.info("Managing gifts....")
                         try:
                             await manage_gifts(self.p, self.d)
                         except Exception as e:
