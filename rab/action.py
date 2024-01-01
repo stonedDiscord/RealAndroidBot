@@ -1210,13 +1210,14 @@ async def report_encounter(p, d, pokemon, device_id):
                 elif pokemon.pvp_info and config['discord'].get('notify_pvp_iv', False):
                     if pokemon.pvp_info['GL'].get('rating', 0) >= config['pvp'].get('gl_rating', 100) or pokemon.pvp_info['UL'].get('rating', 0) >= config['pvp'].get('ul_rating', 100):
                         message = '**PVP** ' + iv_str + ' PVP Information: {}'.format(pokemon.pvp_info)
-
-                webhook_url = config['discord'].get('webhook_url', '')
-                if webhook_url and message:
-                    shiny_folder = ''
-                    if pokemon.shiny:
-                        shiny_folder = 'shiny/'
-                    send_to_discord(webhook_url, 'RAB Encounter {}'.format(device_id), message, "https://github.com/PokeAPI/sprites/raw/master/sprites/pokemon/" + shiny_folder + str(pokemon.dex) + ".png")
+            if message == '' and config['discord'].get('notify_all_encountered', False):
+                message = 'IVs: ' + iv_str + ' PVP Information: {}'.format(pokemon.pvp_info)
+            webhook_url = config['discord'].get('webhook_url', '')
+            if webhook_url:
+                shiny_folder = ''
+                if pokemon.shiny:
+                    shiny_folder = 'shiny/'
+                send_to_discord(webhook_url, 'RAB Encounter {}'.format(device_id), message, "https://github.com/PokeAPI/sprites/raw/master/sprites/pokemon/" + shiny_folder + str(pokemon.dex) + ".png")
 
 
 @timer
