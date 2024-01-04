@@ -4,7 +4,7 @@ import random
 import time
 import sys
 import re
-
+import requests
 import numpy as np
 
 from pathlib import Path
@@ -1196,7 +1196,11 @@ def format_iv(pokemon):
     return '({}/{}/{})'.format(pokemon.atk_iv, pokemon.def_iv, pokemon.sta_iv)
 
 
-async def report_encounter(p, d, pokemon, device_id):
+async def report_encounter(p, d, pokemon, device_id, pgsharp_client=None):
+    #if pgsharp_client:
+    #    pokemon.latitude, pokemon.longitude = await pgsharp_client.get_location(p, d)
+    #send to map
+    #mapresp = requests.post("url", data={pokemon}, auth=('username', 'password'))
     if config.get('discord', False):
         message = ''
         if config['discord'].get('notify_encountered', False) and config['discord'].get('enabled', False):
@@ -1211,7 +1215,7 @@ async def report_encounter(p, d, pokemon, device_id):
                     if pokemon.pvp_info['GL'].get('rating', 0) >= config['pvp'].get('gl_rating', 100) or pokemon.pvp_info['UL'].get('rating', 0) >= config['pvp'].get('ul_rating', 100):
                         message = '**PVP** ' + iv_str + ' PVP Information: {}'.format(pokemon.pvp_info)
             if message == '' and config['discord'].get('notify_all_encountered', False):
-                message = 'IVs: ' + iv_str + ' PVP Information: {}'.format(pokemon.pvp_info)
+                message = 'IVs: ' + iv_str + ' Pokemon Data: {}'.format(pokemon)
             webhook_url = config['discord'].get('webhook_url', '')
             if webhook_url:
                 shiny_folder = ''
@@ -1242,7 +1246,7 @@ async def catch_pokemon(p, d, pokemon, localnetwork=None, displayID=None, is_sha
         tracking = True
         logger.debug('Tracking R: {} G: {} B: {}'.format(track_r, track_g, track_b))
 
-    await report_encounter(p, d, pokemon, device_id)
+    await report_encounter(p, d, pokemon, device_id, pgsharp_client)
 
     if config['ball_selection'].get('take_snapshot', False):
         offset = config['client'].get('screen_offset', 0)
