@@ -25,7 +25,7 @@ from action import manage_gifts, select_vaild_pokemon, tap_screen, resize_coords
     after_pokemon_caught, tap_incubate, tap_caught_ok_btn, select_egg, \
     tap_exit_btn, tap_remove_quest_ok_btn, clear_quest, set_config, check_quest, \
     clear_pokemon_inventory, tap_pokeball_btn, tap_open_pokemon_btn, tap_collect_component, \
-    tap_equip_radar, tap_gym_btn, fav_last_caught, check_player_level, poke_location
+    tap_equip_radar, tap_gym_btn, fav_last_caught, check_player_level, poke_location, report_encounter
 from check_shiny import load_tap_pokemon, load_spawns
 from find_object import find_object_to_tap, walk_towards_pokestops, find_pokestop
 from item import check_items
@@ -423,8 +423,6 @@ class Main:
             if orginal_x > orginal_y:
                 logger.info("RAB does not officially support emulator or tablet. RAB might not work as intented if you continue.")
                 logger.info("If you are using emulator, try set your emulator to phone mode instead of tablet and try again...")
-                logger.info("Exiting...")
-                return False
 
             elif (orginal_x < 1080 and orginal_y < 1920) or overwrite_y < 1920:
                 if orginal_x < 720 and orginal_y < 1280:
@@ -718,13 +716,6 @@ class Main:
         else:
             self.d(packageName='com.nianticlabs.pokemongo').pinch_out(percent=70, steps=40)
 
-
-    async def report_encounter(self):
-        message = '{} Encountered. CP: {} ({}/{}/{}) Shiny: {}'.format(
-            self.pokemon.name, self.pokemon.cp, self.pokemon.atk_iv, self.pokemon.def_iv, self.pokemon.sta_iv, self.pokemon.shiny)
-        webhook_url = self.config['discord'].get('webhook_url', '')
-        if webhook_url and message:
-            send_to_discord(webhook_url, 'RAB Encounter ({})'.format(self.device_id), message)
 
     async def check_map(self):
         global rab_runtime_status
@@ -1095,7 +1086,7 @@ class Main:
                     save_screenshot(im_rgb, sub_dir='shiny', save=self.config['screenshot'].get('shiny'))
 
                 if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                    self.report_encounter()
+                    report_encounter(self.p, self.d, self.pokemon, self.device_id, pgsharp_client)
 
                 if self.config['client'].get('client', '').lower() in ['none', 'pgsharp', 'pgsharp paid'] and not self.pgsharpv2:
                     pokemon_caught = await catch_pokemon(self.p, self.d, self.pokemon, track_r=r, track_g=g, track_b=b, rab_runtime_status=rab_runtime_status, pgsharp_client=pgsharp_client, mad_client=mad_client, device_id=self.device_id)
@@ -1275,7 +1266,7 @@ class Main:
                     save_screenshot(im_rgb, sub_dir='shiny', save=self.config['screenshot'].get('shiny'))
 
                 if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                    self.report_encounter()
+                    report_encounter(self.p, self.d, self.pokemon, self.device_id, pgsharp_client)
 
                 if self.config['client'].get('client', '').lower() in ['none', 'pgsharp', 'pgsharp paid'] and not self.pgsharpv2:
                     pokemon_caught = await catch_pokemon(self.p, self.d, self.pokemon, track_r=r, track_g=g, track_b=b, rab_runtime_status=rab_runtime_status, pgsharp_client=pgsharp_client, mad_client=mad_client, device_id=self.device_id)
@@ -1319,7 +1310,7 @@ class Main:
                     save_screenshot(im_rgb, sub_dir='shiny', save=self.config['screenshot'].get('shiny'))
 
                 if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                    self.report_encounter()
+                    report_encounter(self.p, self.d, self.pokemon, self.device_id, pgsharp_client)
 
                 if config['client'].get('client', '').lower() in ['none', 'pgsharp', 'pgsharp paid'] and not self.pgsharpv2:
                     pokemon_caught = await catch_pokemon(self.p, self.d, self.pokemon, track_r=r, track_g=g, track_b=b, rab_runtime_status=rab_runtime_status, pgsharp_client=pgsharp_client, mad_client=mad_client, device_id=self.device_id)
@@ -1540,7 +1531,7 @@ class Main:
                             return 'on_pokemon'
 
                     if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                        self.report_encounter()
+                        report_encounter(self.p, self.d, self.pokemon, self.device_id, pgsharp_client)
 
                     if self.pokemon.shiny:
                         save_screenshot(im_rgb, sub_dir='shiny', save=self.config['screenshot'].get('shiny'))
@@ -1579,7 +1570,7 @@ class Main:
                     return 'on_pokemon'
 
             if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                self.report_encounter()
+                report_encounter(self.p, self.d, self.pokemon, self.device_id, pgsharp_client)
             if self.pokemon.shiny:
                 save_screenshot(im_rgb, sub_dir='shiny', save=self.config['screenshot'].get('shiny'))
             pokemon_caught = await catch_pokemon(self.p, self.d, self.pokemon, is_shadow=True, rab_runtime_status=rab_runtime_status, pgsharp_client=pgsharp_client, mad_client=mad_client, device_id=self.device_id)
@@ -1866,7 +1857,7 @@ class Main:
                             return 'on_pokemon'
 
                     if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                        self.report_encounter()
+                        report_encounter(self.p, self.d, self.pokemon, self.device_id, pgsharp_client)
 
                     if self.pokemon.shiny:
                         save_screenshot(im_rgb, sub_dir='shiny', save=self.config['screenshot'].get('shiny'))
@@ -2058,7 +2049,7 @@ class Main:
                                                   last_active_location.get('longitude', 0),
                                                   current_check['latitude'], current_check['longitude'])
                 if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                    self.report_encounter()
+                    report_encounter(self.p, self.d, self.pokemon, self.device_id, pgsharp_client)
 
                 if self.config['snipe'].get('auto_catch', False):
                     if cd_total_sec >= 0:
@@ -2276,7 +2267,7 @@ class Main:
                     self.no_spawn_count = 0
 
                 if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                    self.report_encounter()
+                    report_encounter(self.p, self.d, self.pokemon, self.device_id, pgsharp_client)
 
                 if self.player_level >= 30 and pgsharp_client:
                     await self.check_and_send(self.pokemon, pgsharp_client)
@@ -2953,7 +2944,7 @@ class Main:
                     incensePokeData = localnetwork.incense_pokemon_encounter.pop()
                     self.pokemon.update_stats_from_polygon(incensePokeData)
                     if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                        self.report_encounter()
+                        report_encounter(self.p, self.d, self.pokemon, self.device_id, pgsharp_client)
                     if self.config['catch'].get('only_shiny', False) and not self.pokemon.shiny:
                         await asyncio.sleep(1)
                         self.d.press("back")  # Flee
@@ -2982,7 +2973,7 @@ class Main:
                         wildPokeData = localnetwork.wild.pop(wildEncounterIndex)
                         self.pokemon.update_stats_from_polygon(encounterPokeData)
                         if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                            self.report_encounter()
+                            report_encounter(self.p, self.d, self.pokemon, self.device_id, pgsharp_client)
                         if self.config['catch'].get('only_shiny', False) and not self.pokemon.shiny:
                             await asyncio.sleep(1)
                             self.d.press("back")  # Flee
@@ -3003,7 +2994,7 @@ class Main:
                         if is_catch_pokemon_page(im_rgb):
                             self.trivial_page_count = 0
                             if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                                self.report_encounter()
+                                report_encounter(self.p, self.d, self.pokemon, self.device_id, pgsharp_client)
                             if not priorityPoke:
                                 logger.info('Wrong Pokemon')
                                 wildPokeData = localnetwork.encounter.pop()
@@ -3090,7 +3081,7 @@ class Main:
                                 save_screenshot(im_rgb, sub_dir='shiny', save=self.config['screenshot'].get('shiny'))
                             if is_catch_pokemon_page(im_rgb, is_shadow=True):
                                 if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                                    self.report_encounter()
+                                    report_encounter(self.p, self.d, self.pokemon, self.device_id, pgsharp_client)
                                 pokemon_caught = await catch_pokemon(self.p, self.d, self.pokemon, rab_runtime_status=rab_runtime_status, device_id=self.device_id)
                                 if pokemon_caught == 'No Ball':
                                     localnetwork.total_ball_count = 0
@@ -3206,7 +3197,7 @@ class Main:
                     self.trivial_page_count = 0
                     self.pokemon.update_stats_from_catch_screen(im_rgb)
                     if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                        self.report_encounter()
+                        report_encounter(self.p, self.d, self.pokemon, self.device_id, pgsharp_client)
                     if self.config['catch'].get('only_shiny', False) and not self.pokemon.shiny:
                         await asyncio.sleep(1)
                         self.d.press("back")  # Flee
@@ -3261,7 +3252,7 @@ class Main:
                         im_rgb = await screen_cap(self.d)
                         self.pokemon.update_stats_from_catch_screen(im_rgb)
                         if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                            self.report_encounter()
+                            report_encounter(self.p, self.d, self.pokemon, self.device_id, pgsharp_client)
                         if self.config['catch'].get('only_shiny', False) and not self.pokemon.shiny:
                             await asyncio.sleep(1)
                             self.d.press("back")  # Flee
@@ -3521,7 +3512,7 @@ class Main:
             im_rgb = await screen_cap(self.d)  # Manual in case didn't get data from network
             if is_catch_pokemon_page(im_rgb):
                 if self.config['discord'].get('notify_all_encountered', False) and self.config['discord'].get('enabled', False):
-                    self.report_encounter()
+                    report_encounter(self.p, self.d, self.pokemon, self.device_id, pgsharp_client)
                 self.trivial_page_count = 0
                 self.pokemon.update_stats_from_catch_screen(im_rgb)
                 if self.config['catch'].get('only_shiny', False) and not self.pokemon.shiny:
